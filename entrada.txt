@@ -1,0 +1,81 @@
+class PRUEBA {
+	PERRO ANIMAL = new blanco();
+	global int a, f;
+	global int e[10];
+	global string b="hola"; 
+	global float c=3.7637; 
+	global bool d=false;
+
+	void main(){
+		int temp, a=1, b=2;
+		temp = 5+4;
+		c = 54.11111100000000000;
+		d = true;
+		b ="Hola!";
+		if (( i > 0 ) && ( x < 0 )){
+			x++;
+		}
+		else if ( x <= 0 ){
+			x++;
+		}
+		else{
+			x--;
+		}
+	}
+
+	void SUMA (int x, string b){
+		int temp;
+		temp = a+b;
+		print(temp);
+		c = 54.11111100000000000;
+		d = true;b ="Hola!";
+		cuenta();
+		perro.blanco("si es blanco");
+	}
+
+	int CUENTA(int a,int b){
+		int i=0, j=3;
+		for(i=a; a==b; i++){
+			print(i);
+		}
+		while(a > 3 || b !=5){
+			a++;
+		}
+	}
+}/* Cierra */
+
+class TEST extends PRUEBA{
+	global int a; 
+	global int e[10];
+	global string b="hola"; 
+	global float c=3.7637; 
+	global bool d=false;
+
+	void main(){
+		int a=1;
+		b=2;
+		temp = 5+4;
+		c = 54.11111100000000000;
+		d = true;
+		b ="Hola!";
+	}
+
+	void SUMA (int x, string b){
+		int temp;
+		temp = a+b;
+		temp =a+d;
+		print(temp);
+		c = 54.11111100000000000;
+		d = true;b ="Hola!";
+	}
+
+	int CUENTA(int a,int b){
+		int i=0, j;
+		for(i=a; a==b; i++){
+			print(i);
+		}
+		while(a > 3 || b !=5){
+			a++;
+		}
+	}
+}/* Cierra */
