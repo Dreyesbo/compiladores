@@ -5,12 +5,13 @@ from lex import tokens
 
 DEBUG = True
 
-tablaclases = []
+tablaMaestra = []
 contclases = 0
 contmetodos = 0
 punt = 0
 puntvars = 0
 varsrandom = 0
+contCuadruplos = 0
 
 class Expr: pass
 
@@ -21,49 +22,102 @@ class BinOp(Expr):
         self.right = right
         self.op = op
 
-class Ctei(Expr):
-    def __init__(self, name, value):
-        self.type = "int"
-        self.value = value
-        self.name = name
+class Programa(Expr):
+    def __init__(self):
+    	self.name = "Programa"
+        self.classes = []
 
+    def __repr__(self, level=0):
+	    ret = "\t"*level+repr(self.name)+"\n"
+	    for classInstance in self.classes:
+	        ret += classInstance.__repr__(level+1)
+	    return ret
+
+    def __getitem__(self, level=0):
+	    ret = "\t"*level+repr(self.name)+"\n"
+	    for classInstance in self.classes:
+	        ret += classInstance.__repr__(level+1)
+	    return ret
+
+class Clase(Expr):
+    def __init__(self, name):
+    	for x in range(len(programa.classes)):
+    		if programa.classes[x].name == name :
+    			print("Ya existe la clase", name)
+    			break
+    	else:
+			self.name = name
+			self.methods = [Metodo("void", "global"), Metodo("void", "main")]
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+ "\n"
+        for method in self.methods:
+            ret += method.__repr__(level+1)
+        return ret
+
+    def addMethod(self, methodType, methodName):
+		self.methods.append(Metodo(methodType, methodName))
+
+class Metodo(Expr):
+    def __init__(self, methodType, name):
+    	self.type = methodType
+        self.name = name
+        self.variables = []
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+"\n"
+        for variable in self.variables:
+            ret += variable.__repr__(level+1)
+        return ret
+
+    def addVariable(self, variableType, name):
+		if variableType == "int":
+			self.variables.append(Ctei(name))
+
+		if variableType == "float":
+			self.variables.append(Ctef(name))
+
+		if variableType == "string":
+			self.variables.append(Ctes(name))
+
+		if variableType == "bool":
+			self.variables.append(Cteb(name))
+
+class Ctei(Expr):
     def __init__(self, name):
     	self.type = "int"
     	self.name = name
-    	print("Soy un INT y mi nombre es %s" % self.name)
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+        return ret
 
 class Ctef(Expr):
-    def __init__(self,name, value):
-        self.type = "float"
-        self.value = value
-        self.name = name
-
     def __init__(self,name):
         self.type = "float"
         self.name = name
-        print("Soy un FLOAT y mi nombre es %s" % self.name)
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+        return ret
 
 class Ctes(Expr):
-    def __init__(self,name, value):
-        self.type = "string"
-        self.value = value
-        self.name = name
-
     def __init__(self,name):
         self.type = "string"
         self.name = name
-        print("Soy un STRING y mi nombre es %s" % self.name)
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+        return ret
 
 class Cteb(Expr):
-    def __init__(self,name, value):
-        self.type = "bool"
-        self.value = value
-        self.name = name
-
     def __init__(self,name):
         self.type = "bool"
         self.name = name
-        print("Soy un BOOL y mi nombre es %s" % self.name)
+
+    def __repr__(self, level=0):
+        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+        return ret
 
 def cuboSemantico(exp1,exp2):
 	if exp1 == exp2:
@@ -71,30 +125,26 @@ def cuboSemantico(exp1,exp2):
 	else:
 		print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error de tipo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 
+programa = Programa()
+clase = 0
+metodo = 0
+variable = 0
+printnum = 0
+POper = []
+PilaO = []
+
 def p_clase(p):
 	'clase : CLASS clase_a a'
-	global varsrandom
-	if varsrandom == 0:
-		print tablaclases
-		varsrandom+=1
+	global printnum
+	if printnum == 0:
+		print programa[0]
+		printnum = printnum +1
+
 
 def p_clase_a(p):
 	'clase_a : ID'
-	global punt
-	global puntvars
-	puntvars = 0
-	for i in range(len(tablaclases)):
-		#print ("for clase %s" % i)
-		if p[1] in tablaclases[i][0]:
-			print ("Ya existe la clase %s" % p[1])
-		else:
-			if len(tablaclases) == i +1:
-				punt += 1
-				#print ("%s" % p[1])
-				tablaclases.append([p[1]])
-	if len(tablaclases) == 0:
-		tablaclases.append([p[1]])
-	#print ("Salgo de la clase %s" % p[1])
+	global clase
+	programa.classes.append(Clase(p[1]))
 
 def p_a(p):
 	'''a : EXTENDS ID b
@@ -103,10 +153,16 @@ def p_a(p):
 def p_b(p):
 	'b : OCURLY programa CCURLY bb'
 
-
 def p_bb(p):
-	'''bb : clase
+	'''bb : incclase clase
 		| '''
+
+def p_incclase(p):
+	'''incclase : '''
+	global clase
+	global metodo
+	clase = clase + 1
+	metodo = 0
 
 def p_programa(p):
 	'programa : c'
@@ -125,18 +181,9 @@ def p_ddd(p):
 
 def p_dddd(p):
 	'dddd : '
-	global punt
-	global puntvars
-	print ("globales ")
-	print ("puntglobal %s" % punt)
-	tablaclases[punt].append(['globales'])
-	puntvars += 1
 
 def p_ddddd(p):
 	'ddddd : GLOBAL'
-	global punt
-	global puntvars
-	#print ("globales1 ")
 
 
 def p_dd(p):
@@ -167,134 +214,22 @@ def p_f(p):
 
 def p_g(p):
 	'g : tipo h'
-	global punt
-	global puntvars
-	#print ("punt %s" % punt)
-	#print ("puntvars %s" % puntvars)
-
-	if p[1] == "int":
-		if len(tablaclases[punt][1]) > 1:
-			for x in range(len(tablaclases[punt][1][1])):
-				if p[2] == tablaclases[punt][1][1][x].name:
-					print ("Ya existe la variabe %s" % p[2])
-				else:
-					#print ("ELSEEEEEssss error en int")
-					if len(tablaclases[punt][puntvars]) > 1:
-						#print ("fordeli")
-						#print ("for %s" % punt)
-						#print (tablaclases[punt][1][1])
-						#print ("%s" % len(tablaclases[punt][puntvars][1]))
-						for y in range(len(tablaclases[punt][puntvars][1])):
-							if p[2] == tablaclases[punt][puntvars][1][y].name:
-								print ("Ya existe la variable", p[2], "en", tablaclases[punt][puntvars][0])
-								break;
-							elif x == len(tablaclases[punt][puntvars][1])-1:
-								print ("%s" % p[2])
-								tablaclases[punt][puntvars][1].append(Ctei(p[2]))
-								print ("Meti var %s" % p[2])
-					else:
-						tablaclases[punt][puntvars].append([Ctei(p[2])])
-						print ("Meti var %s" % p[2])
-			
-		else:
-			tablaclases[punt][puntvars].append([Ctei(p[2])])
-			print ("Meti var %s" % p[2])
-	if p[1] == "float":
-		if len(tablaclases[punt][1]) > 1:
-			for x in range(len(tablaclases[punt][1][1])):
-				if p[2] == tablaclases[punt][1][1][x].name:
-					print ("Ya existe la variabe %s" % p[2])
-				else:
-					print ("ELSEEEEEssss error en float")
-					if len(tablaclases[punt][puntvars]) > 1:
-						#print ("fordeli")
-						#print ("for %s" % punt)
-						#print (tablaclases[punt][1][1])
-						#print ("%s" % len(tablaclases[punt][puntvars][1]))
-						for y in range(len(tablaclases[punt][puntvars][1])):
-							if p[2] == tablaclases[punt][puntvars][1][y].name:
-								print ("Ya existe la variabe %s" % p[2])
-							elif x == len(tablaclases[punt][puntvars][1])-1:
-								print ("%s" % p[2])
-								tablaclases[punt][puntvars][1].append(Ctef(p[2]))
-								print ("Meti var %s" % p[2])
-					else:
-						tablaclases[punt][puntvars].append([Ctef(p[2])])
-						print ("Meti var %s" % p[2])
-			
-		else:
-			tablaclases[punt][puntvars].append([Ctef(p[2])])
-			print ("Meti var %s" % p[2])
-	if p[1] == "string":
-		if len(tablaclases[punt][1]) > 1:
-			for x in range(len(tablaclases[punt][1][1])):
-				if p[2] == tablaclases[punt][1][1][x].name:
-					print ("Ya existe la variabe %s" % p[2])
-				else:
-					print ("ELSEEEEEssss error en string")
-					if len(tablaclases[punt][puntvars]) > 1:
-						#print ("fordeli")
-						#print ("for %s" % punt)
-						#print (tablaclases[punt][1][1])
-						#print ("%s" % len(tablaclases[punt][puntvars][1]))
-						for y in range(len(tablaclases[punt][puntvars][1])):
-							if p[2] == tablaclases[punt][puntvars][1][y].name:
-								print ("Ya existe la variabe %s" % p[2])
-							elif x == len(tablaclases[punt][puntvars][1])-1:
-								print ("%s" % p[2])
-								tablaclases[punt][puntvars][1].append(Ctes(p[2]))
-								print ("Meti var %s" % p[2])
-					else:
-						tablaclases[punt][puntvars].append([Ctes(p[2])])
-						print ("Meti var %s" % p[2])
-			
-		else:
-			tablaclases[punt][puntvars].append([Ctes(p[2])])
-			print ("Meti var %s" % p[2])
-	if p[2] == "bool":
-		if len(tablaclases[punt][1]) > 1:
-			for x in range(len(tablaclases[punt][1][1])):
-				if p[2] == tablaclases[punt][1][1][x].name:
-					print ("Ya existe la variabe %s" % p[2])
-				else:
-					print ("ELSEEEEEssss error en bool")
-					if len(tablaclases[punt][puntvars]) > 1:
-						#print ("fordeli")
-						#print ("for %s" % punt)
-						#print (tablaclases[punt][1][1])
-						#print ("%s" % len(tablaclases[punt][puntvars][1]))
-						for y in range(len(tablaclases[punt][puntvars][1])):
-							if p[2] == tablaclases[punt][puntvars][1][y].name:
-								print ("Ya existe la variabe %s" % p[2])
-							elif x == len(tablaclases[punt][puntvars][1])-1:
-								print ("%s" % p[2])
-								tablaclases[punt][puntvars][1].append(Cteb(p[2]))
-								print ("Meti var %s" % p[2])
-					else:
-						tablaclases[punt][puntvars].append([Cteb(p[2])])
-						print ("Meti var %s" % p[2])
-			
-		else:
-			tablaclases[punt][puntvars].append([Cteb(p[2])])
-			print ("Meti var %s" % p[2])
-	#print("aaaaaaaaaaaaaaaaaaaaaaaaaaa ESTE ES EL TIPO %s" % p[1])
-	#print("aaaaaaaaaaaaaaaaaaaaaaaaaaa Y ESTA ES SU VARIABLE %s" % p[2])
-
+	global clase
+	global metodo
+	#print (p[2]," ", clase, " ", metodo )
+	programa.classes[clase].methods[metodo].addVariable(p[1], p[2])
+	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 
 def p_h(p):
 	'h : ID i'
 	#print ("Salgo de vars")
 	p[0] = p[1]
 
-
 def p_i(p):
-	'''i : OBRACKET CTEF CBRACKET j
-		| EQUAL varcte j
+	'''i : OBRACKET CTEI CBRACKET j
 		| j'''
 	if len(p) == 5:
 		p[0] = p[4]
-	if len(p) == 4:
-		p[0] = p[3]
 	if len(p) == 2:
 		p[0] = p[1]
 		
@@ -303,7 +238,7 @@ def p_j(p):
 	'''j : COMMA h
 		| SEMICOLON'''
 	if len(p) == 3:
-		print ("ESTA ES LA VARIABLE DESPUESA DE LA COMAAAAAAAAAAAAAAA %s" % p[2])
+		#print ("ESTA ES LA VARIABLE DESPUESA DE LA COMAAAAAAAAAAAAAAA %s" % p[2])
 		p[0] = p[2]
 
 def p_tipo(p):
@@ -314,46 +249,61 @@ def p_tipo(p):
 	p[0] = p[1]
 
 def p_varcte(p):
-	'''varcte : CTEI
-		| CTEF
-		| CTES
-		| FALSE
-		| TRUE
-		| ID'''
-	p[0] = p[1]
+	'''varcte : CTEI varcte_int
+		| CTEF varcte_float
+		| CTES varcte_string
+		| FALSE varcte_bool
+		| TRUE varcte_bool
+		| varcte_id'''
+	if len(p) == 3:
+		p[0] = [p[1], p[2]]
+	if len(p) == 2:
+		p[0] = p[1]
+
+def p_varcte_int(p):
+	'''varcte_int : '''
+	p[0] = "int"
+
+def p_varcte_float(p):
+	'''varcte_float : '''
+	p[0] = "float"
+
+def p_varcte_string(p):
+	'''varcte_string : '''
+	p[0] = "string"
+
+def p_varcte_bool(p):
+	'''varcte_bool : '''
+	p[0] = "bool"
+
+def p_varcte_id(p):
+	'''varcte_id : ID'''
+	global clase
+	global metodo
+	for x in range(len(programa.classes[clase].methods[metodo].variables)):
+		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
+			p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
+			break;
+		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
+			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
 
 def p_metodos(p):
-	''' metodos : VOID k
-		| tipo k'''
+	'''metodos : k'''
 
 def p_k(p):
 	'k : k_k OPARENTHESIS l'
 
 
 def p_k_k(p):
-	'k_k : ID '
-	global punt
-	global puntvars
-	#print ("puntmetodo %s" % punt)
-	#print ("puntmetodovar %s" % puntvars)
-	for i in range(len(tablaclases[punt])):
-		#print ("fordeli")
-		#print ("for %s" % punt)
-		#print ("for %s" % i)
-		#print ("%s" % len(tablaclases[punt]))
-		if p[1] in tablaclases[punt][i][0]:
-			print ("Ya existe %s el metodo" % p[1])
-		else:
-			if len(tablaclases[punt]) == i +1:
-				print ("%s" % p[1])
-				tablaclases[punt].append([p[1]])
-				print ("Meti metodo %s" % p[1])
-				puntvars += 1
-	if len(tablaclases[punt]) == 1:
-		tablaclases[punt].append([p[1]])
-		print ("Meti metodo %s" % p[1])
-		puntvars += 1
-	#print ("Salgo de metodo")
+	'''k_k : tipo ID
+			| VOID ID'''
+	global clase
+	global metodo
+	tipo = p[1]
+	#print("Agrego el metodo", p[2])
+	programa.classes[clase].addMethod(p[1], p[2])
+	#print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
+	metodo = metodo + 1
 
 def p_l(p):
 	'''l : pars ll
@@ -363,7 +313,10 @@ def p_ll(p):
 	'll : CPARENTHESIS OCURLY m'
 
 def p_m(p):
-	'm : vars mm'
+	'm : vars terminavarsmetodo mm'
+
+def p_terminavarsmetodo(p):
+	'terminavarsmetodo : '
 
 def p_mm(p):
 	'''mm : estatuto n
@@ -399,10 +352,17 @@ def p_estatuto(p):
 		| ID PERIOD llamaobj '''
 
 def p_asignacion(p):
-	'''asignacion : variable EQUAL expresion SEMICOLON
+	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
 			| ID asig_a SEMICOLON'''
-	#if len(p) == 5:
+	try:
+		if(p[1] is not None and p[4][0]):
+			print("=", p[4][0], "", p[1][0])
+	except IndexError:
+		b = 'sss'
 
+def p_meteequal(p):
+	'meteequal : '
+	POper.append("=")
 
 def p_asig_a(p):
 	'''asig_a : PLUSPLUS
@@ -465,7 +425,14 @@ def p_sss(p):
 
 def p_variable(p):
 	'variable : ID t'
-	p[0] = p[1]
+	global clase
+	global metodo
+	for x in range(len(programa.classes[clase].methods[metodo].variables)):
+		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
+			p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
+			break;
+		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
+			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
 	
 
 def p_t(p):
@@ -475,10 +442,11 @@ def p_t(p):
 
 def p_expresion(p):
 	'expresion : ssexp'
-	
+	p[0] = p[1]
 
 def p_ssexp(p):
 	'''ssexp : sexp u'''
+	p[0] = p[1]
 
 def p_u(p):
 	'''u : OR ssexp
@@ -487,6 +455,7 @@ def p_u(p):
 
 def p_sexp(p):
 	'sexp : exp v'
+	p[0] = p[1]
 
 def p_v(p):
 	'''v : MORETHAN w
@@ -500,46 +469,96 @@ def p_w(p):
 		| exp'''
 
 def p_exp(p):
-	'exp : termino x'
+	'exp : termino checapilamas x'
+	p[0] = p[1]
+
+def p_checapilamas(p):
+	'checapilamas : '
+	global contCuadruplos
+	if POper:
+		a = POper.pop()
+		if a == '+' or a == '-':
+			op = a
+			opdo2 = PilaO.pop()
+			opdo1 = PilaO.pop()
+			if(opdo1 is not None and opdo2 is not None):
+				if (opdo1[1] == opdo2[1]):
+					print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					PilaO.append("temp"+ str(contCuadruplos))
+					contCuadruplos += 1
+				else:
+					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
+		else:
+			POper.append(a)
 
 def p_x(p):
-	'''x : PLUS exp
-		| MINUS exp
+	'''x : meteapilamas exp
 		| '''
+
+def p_meteapilamas(p):
+	'''meteapilamas : PLUS
+					| MINUS '''
+	POper.append(p[1])
 
 def p_termino(p):
-	'termino : factor y'
+	'termino : factor checapilapor y'
+	p[0] = p[1]
+
+def p_checapilapor(p):
+	'checapilapor : '
+	global contCuadruplos
+	if POper:
+		a = POper.pop()
+		if a == '*' or a == '/':
+			op = a
+			opdo2 = PilaO.pop()
+			opdo1 = PilaO.pop()
+			if(opdo1 is not None and opdo2 is not None):
+				if (opdo1[1] == opdo2[1]):
+					print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					PilaO.append("temp"+ str(contCuadruplos))
+					contCuadruplos += 1
+				else:
+					print("ERROR DE TIPOS")
+		else:
+			POper.append(a)
 
 def p_y(p):
-	'''y : MULT termino
-		| DIVIDE termino
+	'''y : meteapilapor termino
 		| '''
+
+def p_meteapilapor(p):
+	'''meteapilapor : MULT
+				| DIVIDE'''
+	POper.append(p[1])
 
 def p_factor(p):
 	'factor : z'
+	p[0] = p[1]
 
 def p_z(p):
 	'''z : OPARENTHESIS expresion CPARENTHESIS
 		| PLUS zz
 		| MINUS zz
 		| zz'''
-	if len(p) == 2:
-		p[0] = p[1]
-		if p[0] and p[1] is not None:
-			print("Estoy mandando", p[0], "y", p[1])
-			cuboSemantico(p[0], p[1])
+	if len(p) == 4:
+		p[0] = p[2]
 	if len(p) == 3:
 		p[0] = p[2]
-		if p[0] and p[2] is not None:
-			print("Estoy mandando", p[0], "y", p[2], "en la suma o resta")
-			cuboSemantico(p[0], p[2])
+	if len(p) == 2:
+		p[0] = p[1]
 
 def p_zz(p):
 	'zz : varcte'
-	for a in range(len(tablaclases[punt][puntvars])-1):
-		if p[1] == tablaclases[punt][puntvars][1][a].name:
-			#print("VARCTE VARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTEVARCTE", p[1], " de tipo ", tablaclases[punt][puntvars][1][a].type)
-			p[0] = tablaclases[punt][puntvars][1][a].type
+	global clase
+	global metodo
+	for a in range(len(programa.classes[clase].methods[metodo].variables)):
+		#print(programa.classes[clase].methods[metodo].variables[a].name, " ", programa.classes[clase].methods[metodo].variables[a].type)
+		if p[1] == programa.classes[clase].methods[metodo].variables[a].name:
+			p[0] = [programa.classes[clase].methods[metodo].variables[a].name, programa.classes[clase].methods[metodo].variables[a].type]
+			break;
+	p[0] = p[1]
+	PilaO.append(p[1])
 
 def p_bloque(p):
 	'bloque : OCURLY a_a CCURLY'
@@ -556,7 +575,13 @@ def p_b_b(p):
 		| MINUSMINUS'''
 
 def p_main(p):
-	'main : VOID MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY'
+	'main : VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY'
+
+def p_entroamain(p):
+	'entroamain : '
+	global metodo
+	print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
+	metodo = metodo + 1
 
 def p_c_c(p):
 	'c_c : cccc ccc'
@@ -567,13 +592,6 @@ def p_ccc(p):
 
 def p_cccc(p):
 	'cccc : '
-	global punt
-	global puntvars
-	#print ("main ")
-	#print ("puntmain %s" % punt)
-	tablaclases[punt].append(['MAIN'])
-	#print ("Meti metodo MAIN ")
-	puntvars += 1
 
 def p_d_d(p):
 	'd_d : estatuto d_dd'

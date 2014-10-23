@@ -71,7 +71,7 @@ def t_COMMENTS(t):
   
 
 
-t_CTEF        = r'[0-9]+\.?[0-9]+'
+t_CTEF        = r'[0-9]+\.[0-9]+'
 t_CTEI        = r'\d+'
 t_CTES        = r'\"[^"\r\n]*\"'
 t_EQUAL       = r'='
