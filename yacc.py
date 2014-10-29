@@ -11,6 +11,9 @@ contmetodos = 0
 punt = 0
 puntvars = 0
 varsrandom = 0
+contadorMetodos = 0
+contadorVariables = 0
+tipoRepetida = ""
 contCuadruplos = 0
 
 class Expr: pass
@@ -40,14 +43,16 @@ class Programa(Expr):
 	    return ret
 
 class Clase(Expr):
-    def __init__(self, name):
+    def __init__(self, name, numClase):
+    	global contadorMetodos
     	for x in range(len(programa.classes)):
     		if programa.classes[x].name == name :
     			print("Ya existe la clase", name)
     			break
     	else:
 			self.name = name
-			self.methods = [Metodo("void", "global"), Metodo("void", "main")]
+			self.methods = [Metodo("void", "global", numClase), Metodo("void", "main",numClase)]
+			contadorMetodos += 2
 
     def __repr__(self, level=0):
         ret = "\t"*level+repr(self.name)+ "\n"
@@ -55,14 +60,27 @@ class Clase(Expr):
             ret += method.__repr__(level+1)
         return ret
 
-    def addMethod(self, methodType, methodName):
-		self.methods.append(Metodo(methodType, methodName))
+    def addMethod(self, methodType, methodName, numClase):
+		self.methods.append(Metodo(methodType, methodName,numClase))
 
 class Metodo(Expr):
-    def __init__(self, methodType, name):
-    	self.type = methodType
-        self.name = name
-        self.variables = []
+    def __init__(self, methodType, name, numClase):
+    	global contadorMetodos
+    	if contadorMetodos < 2:
+    		self.type = methodType
+    		self.name = name
+    		self.variables = []
+    		self.numClase= numClase
+    	else:
+    		for x in range(len(programa.classes[numClase].methods)):
+    			if programa.classes[numClase].methods[x].name == name :
+    				print("Ya existe el metodo", name)
+    				break
+    		else:
+    			self.type = methodType
+    			self.name = name
+    			self.variables = []
+    			self.numClase= numClase
 
     def __repr__(self, level=0):
         ret = "\t"*level+repr(self.name)+"\n"
@@ -70,18 +88,45 @@ class Metodo(Expr):
             ret += variable.__repr__(level+1)
         return ret
 
-    def addVariable(self, variableType, name):
-		if variableType == "int":
-			self.variables.append(Ctei(name))
+    def addVariable(self, variableType, name, numMetodo, numClase):
+		global contadorVariables
+		if contadorVariables < 1:
+			if variableType == "int":
+				self.variables.append(Ctei(name))
 
-		if variableType == "float":
-			self.variables.append(Ctef(name))
+			if variableType == "float":
+				self.variables.append(Ctef(name))
 
-		if variableType == "string":
-			self.variables.append(Ctes(name))
+			if variableType == "string":
+				self.variables.append(Ctes(name))
 
-		if variableType == "bool":
-			self.variables.append(Cteb(name))
+			if variableType == "bool":
+				self.variables.append(Cteb(name))
+
+			contadorVariables +=1
+
+		else:
+			for x in range(len(programa.classes[numClase].methods[0].variables)):
+				if programa.classes[numClase].methods[0].variables[x].name == name :
+					print("Ya existe la variable", name)
+					break
+			else:
+				for x in range(len(programa.classes[numClase].methods[numMetodo].variables)):
+					if programa.classes[numClase].methods[numMetodo].variables[x].name == name:
+						print("Ya existe la variable", name)
+						break
+				else:
+					if variableType == "int":
+						self.variables.append(Ctei(name))
+
+					if variableType == "float":
+						self.variables.append(Ctef(name))
+
+					if variableType == "string":
+						self.variables.append(Ctes(name))
+
+					if variableType == "bool":
+						self.variables.append(Cteb(name))
 
 class Ctei(Expr):
     def __init__(self, name):
@@ -121,9 +166,9 @@ class Cteb(Expr):
 
 def cuboSemantico(exp1,exp2):
 	if exp1 == exp2:
-		print "Los tipos son usados correctamente"
+		print("Los tipos son usados correctamente")
 	else:
-		print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error de tipo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error de tipo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
 programa = Programa()
 clase = 0
@@ -144,7 +189,9 @@ def p_clase(p):
 def p_clase_a(p):
 	'clase_a : ID'
 	global clase
-	programa.classes.append(Clase(p[1]))
+	global contadorMetodos
+	contadorMetodos = 0
+	programa.classes.append(Clase(p[1], clase))
 
 def p_a(p):
 	'''a : EXTENDS ID b
@@ -216,8 +263,10 @@ def p_g(p):
 	'g : tipo h'
 	global clase
 	global metodo
+	global tipoRepetida
+	tipoRepetida = p[1]
 	#print (p[2]," ", clase, " ", metodo )
-	programa.classes[clase].methods[metodo].addVariable(p[1], p[2])
+	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase)
 	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 
 def p_h(p):
@@ -235,11 +284,19 @@ def p_i(p):
 		
 
 def p_j(p):
-	'''j : COMMA h
+	'''j : COMMA j_j
 		| SEMICOLON'''
 	if len(p) == 3:
 		#print ("ESTA ES LA VARIABLE DESPUESA DE LA COMAAAAAAAAAAAAAAA %s" % p[2])
 		p[0] = p[2]
+
+def p_j_j(p):
+	'''j_j : ID j'''
+	global clase
+	global metodo
+	#print (p[1]," ", clase, " ", metodo )
+	programa.classes[clase].methods[metodo].addVariable(tipoRepetida, p[1], metodo, clase)
+	#print("Agrego", p[1], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 
 def p_tipo(p):
 	'''tipo : INT
@@ -300,10 +357,11 @@ def p_k_k(p):
 	global clase
 	global metodo
 	tipo = p[1]
-	#print("Agrego el metodo", p[2])
-	programa.classes[clase].addMethod(p[1], p[2])
-	#print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
+	print("Agrego el metodo", p[2])
+	programa.classes[clase].addMethod(p[1], p[2], clase)
+	print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
 	metodo = metodo + 1
+	contadorVariables = 0
 
 def p_l(p):
 	'''l : pars ll
@@ -356,7 +414,7 @@ def p_asignacion(p):
 			| ID asig_a SEMICOLON'''
 	try:
 		if(p[1] is not None and p[4][0]):
-			print("=", p[4][0], "", p[1][0])
+			print("=", PilaO.pop()[0], "", p[1][0])
 	except IndexError:
 		b = 'sss'
 
@@ -408,6 +466,7 @@ def p_read(p):
 
 def p_print(p):
 	'print : OPARENTHESIS exp CPARENTHESIS SEMICOLON'
+	print("print", p[2][0],", , ")
 
 def p_llamaobj(p):
 	'llamaobj :  ID s'
@@ -479,12 +538,13 @@ def p_checapilamas(p):
 		a = POper.pop()
 		if a == '+' or a == '-':
 			op = a
+			#print(PilaO)
 			opdo2 = PilaO.pop()
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
-					PilaO.append("temp"+ str(contCuadruplos))
+					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
 					contCuadruplos += 1
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
