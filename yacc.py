@@ -19,76 +19,76 @@ contCuadruplos = 0
 class Expr: pass
 
 class BinOp(Expr):
-    def __init__(self,left,op,right):
-        self.type = "binop"
-        self.left = left
-        self.right = right
-        self.op = op
+	def __init__(self,left,op,right):
+		self.type = "binop"
+		self.left = left
+		self.right = right
+		self.op = op
 
 class Programa(Expr):
-    def __init__(self):
-    	self.name = "Programa"
-        self.classes = []
+	def __init__(self):
+		self.name = "Programa"
+		self.classes = []
 
-    def __repr__(self, level=0):
-	    ret = "\t"*level+repr(self.name)+"\n"
-	    for classInstance in self.classes:
-	        ret += classInstance.__repr__(level+1)
-	    return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+"\n"
+		for classInstance in self.classes:
+			ret += classInstance.__repr__(level+1)
+		return ret
 
-    def __getitem__(self, level=0):
-	    ret = "\t"*level+repr(self.name)+"\n"
-	    for classInstance in self.classes:
-	        ret += classInstance.__repr__(level+1)
-	    return ret
+	def __getitem__(self, level=0):
+		ret = "\t"*level+repr(self.name)+"\n"
+		for classInstance in self.classes:
+			ret += classInstance.__repr__(level+1)
+		return ret
 
 class Clase(Expr):
-    def __init__(self, name, numClase):
-    	global contadorMetodos
-    	for x in range(len(programa.classes)):
-    		if programa.classes[x].name == name :
-    			print("Ya existe la clase", name)
-    			break
-    	else:
+	def __init__(self, name, numClase):
+		global contadorMetodos
+		for x in range(len(programa.classes)):
+			if programa.classes[x].name == name :
+				print("Ya existe la clase", name)
+				break
+		else:
 			self.name = name
 			self.methods = [Metodo("void", "global", numClase), Metodo("void", "main",numClase)]
 			contadorMetodos += 2
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+ "\n"
-        for method in self.methods:
-            ret += method.__repr__(level+1)
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+ "\n"
+		for method in self.methods:
+			ret += method.__repr__(level+1)
+		return ret
 
-    def addMethod(self, methodType, methodName, numClase):
+	def addMethod(self, methodType, methodName, numClase):
 		self.methods.append(Metodo(methodType, methodName,numClase))
 
 class Metodo(Expr):
-    def __init__(self, methodType, name, numClase):
-    	global contadorMetodos
-    	if contadorMetodos < 2:
-    		self.type = methodType
-    		self.name = name
-    		self.variables = []
-    		self.numClase= numClase
-    	else:
-    		for x in range(len(programa.classes[numClase].methods)):
-    			if programa.classes[numClase].methods[x].name == name :
-    				print("Ya existe el metodo", name)
-    				break
-    		else:
-    			self.type = methodType
-    			self.name = name
-    			self.variables = []
-    			self.numClase= numClase
+	def __init__(self, methodType, name, numClase):
+		global contadorMetodos
+		if contadorMetodos < 2:
+			self.type = methodType
+			self.name = name
+			self.variables = []
+			self.numClase= numClase
+		else:
+			for x in range(len(programa.classes[numClase].methods)):
+				if programa.classes[numClase].methods[x].name == name :
+					print("Ya existe el metodo", name)
+					break
+			else:
+				self.type = methodType
+				self.name = name
+				self.variables = []
+				self.numClase= numClase
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+"\n"
-        for variable in self.variables:
-            ret += variable.__repr__(level+1)
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+"\n"
+		for variable in self.variables:
+			ret += variable.__repr__(level+1)
+		return ret
 
-    def addVariable(self, variableType, name, numMetodo, numClase):
+	def addVariable(self, variableType, name, numMetodo, numClase):
 		global contadorVariables
 		if contadorVariables < 1:
 			if variableType == "int":
@@ -129,40 +129,40 @@ class Metodo(Expr):
 						self.variables.append(Cteb(name))
 
 class Ctei(Expr):
-    def __init__(self, name):
-    	self.type = "int"
-    	self.name = name
+	def __init__(self, name):
+		self.type = "int"
+		self.name = name
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		return ret
 
 class Ctef(Expr):
-    def __init__(self,name):
-        self.type = "float"
-        self.name = name
+	def __init__(self,name):
+		self.type = "float"
+		self.name = name
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		return ret
 
 class Ctes(Expr):
-    def __init__(self,name):
-        self.type = "string"
-        self.name = name
+	def __init__(self,name):
+		self.type = "string"
+		self.name = name
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		return ret
 
 class Cteb(Expr):
-    def __init__(self,name):
-        self.type = "bool"
-        self.name = name
+	def __init__(self,name):
+		self.type = "bool"
+		self.name = name
 
-    def __repr__(self, level=0):
-        ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
-        return ret
+	def __repr__(self, level=0):
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		return ret
 
 def cuboSemantico(exp1,exp2):
 	if exp1 == exp2:
