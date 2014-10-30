@@ -1,13 +1,13 @@
 class PRUEBA {
 	PERRO ANIMAL = new blanco();
 	global int pruebaglobala, f;
-	global int pruebaglobale[10];
+	global int pruebaglobale;
 	global string pruebaglobalb; 
 	global float pruebaglobalc; 
 	global bool pruebaglobald;
+	global int pruebamaintemp;
 
 	void main(){
-		int pruebamaintemp;
 		int pruebamaintempii;
 		float pruebamaintemp;
 		int temp;
@@ -19,10 +19,9 @@ class PRUEBA {
 		int x;
 		temp = 5+4;
 		tempii = 34.1 + 40.54;
-		c = 54.11111100000000000;
 		d = true;
 		b ="Hola!";
-		if ( i > 0  &&  x < 0 ){
+		if ( pruebamaintemp > 0  &&  x < 0 ){
 			x++;
 		}
 		else if ( x <= 0 ){
@@ -42,7 +41,6 @@ class PRUEBA {
 		string b; 
 		temp = a+b;
 		print(temp);
-		c = 54.11111100000000000;
 		d = true;b ="Hola!";
 		cuenta();
 		perro.blanco("si es blanco");
@@ -64,7 +62,7 @@ class PRUEBA {
 
 class TEST extends PRUEBA{
 	global int testglobala; 
-	global int testglobale[10];
+	global int testglobale;
 	global string testglobalb; 
 	global float testglobalc; 
 	global bool testglobald;
@@ -78,9 +76,7 @@ class TEST extends PRUEBA{
 		bool d;
 		string b;
 		b=2;
-		temp = 10*20;
 		temp = a+20;
-		c = 54.11111100000000000;
 		d = true;
 		b ="Hola!";
 	}
@@ -96,12 +92,11 @@ class TEST extends PRUEBA{
 		temp = a+b;
 		temp =a+d;
 		print(temp);
-		c = 54.11111100000000000;
 		d = true;b ="Hola!";
 	}
 
 	int CUENTA(int a,int b){
-		int testcuentai, j;
+		int testcuentai, j, k, l;
 		int testcuentaii;
 		float testcuentaiii;
 		int temporal;

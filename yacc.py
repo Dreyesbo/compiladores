@@ -304,6 +304,9 @@ def p_tipo(p):
 		| BOOL
 		| STRING'''
 	p[0] = p[1]
+	global tipoRepetida
+	tipoRepetida = p[1]
+
 
 def p_varcte(p):
 	'''varcte : CTEI varcte_int
@@ -342,7 +345,12 @@ def p_varcte_id(p):
 			p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
-			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
+			for y in range(len(programa.classes[clase].methods[0].variables)):
+				if programa.classes[clase].methods[0].variables[y].name == p[1]:
+					p[0] = [programa.classes[clase].methods[0].variables[y].name, programa.classes[clase].methods[0].variables[y].type]
+					break;
+				elif x == len(programa.classes[clase].methods[0].variables)-1:
+					print("No se encontro la variable", p[1], " ", clase, " ", metodo)
 
 def p_metodos(p):
 	'''metodos : k'''
