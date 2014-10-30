@@ -57,7 +57,8 @@ tokens = [
    'AND',
    'MORETHAN',
    'LESSTHAN',
-   'NOT'
+   'NOTEQUAL',
+   'EQUALEQUAL',
    ]+list(reserved.values())
 
 variables = []
@@ -94,7 +95,8 @@ t_OR    		= r'\|\|'
 t_AND    		= r'\&\&'
 t_MORETHAN      = r'\>'
 t_LESSTHAN      = r'\<'
-t_NOT         =r'!'
+t_NOTEQUAL         =r'!='
+t_EQUALEQUAL         =r'=='
 
 def t_ID(t):
   r'([a-z]+|[A-Z]+)'

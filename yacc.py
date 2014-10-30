@@ -15,6 +15,8 @@ contadorMetodos = 0
 contadorVariables = 0
 tipoRepetida = ""
 contCuadruplos = 0
+listaCuadruplos = []
+pilaSaltos = []
 
 class Expr: pass
 
@@ -184,6 +186,8 @@ def p_clase(p):
 	if printnum == 0:
 		print(programa[0])
 		printnum = printnum +1
+		for x in range(len(listaCuadruplos)):
+			print(str(listaCuadruplos[x]) + "\n")
 
 
 def p_clase_a(p):
@@ -422,7 +426,12 @@ def p_asignacion(p):
 			| ID asig_a SEMICOLON'''
 	try:
 		if(p[1] is not None and p[4][0]):
-			print("=", PilaO.pop()[0], "", p[1][0])
+			print("La pila actualmente es %s" % PilaO)
+			a = PilaO.pop()
+			print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
+			PilaO.append(a)
+			listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
+			print("=", PilaO.pop(), "", p[1][0])
 	except IndexError:
 		b = 'sss'
 
@@ -436,6 +445,7 @@ def p_asig_a(p):
 
 def p_condicion(p):
 	'condicion : OPARENTHESIS ssexp CPARENTHESIS bloque p'
+
 
 def p_p(p):
 	'''p : ELSE pp
@@ -474,6 +484,7 @@ def p_read(p):
 
 def p_print(p):
 	'print : OPARENTHESIS exp CPARENTHESIS SEMICOLON'
+	listaCuadruplos.append(["print", p[2][0],"", ""])
 	print("print", p[2][0],", , ")
 
 def p_llamaobj(p):
@@ -521,19 +532,49 @@ def p_u(p):
 		| '''
 
 def p_sexp(p):
-	'sexp : exp v'
+	'sexp : exp checapilacondicional v'
 	p[0] = p[1]
+
+def p_checapilacondicional(p):
+	'checapilacondicional : '
+	print (POper)
+	print (PilaO)
+	global contCuadruplos
+	if POper:
+		a = POper.pop()
+		if a == '>' or a == '<' or a == '>=' or a == '<=' or a == '!=' or a == '==':
+			op = a
+			#print(PilaO)
+			opdo2 = PilaO.pop()
+			opdo1 = PilaO.pop()
+			if(opdo1 is not None and opdo2 is not None):
+				if (opdo1[1] == opdo2[1]):
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
+					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
+					contCuadruplos += 1
+				else:
+					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
+		else:
+			POper.append(a)
 
 def p_v(p):
 	'''v : MORETHAN w
 		| LESSTHAN w
-		| NOT w
-		| EQUAL w
+		| NOTEQUAL exp
+		| EQUALEQUAL exp
 		| '''
+	if len(p) == 3:
+		if p[2] is None:
+			POper.append(str(p[1]))
+		else:
+			POper.append((str(p[1] + str(p[2]))))
 
 def p_w(p):
 	'''w : EQUAL exp
 		| exp'''
+	if len(p) == 3:
+		p[0] = p[1]
 
 def p_exp(p):
 	'exp : termino checapilamas x'
@@ -551,7 +592,8 @@ def p_checapilamas(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
 					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
 					contCuadruplos += 1
 				else:
@@ -583,7 +625,8 @@ def p_checapilapor(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
 					PilaO.append("temp"+ str(contCuadruplos))
 					contCuadruplos += 1
 				else:

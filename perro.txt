@@ -1,10 +1,14 @@
 class PERRO{
-	global int edad;
+	global int edad, hijos;
 	global bool vivo;
 	global string sexo;
 
 	void main(){
-		int x, y, a;
-		a = 1;
+		int x, y;
+		if (edad > 7){
+			print("El perro es grande");
+		}else{
+			print("El perro es chico");
+		}
 	}
 }

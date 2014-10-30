@@ -5,7 +5,6 @@ class PRUEBA {
 	global string pruebaglobalb; 
 	global float pruebaglobalc; 
 	global bool pruebaglobald;
-	global int pruebamaintemp;
 
 	void main(){
 		int pruebamaintempii;
@@ -21,14 +20,8 @@ class PRUEBA {
 		tempii = 34.1 + 40.54;
 		d = true;
 		b ="Hola!";
-		if ( pruebamaintemp > 0  &&  x < 0 ){
-			x++;
-		}
-		else if ( x <= 0 ){
-			x++;
-		}
-		else{
-			x--;
+		if ( pruebamaintemp > 10){
+			print("hola pruebainttemp");
 		}
 	}
 
@@ -39,7 +32,7 @@ class PRUEBA {
 		bool d;
 		int a;
 		string b; 
-		temp = a+b;
+		temp = a + b;
 		print(temp);
 		d = true;b ="Hola!";
 		cuenta();
@@ -76,7 +69,7 @@ class TEST extends PRUEBA{
 		bool d;
 		string b;
 		b=2;
-		temp = a+20;
+		temp = 20+a;
 		d = true;
 		b ="Hola!";
 	}

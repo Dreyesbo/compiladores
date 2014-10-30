@@ -117,113 +117,116 @@ Rule 111   ssexp -> sexp u
 Rule 112   u -> OR ssexp
 Rule 113   u -> AND ssexp
 Rule 114   u -> <empty>
-Rule 115   sexp -> exp v
-Rule 116   v -> MORETHAN w
-Rule 117   v -> LESSTHAN w
-Rule 118   v -> NOT w
-Rule 119   v -> EQUAL w
-Rule 120   v -> <empty>
-Rule 121   w -> EQUAL exp
-Rule 122   w -> exp
-Rule 123   exp -> termino checapilamas x
-Rule 124   checapilamas -> <empty>
-Rule 125   x -> meteapilamas exp
-Rule 126   x -> <empty>
-Rule 127   meteapilamas -> PLUS
-Rule 128   meteapilamas -> MINUS
-Rule 129   termino -> factor checapilapor y
-Rule 130   checapilapor -> <empty>
-Rule 131   y -> meteapilapor termino
-Rule 132   y -> <empty>
-Rule 133   meteapilapor -> MULT
-Rule 134   meteapilapor -> DIVIDE
-Rule 135   factor -> z
-Rule 136   z -> OPARENTHESIS expresion CPARENTHESIS
-Rule 137   z -> PLUS zz
-Rule 138   z -> MINUS zz
-Rule 139   z -> zz
-Rule 140   zz -> varcte
-Rule 141   bloque -> OCURLY a_a CCURLY
-Rule 142   a_a -> estatuto a_a
-Rule 143   a_a -> <empty>
-Rule 144   parfor -> asignacion ssexp SEMICOLON ID b_b
-Rule 145   b_b -> PLUSPLUS
-Rule 146   b_b -> MINUSMINUS
-Rule 147   main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
-Rule 148   entroamain -> <empty>
-Rule 149   c_c -> cccc ccc
-Rule 150   ccc -> vars ccc
-Rule 151   ccc -> d_d
-Rule 152   cccc -> <empty>
-Rule 153   d_d -> estatuto d_dd
-Rule 154   d_dd -> d_d
-Rule 155   d_dd -> <empty>
+Rule 115   sexp -> exp checapilacondicional v
+Rule 116   checapilacondicional -> <empty>
+Rule 117   v -> MORETHAN w
+Rule 118   v -> LESSTHAN w
+Rule 119   v -> NOTEQUAL exp
+Rule 120   v -> EQUALEQUAL exp
+Rule 121   v -> <empty>
+Rule 122   w -> EQUAL exp
+Rule 123   w -> exp
+Rule 124   exp -> termino checapilamas x
+Rule 125   checapilamas -> <empty>
+Rule 126   x -> meteapilamas exp
+Rule 127   x -> <empty>
+Rule 128   meteapilamas -> PLUS
+Rule 129   meteapilamas -> MINUS
+Rule 130   termino -> factor checapilapor y
+Rule 131   checapilapor -> <empty>
+Rule 132   y -> meteapilapor termino
+Rule 133   y -> <empty>
+Rule 134   meteapilapor -> MULT
+Rule 135   meteapilapor -> DIVIDE
+Rule 136   factor -> z
+Rule 137   z -> OPARENTHESIS expresion CPARENTHESIS
+Rule 138   z -> PLUS zz
+Rule 139   z -> MINUS zz
+Rule 140   z -> zz
+Rule 141   zz -> varcte
+Rule 142   bloque -> OCURLY a_a CCURLY
+Rule 143   a_a -> estatuto a_a
+Rule 144   a_a -> <empty>
+Rule 145   parfor -> asignacion ssexp SEMICOLON ID b_b
+Rule 146   b_b -> PLUSPLUS
+Rule 147   b_b -> MINUSMINUS
+Rule 148   main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
+Rule 149   entroamain -> <empty>
+Rule 150   c_c -> cccc ccc
+Rule 151   ccc -> vars ccc
+Rule 152   ccc -> d_d
+Rule 153   cccc -> <empty>
+Rule 154   d_d -> estatuto d_dd
+Rule 155   d_dd -> d_d
+Rule 156   d_dd -> <empty>
 
 Terminals, with rules where they appear
 
 AND                  : 113
 BOOL                 : 37
 CBRACKET             : 30 66 93 107
-CCURLY               : 5 61 141 147
+CCURLY               : 5 61 142 148
 CLASS                : 1
 COMMA                : 32 68 95
-CPARENTHESIS         : 24 56 83 88 89 97 98 99 103 136 147
+CPARENTHESIS         : 24 56 83 88 89 97 98 99 103 137 148
 CTEF                 : 40 107
 CTEI                 : 30 39
 CTES                 : 41
-DIVIDE               : 134
+DIVIDE               : 135
 ELSE                 : 84
-EQUAL                : 10 78 119 121
+EQUAL                : 10 78 122
+EQUALEQUAL           : 120
 EXTENDS              : 3
 FALSE                : 42
 FLOAT                : 36
 FOR                  : 72
 GLOBAL               : 16
-ID                   : 2 3 10 10 24 29 34 49 52 53 65 74 77 79 100 106 108 144
+ID                   : 2 3 10 10 24 29 34 49 52 53 65 74 77 79 100 106 108 145
 IF                   : 71 86
 INT                  : 35
-LESSTHAN             : 117
-MAIN                 : 147
-MINUS                : 128 138
-MINUSMINUS           : 82 146
-MORETHAN             : 116
-MULT                 : 133
+LESSTHAN             : 118
+MAIN                 : 148
+MINUS                : 129 139
+MINUSMINUS           : 82 147
+MORETHAN             : 117
+MULT                 : 134
 NEW                  : 10
-NOT                  : 118
+NOTEQUAL             : 119
 OBRACKET             : 30 66 93 107
-OCURLY               : 5 56 141 147
-OPARENTHESIS         : 24 51 74 83 88 89 98 99 103 136 147
+OCURLY               : 5 56 142 148
+OPARENTHESIS         : 24 51 74 83 88 89 98 99 103 137 148
 OR                   : 112
 PERIOD               : 77 108
-PLUS                 : 127 137
-PLUSPLUS             : 81 145
+PLUS                 : 128 138
+PLUSPLUS             : 81 146
 PRINT                : 76
 PUBLIC               : 26
 READ                 : 75
 RETURN               : 63
-SEMICOLON            : 24 33 63 78 79 97 98 99 101 103 144
+SEMICOLON            : 24 33 63 78 79 97 98 99 101 103 145
 STRING               : 38
 TRUE                 : 43
-VOID                 : 53 147
+VOID                 : 53 148
 WHILE                : 73
 error                : 
 
 Nonterminals, with rules where they appear
 
 a                    : 1
-a_a                  : 141 142
+a_a                  : 142 143
 asig_a               : 79
-asignacion           : 70 144
+asignacion           : 70 145
 b                    : 3 4
-b_b                  : 144
+b_b                  : 145
 bb                   : 5
 bloque               : 83 87 88 89
 c                    : 9 10
-c_c                  : 147
-ccc                  : 149 150
-cccc                 : 149
-checapilamas         : 123
-checapilapor         : 129
+c_c                  : 148
+ccc                  : 150 151
+cccc                 : 150
+checapilacondicional : 115
+checapilamas         : 124
+checapilapor         : 130
 ciclofor             : 72
 ciclowhile           : 73
 clase                : 6 0
@@ -231,8 +234,8 @@ clase_a              : 1
 condicion            : 71 86
 creaobj              : 10
 d                    : 14 17
-d_d                  : 151 154
-d_dd                 : 153
+d_d                  : 152 155
+d_dd                 : 154
 dd                   : 13
 ddd                  : 11
 dddd                 : 14
@@ -240,12 +243,12 @@ ddddd                : 13
 e                    : 12 18
 ee                   : 19 22
 eee                  : 20
-entroamain           : 147
-estatuto             : 59 142 153
-exp                  : 92 99 104 115 121 122 125
-expresion            : 78 136
+entroamain           : 148
+estatuto             : 59 143 154
+exp                  : 92 99 104 115 119 120 122 123 126
+expresion            : 78 137
 f                    : 25
-factor               : 129
+factor               : 130
 g                    : 26 27
 h                    : 28
 i                    : 29
@@ -259,8 +262,8 @@ ll                   : 54 55
 llamaobj             : 77
 m                    : 56 60
 main                 : 18
-meteapilamas         : 125
-meteapilapor         : 131
+meteapilamas         : 126
+meteapilapor         : 132
 meteequal            : 78
 metodos              : 20
 mm                   : 57 62
@@ -283,27 +286,27 @@ rrr                  : 91 96
 s                    : 100
 sexp                 : 111
 ss                   : 102
-ssexp                : 63 83 89 110 112 113 144
+ssexp                : 63 83 89 110 112 113 145
 sss                  : 103
 t                    : 106
 terminavarsmetodo    : 57
-termino              : 123 131
+termino              : 124 132
 tipo                 : 28 52 65
 u                    : 111
 v                    : 115
-varcte               : 140
+varcte               : 141
 varcte_bool          : 42 43
 varcte_float         : 40
 varcte_id            : 44
 varcte_int           : 39
 varcte_string        : 41
 variable             : 78
-vars                 : 13 57 150
-w                    : 116 117 118 119
-x                    : 123
-y                    : 129
-z                    : 135
-zz                   : 137 138 139
+vars                 : 13 57 151
+w                    : 117 118
+x                    : 124
+y                    : 130
+z                    : 136
+zz                   : 138 139 140
 
 Parsing method: LALR
 
@@ -695,7 +698,7 @@ state 37
     (17) dd -> . d
     (18) dd -> . main e
     (13) d -> . ddddd vars dd
-    (147) main -> . VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
+    (148) main -> . VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
     (16) ddddd -> . GLOBAL
 
     VOID            shift and go to state 53
@@ -710,13 +713,13 @@ state 38
 
     (27) f -> g .
 
-    PUBLIC          reduce using rule 27 (f -> g .)
     IF              reduce using rule 27 (f -> g .)
     FOR             reduce using rule 27 (f -> g .)
     WHILE           reduce using rule 27 (f -> g .)
     ID              reduce using rule 27 (f -> g .)
     READ            reduce using rule 27 (f -> g .)
     PRINT           reduce using rule 27 (f -> g .)
+    PUBLIC          reduce using rule 27 (f -> g .)
     INT             reduce using rule 27 (f -> g .)
     FLOAT           reduce using rule 27 (f -> g .)
     BOOL            reduce using rule 27 (f -> g .)
@@ -885,10 +888,10 @@ state 52
 
 state 53
 
-    (147) main -> VOID . entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
-    (148) entroamain -> .
+    (148) main -> VOID . entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
+    (149) entroamain -> .
 
-    MAIN            reduce using rule 148 (entroamain -> .)
+    MAIN            reduce using rule 149 (entroamain -> .)
 
     entroamain                     shift and go to state 63
 
@@ -896,13 +899,13 @@ state 54
 
     (26) f -> PUBLIC g .
 
-    PUBLIC          reduce using rule 26 (f -> PUBLIC g .)
     IF              reduce using rule 26 (f -> PUBLIC g .)
     FOR             reduce using rule 26 (f -> PUBLIC g .)
     WHILE           reduce using rule 26 (f -> PUBLIC g .)
     ID              reduce using rule 26 (f -> PUBLIC g .)
     READ            reduce using rule 26 (f -> PUBLIC g .)
     PRINT           reduce using rule 26 (f -> PUBLIC g .)
+    PUBLIC          reduce using rule 26 (f -> PUBLIC g .)
     INT             reduce using rule 26 (f -> PUBLIC g .)
     FLOAT           reduce using rule 26 (f -> PUBLIC g .)
     BOOL            reduce using rule 26 (f -> PUBLIC g .)
@@ -915,13 +918,13 @@ state 55
 
     (28) g -> tipo h .
 
+    PUBLIC          reduce using rule 28 (g -> tipo h .)
     IF              reduce using rule 28 (g -> tipo h .)
     FOR             reduce using rule 28 (g -> tipo h .)
     WHILE           reduce using rule 28 (g -> tipo h .)
     ID              reduce using rule 28 (g -> tipo h .)
     READ            reduce using rule 28 (g -> tipo h .)
     PRINT           reduce using rule 28 (g -> tipo h .)
-    PUBLIC          reduce using rule 28 (g -> tipo h .)
     INT             reduce using rule 28 (g -> tipo h .)
     FLOAT           reduce using rule 28 (g -> tipo h .)
     BOOL            reduce using rule 28 (g -> tipo h .)
@@ -1022,7 +1025,7 @@ state 62
 
 state 63
 
-    (147) main -> VOID entroamain . MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
+    (148) main -> VOID entroamain . MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
 
     MAIN            shift and go to state 77
 
@@ -1217,7 +1220,7 @@ state 76
 
 state 77
 
-    (147) main -> VOID entroamain MAIN . OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
+    (148) main -> VOID entroamain MAIN . OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY
 
     OPARENTHESIS    shift and go to state 86
 
@@ -1341,7 +1344,7 @@ state 85
 
 state 86
 
-    (147) main -> VOID entroamain MAIN OPARENTHESIS . CPARENTHESIS OCURLY c_c CCURLY
+    (148) main -> VOID entroamain MAIN OPARENTHESIS . CPARENTHESIS OCURLY c_c CCURLY
 
     CPARENTHESIS    shift and go to state 102
 
@@ -1524,19 +1527,19 @@ state 99
 
     (70) estatuto -> asignacion .
 
+    RETURN          reduce using rule 70 (estatuto -> asignacion .)
     IF              reduce using rule 70 (estatuto -> asignacion .)
     FOR             reduce using rule 70 (estatuto -> asignacion .)
     WHILE           reduce using rule 70 (estatuto -> asignacion .)
     ID              reduce using rule 70 (estatuto -> asignacion .)
     READ            reduce using rule 70 (estatuto -> asignacion .)
     PRINT           reduce using rule 70 (estatuto -> asignacion .)
-    CCURLY          reduce using rule 70 (estatuto -> asignacion .)
-    RETURN          reduce using rule 70 (estatuto -> asignacion .)
     PUBLIC          reduce using rule 70 (estatuto -> asignacion .)
     INT             reduce using rule 70 (estatuto -> asignacion .)
     FLOAT           reduce using rule 70 (estatuto -> asignacion .)
     BOOL            reduce using rule 70 (estatuto -> asignacion .)
     STRING          reduce using rule 70 (estatuto -> asignacion .)
+    CCURLY          reduce using rule 70 (estatuto -> asignacion .)
 
 
 state 100
@@ -1565,7 +1568,7 @@ state 101
 
 state 102
 
-    (147) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS . OCURLY c_c CCURLY
+    (148) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS . OCURLY c_c CCURLY
 
     OCURLY          shift and go to state 127
 
@@ -1607,19 +1610,19 @@ state 105
 
     (75) estatuto -> READ read .
 
+    RETURN          reduce using rule 75 (estatuto -> READ read .)
     IF              reduce using rule 75 (estatuto -> READ read .)
     FOR             reduce using rule 75 (estatuto -> READ read .)
     WHILE           reduce using rule 75 (estatuto -> READ read .)
     ID              reduce using rule 75 (estatuto -> READ read .)
     READ            reduce using rule 75 (estatuto -> READ read .)
     PRINT           reduce using rule 75 (estatuto -> READ read .)
-    CCURLY          reduce using rule 75 (estatuto -> READ read .)
-    RETURN          reduce using rule 75 (estatuto -> READ read .)
     PUBLIC          reduce using rule 75 (estatuto -> READ read .)
     INT             reduce using rule 75 (estatuto -> READ read .)
     FLOAT           reduce using rule 75 (estatuto -> READ read .)
     BOOL            reduce using rule 75 (estatuto -> READ read .)
     STRING          reduce using rule 75 (estatuto -> READ read .)
+    CCURLY          reduce using rule 75 (estatuto -> READ read .)
 
 
 state 106
@@ -1633,15 +1636,15 @@ state 107
 
     (89) ciclowhile -> OPARENTHESIS . ssexp CPARENTHESIS bloque
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -1660,46 +1663,46 @@ state 107
     TRUE            shift and go to state 134
     ID              shift and go to state 141
 
-    varcte                         shift and go to state 133
-    z                              shift and go to state 146
-    zz                             shift and go to state 131
-    factor                         shift and go to state 137
     varcte_id                      shift and go to state 129
+    termino                        shift and go to state 130
+    zz                             shift and go to state 131
+    varcte                         shift and go to state 133
+    factor                         shift and go to state 137
     ssexp                          shift and go to state 139
     sexp                           shift and go to state 140
-    termino                        shift and go to state 130
     exp                            shift and go to state 145
+    z                              shift and go to state 146
 
 state 108
 
     (73) estatuto -> WHILE ciclowhile .
 
+    RETURN          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     IF              reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     FOR             reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     WHILE           reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     ID              reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     READ            reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     PRINT           reduce using rule 73 (estatuto -> WHILE ciclowhile .)
-    CCURLY          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
-    RETURN          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     PUBLIC          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     INT             reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     FLOAT           reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     BOOL            reduce using rule 73 (estatuto -> WHILE ciclowhile .)
     STRING          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
+    CCURLY          reduce using rule 73 (estatuto -> WHILE ciclowhile .)
 
 
 state 109
 
     (99) print -> OPARENTHESIS . exp CPARENTHESIS SEMICOLON
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -1730,34 +1733,34 @@ state 110
 
     (76) estatuto -> PRINT print .
 
+    RETURN          reduce using rule 76 (estatuto -> PRINT print .)
     IF              reduce using rule 76 (estatuto -> PRINT print .)
     FOR             reduce using rule 76 (estatuto -> PRINT print .)
     WHILE           reduce using rule 76 (estatuto -> PRINT print .)
     ID              reduce using rule 76 (estatuto -> PRINT print .)
     READ            reduce using rule 76 (estatuto -> PRINT print .)
     PRINT           reduce using rule 76 (estatuto -> PRINT print .)
-    CCURLY          reduce using rule 76 (estatuto -> PRINT print .)
-    RETURN          reduce using rule 76 (estatuto -> PRINT print .)
     PUBLIC          reduce using rule 76 (estatuto -> PRINT print .)
     INT             reduce using rule 76 (estatuto -> PRINT print .)
     FLOAT           reduce using rule 76 (estatuto -> PRINT print .)
     BOOL            reduce using rule 76 (estatuto -> PRINT print .)
     STRING          reduce using rule 76 (estatuto -> PRINT print .)
+    CCURLY          reduce using rule 76 (estatuto -> PRINT print .)
 
 
 state 111
 
     (63) return -> RETURN . ssexp SEMICOLON
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -1821,25 +1824,25 @@ state 115
 
     (72) estatuto -> FOR ciclofor .
 
+    RETURN          reduce using rule 72 (estatuto -> FOR ciclofor .)
     IF              reduce using rule 72 (estatuto -> FOR ciclofor .)
     FOR             reduce using rule 72 (estatuto -> FOR ciclofor .)
     WHILE           reduce using rule 72 (estatuto -> FOR ciclofor .)
     ID              reduce using rule 72 (estatuto -> FOR ciclofor .)
     READ            reduce using rule 72 (estatuto -> FOR ciclofor .)
     PRINT           reduce using rule 72 (estatuto -> FOR ciclofor .)
-    CCURLY          reduce using rule 72 (estatuto -> FOR ciclofor .)
-    RETURN          reduce using rule 72 (estatuto -> FOR ciclofor .)
     PUBLIC          reduce using rule 72 (estatuto -> FOR ciclofor .)
     INT             reduce using rule 72 (estatuto -> FOR ciclofor .)
     FLOAT           reduce using rule 72 (estatuto -> FOR ciclofor .)
     BOOL            reduce using rule 72 (estatuto -> FOR ciclofor .)
     STRING          reduce using rule 72 (estatuto -> FOR ciclofor .)
+    CCURLY          reduce using rule 72 (estatuto -> FOR ciclofor .)
 
 
 state 116
 
     (88) ciclofor -> OPARENTHESIS . parfor CPARENTHESIS bloque
-    (144) parfor -> . asignacion ssexp SEMICOLON ID b_b
+    (145) parfor -> . asignacion ssexp SEMICOLON ID b_b
     (78) asignacion -> . variable EQUAL meteequal expresion SEMICOLON
     (79) asignacion -> . ID asig_a SEMICOLON
     (106) variable -> . ID t
@@ -1891,14 +1894,14 @@ state 120
     (91) prefunc -> . rrr
     (92) q -> . exp r
     (97) rrr -> . CPARENTHESIS SEMICOLON
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -1961,15 +1964,15 @@ state 125
 
     (83) condicion -> OPARENTHESIS . ssexp CPARENTHESIS bloque p
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2002,38 +2005,38 @@ state 126
 
     (71) estatuto -> IF condicion .
 
+    RETURN          reduce using rule 71 (estatuto -> IF condicion .)
     IF              reduce using rule 71 (estatuto -> IF condicion .)
     FOR             reduce using rule 71 (estatuto -> IF condicion .)
     WHILE           reduce using rule 71 (estatuto -> IF condicion .)
     ID              reduce using rule 71 (estatuto -> IF condicion .)
     READ            reduce using rule 71 (estatuto -> IF condicion .)
     PRINT           reduce using rule 71 (estatuto -> IF condicion .)
-    CCURLY          reduce using rule 71 (estatuto -> IF condicion .)
-    RETURN          reduce using rule 71 (estatuto -> IF condicion .)
     PUBLIC          reduce using rule 71 (estatuto -> IF condicion .)
     INT             reduce using rule 71 (estatuto -> IF condicion .)
     FLOAT           reduce using rule 71 (estatuto -> IF condicion .)
     BOOL            reduce using rule 71 (estatuto -> IF condicion .)
     STRING          reduce using rule 71 (estatuto -> IF condicion .)
+    CCURLY          reduce using rule 71 (estatuto -> IF condicion .)
 
 
 state 127
 
-    (147) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY . c_c CCURLY
-    (149) c_c -> . cccc ccc
-    (152) cccc -> .
+    (148) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY . c_c CCURLY
+    (150) c_c -> . cccc ccc
+    (153) cccc -> .
 
-    PUBLIC          reduce using rule 152 (cccc -> .)
-    IF              reduce using rule 152 (cccc -> .)
-    FOR             reduce using rule 152 (cccc -> .)
-    WHILE           reduce using rule 152 (cccc -> .)
-    ID              reduce using rule 152 (cccc -> .)
-    READ            reduce using rule 152 (cccc -> .)
-    PRINT           reduce using rule 152 (cccc -> .)
-    INT             reduce using rule 152 (cccc -> .)
-    FLOAT           reduce using rule 152 (cccc -> .)
-    BOOL            reduce using rule 152 (cccc -> .)
-    STRING          reduce using rule 152 (cccc -> .)
+    PUBLIC          reduce using rule 153 (cccc -> .)
+    IF              reduce using rule 153 (cccc -> .)
+    FOR             reduce using rule 153 (cccc -> .)
+    WHILE           reduce using rule 153 (cccc -> .)
+    ID              reduce using rule 153 (cccc -> .)
+    READ            reduce using rule 153 (cccc -> .)
+    PRINT           reduce using rule 153 (cccc -> .)
+    INT             reduce using rule 153 (cccc -> .)
+    FLOAT           reduce using rule 153 (cccc -> .)
+    BOOL            reduce using rule 153 (cccc -> .)
+    STRING          reduce using rule 153 (cccc -> .)
 
     cccc                           shift and go to state 165
     c_c                            shift and go to state 164
@@ -2056,8 +2059,8 @@ state 129
     CPARENTHESIS    reduce using rule 44 (varcte -> varcte_id .)
     MORETHAN        reduce using rule 44 (varcte -> varcte_id .)
     LESSTHAN        reduce using rule 44 (varcte -> varcte_id .)
-    NOT             reduce using rule 44 (varcte -> varcte_id .)
-    EQUAL           reduce using rule 44 (varcte -> varcte_id .)
+    NOTEQUAL        reduce using rule 44 (varcte -> varcte_id .)
+    EQUALEQUAL      reduce using rule 44 (varcte -> varcte_id .)
     OR              reduce using rule 44 (varcte -> varcte_id .)
     AND             reduce using rule 44 (varcte -> varcte_id .)
     SEMICOLON       reduce using rule 44 (varcte -> varcte_id .)
@@ -2067,48 +2070,48 @@ state 129
 
 state 130
 
-    (123) exp -> termino . checapilamas x
-    (124) checapilamas -> .
+    (124) exp -> termino . checapilamas x
+    (125) checapilamas -> .
 
-    PLUS            reduce using rule 124 (checapilamas -> .)
-    MINUS           reduce using rule 124 (checapilamas -> .)
-    MORETHAN        reduce using rule 124 (checapilamas -> .)
-    LESSTHAN        reduce using rule 124 (checapilamas -> .)
-    NOT             reduce using rule 124 (checapilamas -> .)
-    EQUAL           reduce using rule 124 (checapilamas -> .)
-    OR              reduce using rule 124 (checapilamas -> .)
-    AND             reduce using rule 124 (checapilamas -> .)
-    CPARENTHESIS    reduce using rule 124 (checapilamas -> .)
-    SEMICOLON       reduce using rule 124 (checapilamas -> .)
-    OBRACKET        reduce using rule 124 (checapilamas -> .)
-    COMMA           reduce using rule 124 (checapilamas -> .)
+    PLUS            reduce using rule 125 (checapilamas -> .)
+    MINUS           reduce using rule 125 (checapilamas -> .)
+    MORETHAN        reduce using rule 125 (checapilamas -> .)
+    LESSTHAN        reduce using rule 125 (checapilamas -> .)
+    NOTEQUAL        reduce using rule 125 (checapilamas -> .)
+    EQUALEQUAL      reduce using rule 125 (checapilamas -> .)
+    OR              reduce using rule 125 (checapilamas -> .)
+    AND             reduce using rule 125 (checapilamas -> .)
+    CPARENTHESIS    reduce using rule 125 (checapilamas -> .)
+    SEMICOLON       reduce using rule 125 (checapilamas -> .)
+    OBRACKET        reduce using rule 125 (checapilamas -> .)
+    COMMA           reduce using rule 125 (checapilamas -> .)
 
     checapilamas                   shift and go to state 167
 
 state 131
 
-    (139) z -> zz .
+    (140) z -> zz .
 
-    MULT            reduce using rule 139 (z -> zz .)
-    DIVIDE          reduce using rule 139 (z -> zz .)
-    PLUS            reduce using rule 139 (z -> zz .)
-    MINUS           reduce using rule 139 (z -> zz .)
-    OBRACKET        reduce using rule 139 (z -> zz .)
-    COMMA           reduce using rule 139 (z -> zz .)
-    CPARENTHESIS    reduce using rule 139 (z -> zz .)
-    MORETHAN        reduce using rule 139 (z -> zz .)
-    LESSTHAN        reduce using rule 139 (z -> zz .)
-    NOT             reduce using rule 139 (z -> zz .)
-    EQUAL           reduce using rule 139 (z -> zz .)
-    OR              reduce using rule 139 (z -> zz .)
-    AND             reduce using rule 139 (z -> zz .)
-    SEMICOLON       reduce using rule 139 (z -> zz .)
+    MULT            reduce using rule 140 (z -> zz .)
+    DIVIDE          reduce using rule 140 (z -> zz .)
+    PLUS            reduce using rule 140 (z -> zz .)
+    MINUS           reduce using rule 140 (z -> zz .)
+    MORETHAN        reduce using rule 140 (z -> zz .)
+    LESSTHAN        reduce using rule 140 (z -> zz .)
+    NOTEQUAL        reduce using rule 140 (z -> zz .)
+    EQUALEQUAL      reduce using rule 140 (z -> zz .)
+    OR              reduce using rule 140 (z -> zz .)
+    AND             reduce using rule 140 (z -> zz .)
+    SEMICOLON       reduce using rule 140 (z -> zz .)
+    OBRACKET        reduce using rule 140 (z -> zz .)
+    COMMA           reduce using rule 140 (z -> zz .)
+    CPARENTHESIS    reduce using rule 140 (z -> zz .)
 
 
 state 132
 
-    (138) z -> MINUS . zz
-    (140) zz -> . varcte
+    (139) z -> MINUS . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2130,22 +2133,22 @@ state 132
 
 state 133
 
-    (140) zz -> varcte .
+    (141) zz -> varcte .
 
-    MULT            reduce using rule 140 (zz -> varcte .)
-    DIVIDE          reduce using rule 140 (zz -> varcte .)
-    PLUS            reduce using rule 140 (zz -> varcte .)
-    MINUS           reduce using rule 140 (zz -> varcte .)
-    OR              reduce using rule 140 (zz -> varcte .)
-    AND             reduce using rule 140 (zz -> varcte .)
-    CPARENTHESIS    reduce using rule 140 (zz -> varcte .)
-    SEMICOLON       reduce using rule 140 (zz -> varcte .)
-    MORETHAN        reduce using rule 140 (zz -> varcte .)
-    LESSTHAN        reduce using rule 140 (zz -> varcte .)
-    NOT             reduce using rule 140 (zz -> varcte .)
-    EQUAL           reduce using rule 140 (zz -> varcte .)
-    OBRACKET        reduce using rule 140 (zz -> varcte .)
-    COMMA           reduce using rule 140 (zz -> varcte .)
+    MULT            reduce using rule 141 (zz -> varcte .)
+    DIVIDE          reduce using rule 141 (zz -> varcte .)
+    PLUS            reduce using rule 141 (zz -> varcte .)
+    MINUS           reduce using rule 141 (zz -> varcte .)
+    MORETHAN        reduce using rule 141 (zz -> varcte .)
+    LESSTHAN        reduce using rule 141 (zz -> varcte .)
+    NOTEQUAL        reduce using rule 141 (zz -> varcte .)
+    EQUALEQUAL      reduce using rule 141 (zz -> varcte .)
+    OR              reduce using rule 141 (zz -> varcte .)
+    AND             reduce using rule 141 (zz -> varcte .)
+    CPARENTHESIS    reduce using rule 141 (zz -> varcte .)
+    SEMICOLON       reduce using rule 141 (zz -> varcte .)
+    OBRACKET        reduce using rule 141 (zz -> varcte .)
+    COMMA           reduce using rule 141 (zz -> varcte .)
 
 
 state 134
@@ -2159,8 +2162,8 @@ state 134
     MINUS           reduce using rule 48 (varcte_bool -> .)
     MORETHAN        reduce using rule 48 (varcte_bool -> .)
     LESSTHAN        reduce using rule 48 (varcte_bool -> .)
-    NOT             reduce using rule 48 (varcte_bool -> .)
-    EQUAL           reduce using rule 48 (varcte_bool -> .)
+    NOTEQUAL        reduce using rule 48 (varcte_bool -> .)
+    EQUALEQUAL      reduce using rule 48 (varcte_bool -> .)
     OR              reduce using rule 48 (varcte_bool -> .)
     AND             reduce using rule 48 (varcte_bool -> .)
     CPARENTHESIS    reduce using rule 48 (varcte_bool -> .)
@@ -2172,18 +2175,18 @@ state 134
 
 state 135
 
-    (136) z -> OPARENTHESIS . expresion CPARENTHESIS
+    (137) z -> OPARENTHESIS . expresion CPARENTHESIS
     (110) expresion -> . ssexp
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2215,8 +2218,8 @@ state 135
 
 state 136
 
-    (137) z -> PLUS . zz
-    (140) zz -> . varcte
+    (138) z -> PLUS . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2238,23 +2241,23 @@ state 136
 
 state 137
 
-    (129) termino -> factor . checapilapor y
-    (130) checapilapor -> .
+    (130) termino -> factor . checapilapor y
+    (131) checapilapor -> .
 
-    MULT            reduce using rule 130 (checapilapor -> .)
-    DIVIDE          reduce using rule 130 (checapilapor -> .)
-    PLUS            reduce using rule 130 (checapilapor -> .)
-    MINUS           reduce using rule 130 (checapilapor -> .)
-    MORETHAN        reduce using rule 130 (checapilapor -> .)
-    LESSTHAN        reduce using rule 130 (checapilapor -> .)
-    NOT             reduce using rule 130 (checapilapor -> .)
-    EQUAL           reduce using rule 130 (checapilapor -> .)
-    OR              reduce using rule 130 (checapilapor -> .)
-    AND             reduce using rule 130 (checapilapor -> .)
-    CPARENTHESIS    reduce using rule 130 (checapilapor -> .)
-    SEMICOLON       reduce using rule 130 (checapilapor -> .)
-    OBRACKET        reduce using rule 130 (checapilapor -> .)
-    COMMA           reduce using rule 130 (checapilapor -> .)
+    MULT            reduce using rule 131 (checapilapor -> .)
+    DIVIDE          reduce using rule 131 (checapilapor -> .)
+    PLUS            reduce using rule 131 (checapilapor -> .)
+    MINUS           reduce using rule 131 (checapilapor -> .)
+    MORETHAN        reduce using rule 131 (checapilapor -> .)
+    LESSTHAN        reduce using rule 131 (checapilapor -> .)
+    NOTEQUAL        reduce using rule 131 (checapilapor -> .)
+    EQUALEQUAL      reduce using rule 131 (checapilapor -> .)
+    OR              reduce using rule 131 (checapilapor -> .)
+    AND             reduce using rule 131 (checapilapor -> .)
+    CPARENTHESIS    reduce using rule 131 (checapilapor -> .)
+    SEMICOLON       reduce using rule 131 (checapilapor -> .)
+    OBRACKET        reduce using rule 131 (checapilapor -> .)
+    COMMA           reduce using rule 131 (checapilapor -> .)
 
     checapilapor                   shift and go to state 173
 
@@ -2269,8 +2272,8 @@ state 138
     MINUS           reduce using rule 46 (varcte_float -> .)
     MORETHAN        reduce using rule 46 (varcte_float -> .)
     LESSTHAN        reduce using rule 46 (varcte_float -> .)
-    NOT             reduce using rule 46 (varcte_float -> .)
-    EQUAL           reduce using rule 46 (varcte_float -> .)
+    NOTEQUAL        reduce using rule 46 (varcte_float -> .)
+    EQUALEQUAL      reduce using rule 46 (varcte_float -> .)
     OR              reduce using rule 46 (varcte_float -> .)
     AND             reduce using rule 46 (varcte_float -> .)
     CPARENTHESIS    reduce using rule 46 (varcte_float -> .)
@@ -2311,8 +2314,8 @@ state 141
     MINUS           reduce using rule 49 (varcte_id -> ID .)
     MORETHAN        reduce using rule 49 (varcte_id -> ID .)
     LESSTHAN        reduce using rule 49 (varcte_id -> ID .)
-    NOT             reduce using rule 49 (varcte_id -> ID .)
-    EQUAL           reduce using rule 49 (varcte_id -> ID .)
+    NOTEQUAL        reduce using rule 49 (varcte_id -> ID .)
+    EQUALEQUAL      reduce using rule 49 (varcte_id -> ID .)
     OR              reduce using rule 49 (varcte_id -> ID .)
     AND             reduce using rule 49 (varcte_id -> ID .)
     SEMICOLON       reduce using rule 49 (varcte_id -> ID .)
@@ -2332,8 +2335,8 @@ state 142
     MINUS           reduce using rule 47 (varcte_string -> .)
     MORETHAN        reduce using rule 47 (varcte_string -> .)
     LESSTHAN        reduce using rule 47 (varcte_string -> .)
-    NOT             reduce using rule 47 (varcte_string -> .)
-    EQUAL           reduce using rule 47 (varcte_string -> .)
+    NOTEQUAL        reduce using rule 47 (varcte_string -> .)
+    EQUALEQUAL      reduce using rule 47 (varcte_string -> .)
     OR              reduce using rule 47 (varcte_string -> .)
     AND             reduce using rule 47 (varcte_string -> .)
     CPARENTHESIS    reduce using rule 47 (varcte_string -> .)
@@ -2354,8 +2357,8 @@ state 143
     MINUS           reduce using rule 45 (varcte_int -> .)
     MORETHAN        reduce using rule 45 (varcte_int -> .)
     LESSTHAN        reduce using rule 45 (varcte_int -> .)
-    NOT             reduce using rule 45 (varcte_int -> .)
-    EQUAL           reduce using rule 45 (varcte_int -> .)
+    NOTEQUAL        reduce using rule 45 (varcte_int -> .)
+    EQUALEQUAL      reduce using rule 45 (varcte_int -> .)
     OR              reduce using rule 45 (varcte_int -> .)
     AND             reduce using rule 45 (varcte_int -> .)
     CPARENTHESIS    reduce using rule 45 (varcte_int -> .)
@@ -2376,8 +2379,8 @@ state 144
     MINUS           reduce using rule 48 (varcte_bool -> .)
     MORETHAN        reduce using rule 48 (varcte_bool -> .)
     LESSTHAN        reduce using rule 48 (varcte_bool -> .)
-    NOT             reduce using rule 48 (varcte_bool -> .)
-    EQUAL           reduce using rule 48 (varcte_bool -> .)
+    NOTEQUAL        reduce using rule 48 (varcte_bool -> .)
+    EQUALEQUAL      reduce using rule 48 (varcte_bool -> .)
     OR              reduce using rule 48 (varcte_bool -> .)
     AND             reduce using rule 48 (varcte_bool -> .)
     CPARENTHESIS    reduce using rule 48 (varcte_bool -> .)
@@ -2389,56 +2392,52 @@ state 144
 
 state 145
 
-    (115) sexp -> exp . v
-    (116) v -> . MORETHAN w
-    (117) v -> . LESSTHAN w
-    (118) v -> . NOT w
-    (119) v -> . EQUAL w
-    (120) v -> .
+    (115) sexp -> exp . checapilacondicional v
+    (116) checapilacondicional -> .
 
-    MORETHAN        shift and go to state 186
-    LESSTHAN        shift and go to state 183
-    NOT             shift and go to state 185
-    EQUAL           shift and go to state 182
-    OR              reduce using rule 120 (v -> .)
-    AND             reduce using rule 120 (v -> .)
-    CPARENTHESIS    reduce using rule 120 (v -> .)
-    SEMICOLON       reduce using rule 120 (v -> .)
+    MORETHAN        reduce using rule 116 (checapilacondicional -> .)
+    LESSTHAN        reduce using rule 116 (checapilacondicional -> .)
+    NOTEQUAL        reduce using rule 116 (checapilacondicional -> .)
+    EQUALEQUAL      reduce using rule 116 (checapilacondicional -> .)
+    OR              reduce using rule 116 (checapilacondicional -> .)
+    AND             reduce using rule 116 (checapilacondicional -> .)
+    CPARENTHESIS    reduce using rule 116 (checapilacondicional -> .)
+    SEMICOLON       reduce using rule 116 (checapilacondicional -> .)
 
-    v                              shift and go to state 184
+    checapilacondicional           shift and go to state 182
 
 state 146
 
-    (135) factor -> z .
+    (136) factor -> z .
 
-    MULT            reduce using rule 135 (factor -> z .)
-    DIVIDE          reduce using rule 135 (factor -> z .)
-    PLUS            reduce using rule 135 (factor -> z .)
-    MINUS           reduce using rule 135 (factor -> z .)
-    OR              reduce using rule 135 (factor -> z .)
-    AND             reduce using rule 135 (factor -> z .)
-    CPARENTHESIS    reduce using rule 135 (factor -> z .)
-    SEMICOLON       reduce using rule 135 (factor -> z .)
-    OBRACKET        reduce using rule 135 (factor -> z .)
-    COMMA           reduce using rule 135 (factor -> z .)
-    MORETHAN        reduce using rule 135 (factor -> z .)
-    LESSTHAN        reduce using rule 135 (factor -> z .)
-    NOT             reduce using rule 135 (factor -> z .)
-    EQUAL           reduce using rule 135 (factor -> z .)
+    MULT            reduce using rule 136 (factor -> z .)
+    DIVIDE          reduce using rule 136 (factor -> z .)
+    PLUS            reduce using rule 136 (factor -> z .)
+    MINUS           reduce using rule 136 (factor -> z .)
+    CPARENTHESIS    reduce using rule 136 (factor -> z .)
+    OR              reduce using rule 136 (factor -> z .)
+    AND             reduce using rule 136 (factor -> z .)
+    SEMICOLON       reduce using rule 136 (factor -> z .)
+    OBRACKET        reduce using rule 136 (factor -> z .)
+    COMMA           reduce using rule 136 (factor -> z .)
+    MORETHAN        reduce using rule 136 (factor -> z .)
+    LESSTHAN        reduce using rule 136 (factor -> z .)
+    NOTEQUAL        reduce using rule 136 (factor -> z .)
+    EQUALEQUAL      reduce using rule 136 (factor -> z .)
 
 
 state 147
 
     (99) print -> OPARENTHESIS exp . CPARENTHESIS SEMICOLON
 
-    CPARENTHESIS    shift and go to state 187
+    CPARENTHESIS    shift and go to state 183
 
 
 state 148
 
     (63) return -> RETURN ssexp . SEMICOLON
 
-    SEMICOLON       shift and go to state 188
+    SEMICOLON       shift and go to state 184
 
 
 state 149
@@ -2455,17 +2454,17 @@ state 149
 
 state 150
 
-    (144) parfor -> asignacion . ssexp SEMICOLON ID b_b
+    (145) parfor -> asignacion . ssexp SEMICOLON ID b_b
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2489,7 +2488,7 @@ state 150
     zz                             shift and go to state 131
     varcte                         shift and go to state 133
     factor                         shift and go to state 137
-    ssexp                          shift and go to state 189
+    ssexp                          shift and go to state 185
     sexp                           shift and go to state 140
     exp                            shift and go to state 145
     z                              shift and go to state 146
@@ -2498,7 +2497,7 @@ state 151
 
     (88) ciclofor -> OPARENTHESIS parfor . CPARENTHESIS bloque
 
-    CPARENTHESIS    shift and go to state 190
+    CPARENTHESIS    shift and go to state 186
 
 
 state 152
@@ -2514,7 +2513,7 @@ state 152
     PLUSPLUS        shift and go to state 118
     MINUSMINUS      shift and go to state 124
     OBRACKET        shift and go to state 121
-    PERIOD          shift and go to state 191
+    PERIOD          shift and go to state 187
     EQUAL           reduce using rule 109 (t -> .)
 
     t                              shift and go to state 122
@@ -2525,15 +2524,15 @@ state 153
     (78) asignacion -> variable EQUAL meteequal . expresion SEMICOLON
     (110) expresion -> . ssexp
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2559,7 +2558,7 @@ state 153
     factor                         shift and go to state 137
     ssexp                          shift and go to state 170
     sexp                           shift and go to state 140
-    expresion                      shift and go to state 192
+    expresion                      shift and go to state 188
     exp                            shift and go to state 145
     z                              shift and go to state 146
 
@@ -2567,19 +2566,19 @@ state 154
 
     (77) estatuto -> ID PERIOD llamaobj .
 
+    RETURN          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     IF              reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     FOR             reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     WHILE           reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     ID              reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     READ            reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     PRINT           reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
-    CCURLY          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
-    RETURN          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     PUBLIC          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     INT             reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     FLOAT           reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     BOOL            reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
     STRING          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
+    CCURLY          reduce using rule 77 (estatuto -> ID PERIOD llamaobj .)
 
 
 state 155
@@ -2591,11 +2590,11 @@ state 155
     (103) ss -> . OPARENTHESIS sss CPARENTHESIS SEMICOLON
 
     EQUAL           reduce using rule 108 (t -> PERIOD ID .)
-    SEMICOLON       shift and go to state 193
-    OPARENTHESIS    shift and go to state 195
+    SEMICOLON       shift and go to state 189
+    OPARENTHESIS    shift and go to state 191
 
-    ss                             shift and go to state 194
-    s                              shift and go to state 196
+    ss                             shift and go to state 190
+    s                              shift and go to state 192
 
 state 156
 
@@ -2620,26 +2619,26 @@ state 157
 
     (97) rrr -> CPARENTHESIS . SEMICOLON
 
-    SEMICOLON       shift and go to state 197
+    SEMICOLON       shift and go to state 193
 
 
 state 158
 
     (74) estatuto -> ID OPARENTHESIS prefunc .
 
+    RETURN          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     IF              reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     FOR             reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     WHILE           reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     ID              reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     READ            reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     PRINT           reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
-    CCURLY          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
-    RETURN          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     PUBLIC          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     INT             reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     FLOAT           reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     BOOL            reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
     STRING          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
+    CCURLY          reduce using rule 74 (estatuto -> ID OPARENTHESIS prefunc .)
 
 
 state 159
@@ -2670,19 +2669,19 @@ state 160
     (96) rr -> . rrr
     (97) rrr -> . CPARENTHESIS SEMICOLON
 
-    OBRACKET        shift and go to state 199
-    COMMA           shift and go to state 201
+    OBRACKET        shift and go to state 195
+    COMMA           shift and go to state 197
     CPARENTHESIS    shift and go to state 157
 
-    r                              shift and go to state 200
-    rr                             shift and go to state 198
-    rrr                            shift and go to state 202
+    r                              shift and go to state 196
+    rr                             shift and go to state 194
+    rrr                            shift and go to state 198
 
 state 161
 
     (107) t -> OBRACKET CTEF . CBRACKET
 
-    CBRACKET        shift and go to state 203
+    CBRACKET        shift and go to state 199
 
 
 state 162
@@ -2716,23 +2715,23 @@ state 163
 
     (83) condicion -> OPARENTHESIS ssexp . CPARENTHESIS bloque p
 
-    CPARENTHESIS    shift and go to state 204
+    CPARENTHESIS    shift and go to state 200
 
 
 state 164
 
-    (147) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c . CCURLY
+    (148) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c . CCURLY
 
-    CCURLY          shift and go to state 205
+    CCURLY          shift and go to state 201
 
 
 state 165
 
-    (149) c_c -> cccc . ccc
-    (150) ccc -> . vars ccc
-    (151) ccc -> . d_d
+    (150) c_c -> cccc . ccc
+    (151) ccc -> . vars ccc
+    (152) ccc -> . d_d
     (25) vars -> . f
-    (153) d_d -> . estatuto d_dd
+    (154) d_d -> . estatuto d_dd
     (26) f -> . PUBLIC g
     (27) f -> . g
     (70) estatuto -> . asignacion
@@ -2764,15 +2763,15 @@ state 165
     BOOL            shift and go to state 24
     STRING          shift and go to state 14
 
-    vars                           shift and go to state 206
+    vars                           shift and go to state 202
     tipo                           shift and go to state 41
-    estatuto                       shift and go to state 207
+    estatuto                       shift and go to state 203
     variable                       shift and go to state 96
     asignacion                     shift and go to state 99
     g                              shift and go to state 38
     f                              shift and go to state 39
-    ccc                            shift and go to state 208
-    d_d                            shift and go to state 209
+    ccc                            shift and go to state 204
+    d_d                            shift and go to state 205
 
 state 166
 
@@ -2795,46 +2794,46 @@ state 166
 
 state 167
 
-    (123) exp -> termino checapilamas . x
-    (125) x -> . meteapilamas exp
-    (126) x -> .
-    (127) meteapilamas -> . PLUS
-    (128) meteapilamas -> . MINUS
+    (124) exp -> termino checapilamas . x
+    (126) x -> . meteapilamas exp
+    (127) x -> .
+    (128) meteapilamas -> . PLUS
+    (129) meteapilamas -> . MINUS
 
-    MORETHAN        reduce using rule 126 (x -> .)
-    LESSTHAN        reduce using rule 126 (x -> .)
-    NOT             reduce using rule 126 (x -> .)
-    EQUAL           reduce using rule 126 (x -> .)
-    OR              reduce using rule 126 (x -> .)
-    AND             reduce using rule 126 (x -> .)
-    CPARENTHESIS    reduce using rule 126 (x -> .)
-    SEMICOLON       reduce using rule 126 (x -> .)
-    OBRACKET        reduce using rule 126 (x -> .)
-    COMMA           reduce using rule 126 (x -> .)
-    PLUS            shift and go to state 211
-    MINUS           shift and go to state 213
+    MORETHAN        reduce using rule 127 (x -> .)
+    LESSTHAN        reduce using rule 127 (x -> .)
+    NOTEQUAL        reduce using rule 127 (x -> .)
+    EQUALEQUAL      reduce using rule 127 (x -> .)
+    OR              reduce using rule 127 (x -> .)
+    AND             reduce using rule 127 (x -> .)
+    CPARENTHESIS    reduce using rule 127 (x -> .)
+    SEMICOLON       reduce using rule 127 (x -> .)
+    OBRACKET        reduce using rule 127 (x -> .)
+    COMMA           reduce using rule 127 (x -> .)
+    PLUS            shift and go to state 207
+    MINUS           shift and go to state 209
 
-    x                              shift and go to state 212
-    meteapilamas                   shift and go to state 210
+    x                              shift and go to state 208
+    meteapilamas                   shift and go to state 206
 
 state 168
 
-    (138) z -> MINUS zz .
+    (139) z -> MINUS zz .
 
-    MULT            reduce using rule 138 (z -> MINUS zz .)
-    DIVIDE          reduce using rule 138 (z -> MINUS zz .)
-    PLUS            reduce using rule 138 (z -> MINUS zz .)
-    MINUS           reduce using rule 138 (z -> MINUS zz .)
-    OBRACKET        reduce using rule 138 (z -> MINUS zz .)
-    COMMA           reduce using rule 138 (z -> MINUS zz .)
-    CPARENTHESIS    reduce using rule 138 (z -> MINUS zz .)
-    MORETHAN        reduce using rule 138 (z -> MINUS zz .)
-    LESSTHAN        reduce using rule 138 (z -> MINUS zz .)
-    NOT             reduce using rule 138 (z -> MINUS zz .)
-    EQUAL           reduce using rule 138 (z -> MINUS zz .)
-    OR              reduce using rule 138 (z -> MINUS zz .)
-    AND             reduce using rule 138 (z -> MINUS zz .)
-    SEMICOLON       reduce using rule 138 (z -> MINUS zz .)
+    MULT            reduce using rule 139 (z -> MINUS zz .)
+    DIVIDE          reduce using rule 139 (z -> MINUS zz .)
+    PLUS            reduce using rule 139 (z -> MINUS zz .)
+    MINUS           reduce using rule 139 (z -> MINUS zz .)
+    MORETHAN        reduce using rule 139 (z -> MINUS zz .)
+    LESSTHAN        reduce using rule 139 (z -> MINUS zz .)
+    NOTEQUAL        reduce using rule 139 (z -> MINUS zz .)
+    EQUALEQUAL      reduce using rule 139 (z -> MINUS zz .)
+    OR              reduce using rule 139 (z -> MINUS zz .)
+    AND             reduce using rule 139 (z -> MINUS zz .)
+    SEMICOLON       reduce using rule 139 (z -> MINUS zz .)
+    OBRACKET        reduce using rule 139 (z -> MINUS zz .)
+    COMMA           reduce using rule 139 (z -> MINUS zz .)
+    CPARENTHESIS    reduce using rule 139 (z -> MINUS zz .)
 
 
 state 169
@@ -2848,8 +2847,8 @@ state 169
     CPARENTHESIS    reduce using rule 43 (varcte -> TRUE varcte_bool .)
     MORETHAN        reduce using rule 43 (varcte -> TRUE varcte_bool .)
     LESSTHAN        reduce using rule 43 (varcte -> TRUE varcte_bool .)
-    NOT             reduce using rule 43 (varcte -> TRUE varcte_bool .)
-    EQUAL           reduce using rule 43 (varcte -> TRUE varcte_bool .)
+    NOTEQUAL        reduce using rule 43 (varcte -> TRUE varcte_bool .)
+    EQUALEQUAL      reduce using rule 43 (varcte -> TRUE varcte_bool .)
     OR              reduce using rule 43 (varcte -> TRUE varcte_bool .)
     AND             reduce using rule 43 (varcte -> TRUE varcte_bool .)
     SEMICOLON       reduce using rule 43 (varcte -> TRUE varcte_bool .)
@@ -2867,56 +2866,56 @@ state 170
 
 state 171
 
-    (136) z -> OPARENTHESIS expresion . CPARENTHESIS
+    (137) z -> OPARENTHESIS expresion . CPARENTHESIS
 
-    CPARENTHESIS    shift and go to state 214
+    CPARENTHESIS    shift and go to state 210
 
 
 state 172
 
-    (137) z -> PLUS zz .
+    (138) z -> PLUS zz .
 
-    MULT            reduce using rule 137 (z -> PLUS zz .)
-    DIVIDE          reduce using rule 137 (z -> PLUS zz .)
-    PLUS            reduce using rule 137 (z -> PLUS zz .)
-    MINUS           reduce using rule 137 (z -> PLUS zz .)
-    OBRACKET        reduce using rule 137 (z -> PLUS zz .)
-    COMMA           reduce using rule 137 (z -> PLUS zz .)
-    CPARENTHESIS    reduce using rule 137 (z -> PLUS zz .)
-    MORETHAN        reduce using rule 137 (z -> PLUS zz .)
-    LESSTHAN        reduce using rule 137 (z -> PLUS zz .)
-    NOT             reduce using rule 137 (z -> PLUS zz .)
-    EQUAL           reduce using rule 137 (z -> PLUS zz .)
-    OR              reduce using rule 137 (z -> PLUS zz .)
-    AND             reduce using rule 137 (z -> PLUS zz .)
-    SEMICOLON       reduce using rule 137 (z -> PLUS zz .)
+    MULT            reduce using rule 138 (z -> PLUS zz .)
+    DIVIDE          reduce using rule 138 (z -> PLUS zz .)
+    PLUS            reduce using rule 138 (z -> PLUS zz .)
+    MINUS           reduce using rule 138 (z -> PLUS zz .)
+    MORETHAN        reduce using rule 138 (z -> PLUS zz .)
+    LESSTHAN        reduce using rule 138 (z -> PLUS zz .)
+    NOTEQUAL        reduce using rule 138 (z -> PLUS zz .)
+    EQUALEQUAL      reduce using rule 138 (z -> PLUS zz .)
+    OR              reduce using rule 138 (z -> PLUS zz .)
+    AND             reduce using rule 138 (z -> PLUS zz .)
+    SEMICOLON       reduce using rule 138 (z -> PLUS zz .)
+    OBRACKET        reduce using rule 138 (z -> PLUS zz .)
+    COMMA           reduce using rule 138 (z -> PLUS zz .)
+    CPARENTHESIS    reduce using rule 138 (z -> PLUS zz .)
 
 
 state 173
 
-    (129) termino -> factor checapilapor . y
-    (131) y -> . meteapilapor termino
-    (132) y -> .
-    (133) meteapilapor -> . MULT
-    (134) meteapilapor -> . DIVIDE
+    (130) termino -> factor checapilapor . y
+    (132) y -> . meteapilapor termino
+    (133) y -> .
+    (134) meteapilapor -> . MULT
+    (135) meteapilapor -> . DIVIDE
 
-    PLUS            reduce using rule 132 (y -> .)
-    MINUS           reduce using rule 132 (y -> .)
-    MORETHAN        reduce using rule 132 (y -> .)
-    LESSTHAN        reduce using rule 132 (y -> .)
-    NOT             reduce using rule 132 (y -> .)
-    EQUAL           reduce using rule 132 (y -> .)
-    OR              reduce using rule 132 (y -> .)
-    AND             reduce using rule 132 (y -> .)
-    CPARENTHESIS    reduce using rule 132 (y -> .)
-    SEMICOLON       reduce using rule 132 (y -> .)
-    OBRACKET        reduce using rule 132 (y -> .)
-    COMMA           reduce using rule 132 (y -> .)
-    MULT            shift and go to state 218
-    DIVIDE          shift and go to state 215
+    PLUS            reduce using rule 133 (y -> .)
+    MINUS           reduce using rule 133 (y -> .)
+    MORETHAN        reduce using rule 133 (y -> .)
+    LESSTHAN        reduce using rule 133 (y -> .)
+    NOTEQUAL        reduce using rule 133 (y -> .)
+    EQUALEQUAL      reduce using rule 133 (y -> .)
+    OR              reduce using rule 133 (y -> .)
+    AND             reduce using rule 133 (y -> .)
+    CPARENTHESIS    reduce using rule 133 (y -> .)
+    SEMICOLON       reduce using rule 133 (y -> .)
+    OBRACKET        reduce using rule 133 (y -> .)
+    COMMA           reduce using rule 133 (y -> .)
+    MULT            shift and go to state 214
+    DIVIDE          shift and go to state 211
 
-    y                              shift and go to state 217
-    meteapilapor                   shift and go to state 216
+    y                              shift and go to state 213
+    meteapilapor                   shift and go to state 212
 
 state 174
 
@@ -2929,8 +2928,8 @@ state 174
     CPARENTHESIS    reduce using rule 40 (varcte -> CTEF varcte_float .)
     MORETHAN        reduce using rule 40 (varcte -> CTEF varcte_float .)
     LESSTHAN        reduce using rule 40 (varcte -> CTEF varcte_float .)
-    NOT             reduce using rule 40 (varcte -> CTEF varcte_float .)
-    EQUAL           reduce using rule 40 (varcte -> CTEF varcte_float .)
+    NOTEQUAL        reduce using rule 40 (varcte -> CTEF varcte_float .)
+    EQUALEQUAL      reduce using rule 40 (varcte -> CTEF varcte_float .)
     OR              reduce using rule 40 (varcte -> CTEF varcte_float .)
     AND             reduce using rule 40 (varcte -> CTEF varcte_float .)
     SEMICOLON       reduce using rule 40 (varcte -> CTEF varcte_float .)
@@ -2941,25 +2940,25 @@ state 174
 state 175
 
     (89) ciclowhile -> OPARENTHESIS ssexp CPARENTHESIS . bloque
-    (141) bloque -> . OCURLY a_a CCURLY
+    (142) bloque -> . OCURLY a_a CCURLY
 
-    OCURLY          shift and go to state 220
+    OCURLY          shift and go to state 216
 
-    bloque                         shift and go to state 219
+    bloque                         shift and go to state 215
 
 state 176
 
     (113) u -> AND . ssexp
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -2983,7 +2982,7 @@ state 176
     zz                             shift and go to state 131
     factor                         shift and go to state 137
     varcte_id                      shift and go to state 129
-    ssexp                          shift and go to state 221
+    ssexp                          shift and go to state 217
     sexp                           shift and go to state 140
     termino                        shift and go to state 130
     exp                            shift and go to state 145
@@ -3000,15 +2999,15 @@ state 178
 
     (112) u -> OR . ssexp
     (111) ssexp -> . sexp u
-    (115) sexp -> . exp v
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (115) sexp -> . exp checapilacondicional v
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3032,7 +3031,7 @@ state 178
     zz                             shift and go to state 131
     factor                         shift and go to state 137
     varcte_id                      shift and go to state 129
-    ssexp                          shift and go to state 222
+    ssexp                          shift and go to state 218
     sexp                           shift and go to state 140
     termino                        shift and go to state 130
     exp                            shift and go to state 145
@@ -3048,8 +3047,8 @@ state 179
     CPARENTHESIS    reduce using rule 41 (varcte -> CTES varcte_string .)
     MORETHAN        reduce using rule 41 (varcte -> CTES varcte_string .)
     LESSTHAN        reduce using rule 41 (varcte -> CTES varcte_string .)
-    NOT             reduce using rule 41 (varcte -> CTES varcte_string .)
-    EQUAL           reduce using rule 41 (varcte -> CTES varcte_string .)
+    NOTEQUAL        reduce using rule 41 (varcte -> CTES varcte_string .)
+    EQUALEQUAL      reduce using rule 41 (varcte -> CTES varcte_string .)
     OR              reduce using rule 41 (varcte -> CTES varcte_string .)
     AND             reduce using rule 41 (varcte -> CTES varcte_string .)
     SEMICOLON       reduce using rule 41 (varcte -> CTES varcte_string .)
@@ -3068,8 +3067,8 @@ state 180
     CPARENTHESIS    reduce using rule 39 (varcte -> CTEI varcte_int .)
     MORETHAN        reduce using rule 39 (varcte -> CTEI varcte_int .)
     LESSTHAN        reduce using rule 39 (varcte -> CTEI varcte_int .)
-    NOT             reduce using rule 39 (varcte -> CTEI varcte_int .)
-    EQUAL           reduce using rule 39 (varcte -> CTEI varcte_int .)
+    NOTEQUAL        reduce using rule 39 (varcte -> CTEI varcte_int .)
+    EQUALEQUAL      reduce using rule 39 (varcte -> CTEI varcte_int .)
     OR              reduce using rule 39 (varcte -> CTEI varcte_int .)
     AND             reduce using rule 39 (varcte -> CTEI varcte_int .)
     SEMICOLON       reduce using rule 39 (varcte -> CTEI varcte_int .)
@@ -3088,8 +3087,8 @@ state 181
     CPARENTHESIS    reduce using rule 42 (varcte -> FALSE varcte_bool .)
     MORETHAN        reduce using rule 42 (varcte -> FALSE varcte_bool .)
     LESSTHAN        reduce using rule 42 (varcte -> FALSE varcte_bool .)
-    NOT             reduce using rule 42 (varcte -> FALSE varcte_bool .)
-    EQUAL           reduce using rule 42 (varcte -> FALSE varcte_bool .)
+    NOTEQUAL        reduce using rule 42 (varcte -> FALSE varcte_bool .)
+    EQUALEQUAL      reduce using rule 42 (varcte -> FALSE varcte_bool .)
     OR              reduce using rule 42 (varcte -> FALSE varcte_bool .)
     AND             reduce using rule 42 (varcte -> FALSE varcte_bool .)
     SEMICOLON       reduce using rule 42 (varcte -> FALSE varcte_bool .)
@@ -3099,223 +3098,69 @@ state 181
 
 state 182
 
-    (119) v -> EQUAL . w
-    (121) w -> . EQUAL exp
-    (122) w -> . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
-    (39) varcte -> . CTEI varcte_int
-    (40) varcte -> . CTEF varcte_float
-    (41) varcte -> . CTES varcte_string
-    (42) varcte -> . FALSE varcte_bool
-    (43) varcte -> . TRUE varcte_bool
-    (44) varcte -> . varcte_id
-    (49) varcte_id -> . ID
+    (115) sexp -> exp checapilacondicional . v
+    (117) v -> . MORETHAN w
+    (118) v -> . LESSTHAN w
+    (119) v -> . NOTEQUAL exp
+    (120) v -> . EQUALEQUAL exp
+    (121) v -> .
 
-    EQUAL           shift and go to state 223
-    OPARENTHESIS    shift and go to state 135
-    PLUS            shift and go to state 136
-    MINUS           shift and go to state 132
-    CTEI            shift and go to state 143
-    CTEF            shift and go to state 138
-    CTES            shift and go to state 142
-    FALSE           shift and go to state 144
-    TRUE            shift and go to state 134
-    ID              shift and go to state 141
+    MORETHAN        shift and go to state 222
+    LESSTHAN        shift and go to state 220
+    NOTEQUAL        shift and go to state 219
+    EQUALEQUAL      shift and go to state 223
+    OR              reduce using rule 121 (v -> .)
+    AND             reduce using rule 121 (v -> .)
+    CPARENTHESIS    reduce using rule 121 (v -> .)
+    SEMICOLON       reduce using rule 121 (v -> .)
 
-    varcte                         shift and go to state 133
-    z                              shift and go to state 146
-    w                              shift and go to state 225
-    varcte_id                      shift and go to state 129
-    termino                        shift and go to state 130
-    exp                            shift and go to state 224
-    factor                         shift and go to state 137
-    zz                             shift and go to state 131
+    v                              shift and go to state 221
 
 state 183
 
-    (117) v -> LESSTHAN . w
-    (121) w -> . EQUAL exp
-    (122) w -> . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
-    (39) varcte -> . CTEI varcte_int
-    (40) varcte -> . CTEF varcte_float
-    (41) varcte -> . CTES varcte_string
-    (42) varcte -> . FALSE varcte_bool
-    (43) varcte -> . TRUE varcte_bool
-    (44) varcte -> . varcte_id
-    (49) varcte_id -> . ID
-
-    EQUAL           shift and go to state 223
-    OPARENTHESIS    shift and go to state 135
-    PLUS            shift and go to state 136
-    MINUS           shift and go to state 132
-    CTEI            shift and go to state 143
-    CTEF            shift and go to state 138
-    CTES            shift and go to state 142
-    FALSE           shift and go to state 144
-    TRUE            shift and go to state 134
-    ID              shift and go to state 141
-
-    varcte                         shift and go to state 133
-    z                              shift and go to state 146
-    w                              shift and go to state 226
-    varcte_id                      shift and go to state 129
-    termino                        shift and go to state 130
-    exp                            shift and go to state 224
-    factor                         shift and go to state 137
-    zz                             shift and go to state 131
-
-state 184
-
-    (115) sexp -> exp v .
-
-    OR              reduce using rule 115 (sexp -> exp v .)
-    AND             reduce using rule 115 (sexp -> exp v .)
-    CPARENTHESIS    reduce using rule 115 (sexp -> exp v .)
-    SEMICOLON       reduce using rule 115 (sexp -> exp v .)
-
-
-state 185
-
-    (118) v -> NOT . w
-    (121) w -> . EQUAL exp
-    (122) w -> . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
-    (39) varcte -> . CTEI varcte_int
-    (40) varcte -> . CTEF varcte_float
-    (41) varcte -> . CTES varcte_string
-    (42) varcte -> . FALSE varcte_bool
-    (43) varcte -> . TRUE varcte_bool
-    (44) varcte -> . varcte_id
-    (49) varcte_id -> . ID
-
-    EQUAL           shift and go to state 223
-    OPARENTHESIS    shift and go to state 135
-    PLUS            shift and go to state 136
-    MINUS           shift and go to state 132
-    CTEI            shift and go to state 143
-    CTEF            shift and go to state 138
-    CTES            shift and go to state 142
-    FALSE           shift and go to state 144
-    TRUE            shift and go to state 134
-    ID              shift and go to state 141
-
-    varcte                         shift and go to state 133
-    z                              shift and go to state 146
-    w                              shift and go to state 227
-    varcte_id                      shift and go to state 129
-    termino                        shift and go to state 130
-    exp                            shift and go to state 224
-    factor                         shift and go to state 137
-    zz                             shift and go to state 131
-
-state 186
-
-    (116) v -> MORETHAN . w
-    (121) w -> . EQUAL exp
-    (122) w -> . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
-    (39) varcte -> . CTEI varcte_int
-    (40) varcte -> . CTEF varcte_float
-    (41) varcte -> . CTES varcte_string
-    (42) varcte -> . FALSE varcte_bool
-    (43) varcte -> . TRUE varcte_bool
-    (44) varcte -> . varcte_id
-    (49) varcte_id -> . ID
-
-    EQUAL           shift and go to state 223
-    OPARENTHESIS    shift and go to state 135
-    PLUS            shift and go to state 136
-    MINUS           shift and go to state 132
-    CTEI            shift and go to state 143
-    CTEF            shift and go to state 138
-    CTES            shift and go to state 142
-    FALSE           shift and go to state 144
-    TRUE            shift and go to state 134
-    ID              shift and go to state 141
-
-    varcte                         shift and go to state 133
-    z                              shift and go to state 146
-    w                              shift and go to state 228
-    varcte_id                      shift and go to state 129
-    termino                        shift and go to state 130
-    exp                            shift and go to state 224
-    factor                         shift and go to state 137
-    zz                             shift and go to state 131
-
-state 187
-
     (99) print -> OPARENTHESIS exp CPARENTHESIS . SEMICOLON
 
-    SEMICOLON       shift and go to state 229
+    SEMICOLON       shift and go to state 224
 
 
-state 188
+state 184
 
     (63) return -> RETURN ssexp SEMICOLON .
 
     CCURLY          reduce using rule 63 (return -> RETURN ssexp SEMICOLON .)
 
 
-state 189
+state 185
 
-    (144) parfor -> asignacion ssexp . SEMICOLON ID b_b
+    (145) parfor -> asignacion ssexp . SEMICOLON ID b_b
 
-    SEMICOLON       shift and go to state 230
+    SEMICOLON       shift and go to state 225
 
 
-state 190
+state 186
 
     (88) ciclofor -> OPARENTHESIS parfor CPARENTHESIS . bloque
-    (141) bloque -> . OCURLY a_a CCURLY
+    (142) bloque -> . OCURLY a_a CCURLY
 
-    OCURLY          shift and go to state 220
+    OCURLY          shift and go to state 216
 
-    bloque                         shift and go to state 231
+    bloque                         shift and go to state 226
 
-state 191
+state 187
 
     (108) t -> PERIOD . ID
 
-    ID              shift and go to state 232
+    ID              shift and go to state 227
 
 
-state 192
+state 188
 
     (78) asignacion -> variable EQUAL meteequal expresion . SEMICOLON
 
-    SEMICOLON       shift and go to state 233
+    SEMICOLON       shift and go to state 228
 
 
-state 193
+state 189
 
     (101) s -> SEMICOLON .
 
@@ -3334,7 +3179,7 @@ state 193
     CCURLY          reduce using rule 101 (s -> SEMICOLON .)
 
 
-state 194
+state 190
 
     (102) s -> ss .
 
@@ -3353,19 +3198,19 @@ state 194
     CCURLY          reduce using rule 102 (s -> ss .)
 
 
-state 195
+state 191
 
     (103) ss -> OPARENTHESIS . sss CPARENTHESIS SEMICOLON
     (104) sss -> . exp
     (105) sss -> .
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3389,12 +3234,12 @@ state 195
     z                              shift and go to state 146
     zz                             shift and go to state 131
     varcte_id                      shift and go to state 129
-    sss                            shift and go to state 234
+    sss                            shift and go to state 229
     termino                        shift and go to state 130
-    exp                            shift and go to state 235
+    exp                            shift and go to state 230
     factor                         shift and go to state 137
 
-state 196
+state 192
 
     (100) llamaobj -> ID s .
 
@@ -3413,7 +3258,7 @@ state 196
     CCURLY          reduce using rule 100 (llamaobj -> ID s .)
 
 
-state 197
+state 193
 
     (97) rrr -> CPARENTHESIS SEMICOLON .
 
@@ -3432,7 +3277,7 @@ state 197
     CCURLY          reduce using rule 97 (rrr -> CPARENTHESIS SEMICOLON .)
 
 
-state 198
+state 194
 
     (94) r -> rr .
 
@@ -3451,14 +3296,14 @@ state 198
     CCURLY          reduce using rule 94 (r -> rr .)
 
 
-state 199
+state 195
 
     (93) r -> OBRACKET . CBRACKET
 
-    CBRACKET        shift and go to state 236
+    CBRACKET        shift and go to state 231
 
 
-state 200
+state 196
 
     (92) q -> exp r .
 
@@ -3477,18 +3322,18 @@ state 200
     CCURLY          reduce using rule 92 (q -> exp r .)
 
 
-state 201
+state 197
 
     (95) rr -> COMMA . q
     (92) q -> . exp r
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3511,12 +3356,12 @@ state 201
     z                              shift and go to state 146
     zz                             shift and go to state 131
     varcte_id                      shift and go to state 129
-    q                              shift and go to state 237
+    q                              shift and go to state 232
     termino                        shift and go to state 130
     exp                            shift and go to state 160
     factor                         shift and go to state 137
 
-state 202
+state 198
 
     (96) rr -> rrr .
 
@@ -3535,41 +3380,41 @@ state 202
     CCURLY          reduce using rule 96 (rr -> rrr .)
 
 
-state 203
+state 199
 
     (107) t -> OBRACKET CTEF CBRACKET .
 
     EQUAL           reduce using rule 107 (t -> OBRACKET CTEF CBRACKET .)
 
 
-state 204
+state 200
 
     (83) condicion -> OPARENTHESIS ssexp CPARENTHESIS . bloque p
-    (141) bloque -> . OCURLY a_a CCURLY
+    (142) bloque -> . OCURLY a_a CCURLY
 
-    OCURLY          shift and go to state 220
+    OCURLY          shift and go to state 216
 
-    bloque                         shift and go to state 238
+    bloque                         shift and go to state 233
 
-state 205
+state 201
 
-    (147) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .
+    (148) main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .
 
-    VOID            reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
-    INT             reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
-    FLOAT           reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
-    BOOL            reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
-    STRING          reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
-    CCURLY          reduce using rule 147 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    VOID            reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    INT             reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    FLOAT           reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    BOOL            reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    STRING          reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
+    CCURLY          reduce using rule 148 (main -> VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY .)
 
 
-state 206
+state 202
 
-    (150) ccc -> vars . ccc
-    (150) ccc -> . vars ccc
-    (151) ccc -> . d_d
+    (151) ccc -> vars . ccc
+    (151) ccc -> . vars ccc
+    (152) ccc -> . d_d
     (25) vars -> . f
-    (153) d_d -> . estatuto d_dd
+    (154) d_d -> . estatuto d_dd
     (26) f -> . PUBLIC g
     (27) f -> . g
     (70) estatuto -> . asignacion
@@ -3601,22 +3446,22 @@ state 206
     BOOL            shift and go to state 24
     STRING          shift and go to state 14
 
-    vars                           shift and go to state 206
+    vars                           shift and go to state 202
     tipo                           shift and go to state 41
-    estatuto                       shift and go to state 207
-    ccc                            shift and go to state 239
+    estatuto                       shift and go to state 203
+    ccc                            shift and go to state 234
     variable                       shift and go to state 96
     asignacion                     shift and go to state 99
     g                              shift and go to state 38
     f                              shift and go to state 39
-    d_d                            shift and go to state 209
+    d_d                            shift and go to state 205
 
-state 207
+state 203
 
-    (153) d_d -> estatuto . d_dd
-    (154) d_dd -> . d_d
-    (155) d_dd -> .
-    (153) d_d -> . estatuto d_dd
+    (154) d_d -> estatuto . d_dd
+    (155) d_dd -> . d_d
+    (156) d_dd -> .
+    (154) d_d -> . estatuto d_dd
     (70) estatuto -> . asignacion
     (71) estatuto -> . IF condicion
     (72) estatuto -> . FOR ciclofor
@@ -3629,7 +3474,7 @@ state 207
     (79) asignacion -> . ID asig_a SEMICOLON
     (106) variable -> . ID t
 
-    CCURLY          reduce using rule 155 (d_dd -> .)
+    CCURLY          reduce using rule 156 (d_dd -> .)
     IF              shift and go to state 98
     FOR             shift and go to state 95
     WHILE           shift and go to state 92
@@ -3638,36 +3483,36 @@ state 207
     PRINT           shift and go to state 93
 
     asignacion                     shift and go to state 99
-    estatuto                       shift and go to state 207
+    estatuto                       shift and go to state 203
     variable                       shift and go to state 96
-    d_dd                           shift and go to state 240
-    d_d                            shift and go to state 241
+    d_dd                           shift and go to state 235
+    d_d                            shift and go to state 236
 
-state 208
+state 204
 
-    (149) c_c -> cccc ccc .
+    (150) c_c -> cccc ccc .
 
-    CCURLY          reduce using rule 149 (c_c -> cccc ccc .)
-
-
-state 209
-
-    (151) ccc -> d_d .
-
-    CCURLY          reduce using rule 151 (ccc -> d_d .)
+    CCURLY          reduce using rule 150 (c_c -> cccc ccc .)
 
 
-state 210
+state 205
 
-    (125) x -> meteapilamas . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (152) ccc -> d_d .
+
+    CCURLY          reduce using rule 152 (ccc -> d_d .)
+
+
+state 206
+
+    (126) x -> meteapilamas . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3691,100 +3536,100 @@ state 210
     zz                             shift and go to state 131
     varcte_id                      shift and go to state 129
     termino                        shift and go to state 130
-    exp                            shift and go to state 242
+    exp                            shift and go to state 237
     factor                         shift and go to state 137
+
+state 207
+
+    (128) meteapilamas -> PLUS .
+
+    OPARENTHESIS    reduce using rule 128 (meteapilamas -> PLUS .)
+    PLUS            reduce using rule 128 (meteapilamas -> PLUS .)
+    MINUS           reduce using rule 128 (meteapilamas -> PLUS .)
+    CTEI            reduce using rule 128 (meteapilamas -> PLUS .)
+    CTEF            reduce using rule 128 (meteapilamas -> PLUS .)
+    CTES            reduce using rule 128 (meteapilamas -> PLUS .)
+    FALSE           reduce using rule 128 (meteapilamas -> PLUS .)
+    TRUE            reduce using rule 128 (meteapilamas -> PLUS .)
+    ID              reduce using rule 128 (meteapilamas -> PLUS .)
+
+
+state 208
+
+    (124) exp -> termino checapilamas x .
+
+    OR              reduce using rule 124 (exp -> termino checapilamas x .)
+    AND             reduce using rule 124 (exp -> termino checapilamas x .)
+    CPARENTHESIS    reduce using rule 124 (exp -> termino checapilamas x .)
+    SEMICOLON       reduce using rule 124 (exp -> termino checapilamas x .)
+    MORETHAN        reduce using rule 124 (exp -> termino checapilamas x .)
+    LESSTHAN        reduce using rule 124 (exp -> termino checapilamas x .)
+    NOTEQUAL        reduce using rule 124 (exp -> termino checapilamas x .)
+    EQUALEQUAL      reduce using rule 124 (exp -> termino checapilamas x .)
+    OBRACKET        reduce using rule 124 (exp -> termino checapilamas x .)
+    COMMA           reduce using rule 124 (exp -> termino checapilamas x .)
+
+
+state 209
+
+    (129) meteapilamas -> MINUS .
+
+    OPARENTHESIS    reduce using rule 129 (meteapilamas -> MINUS .)
+    PLUS            reduce using rule 129 (meteapilamas -> MINUS .)
+    MINUS           reduce using rule 129 (meteapilamas -> MINUS .)
+    CTEI            reduce using rule 129 (meteapilamas -> MINUS .)
+    CTEF            reduce using rule 129 (meteapilamas -> MINUS .)
+    CTES            reduce using rule 129 (meteapilamas -> MINUS .)
+    FALSE           reduce using rule 129 (meteapilamas -> MINUS .)
+    TRUE            reduce using rule 129 (meteapilamas -> MINUS .)
+    ID              reduce using rule 129 (meteapilamas -> MINUS .)
+
+
+state 210
+
+    (137) z -> OPARENTHESIS expresion CPARENTHESIS .
+
+    MULT            reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    DIVIDE          reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    PLUS            reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    MINUS           reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    MORETHAN        reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    LESSTHAN        reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    NOTEQUAL        reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    EQUALEQUAL      reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    OR              reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    AND             reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    SEMICOLON       reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    OBRACKET        reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    COMMA           reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+    CPARENTHESIS    reduce using rule 137 (z -> OPARENTHESIS expresion CPARENTHESIS .)
+
 
 state 211
 
-    (127) meteapilamas -> PLUS .
+    (135) meteapilapor -> DIVIDE .
 
-    OPARENTHESIS    reduce using rule 127 (meteapilamas -> PLUS .)
-    PLUS            reduce using rule 127 (meteapilamas -> PLUS .)
-    MINUS           reduce using rule 127 (meteapilamas -> PLUS .)
-    CTEI            reduce using rule 127 (meteapilamas -> PLUS .)
-    CTEF            reduce using rule 127 (meteapilamas -> PLUS .)
-    CTES            reduce using rule 127 (meteapilamas -> PLUS .)
-    FALSE           reduce using rule 127 (meteapilamas -> PLUS .)
-    TRUE            reduce using rule 127 (meteapilamas -> PLUS .)
-    ID              reduce using rule 127 (meteapilamas -> PLUS .)
+    OPARENTHESIS    reduce using rule 135 (meteapilapor -> DIVIDE .)
+    PLUS            reduce using rule 135 (meteapilapor -> DIVIDE .)
+    MINUS           reduce using rule 135 (meteapilapor -> DIVIDE .)
+    CTEI            reduce using rule 135 (meteapilapor -> DIVIDE .)
+    CTEF            reduce using rule 135 (meteapilapor -> DIVIDE .)
+    CTES            reduce using rule 135 (meteapilapor -> DIVIDE .)
+    FALSE           reduce using rule 135 (meteapilapor -> DIVIDE .)
+    TRUE            reduce using rule 135 (meteapilapor -> DIVIDE .)
+    ID              reduce using rule 135 (meteapilapor -> DIVIDE .)
 
 
 state 212
 
-    (123) exp -> termino checapilamas x .
-
-    OR              reduce using rule 123 (exp -> termino checapilamas x .)
-    AND             reduce using rule 123 (exp -> termino checapilamas x .)
-    CPARENTHESIS    reduce using rule 123 (exp -> termino checapilamas x .)
-    SEMICOLON       reduce using rule 123 (exp -> termino checapilamas x .)
-    MORETHAN        reduce using rule 123 (exp -> termino checapilamas x .)
-    LESSTHAN        reduce using rule 123 (exp -> termino checapilamas x .)
-    NOT             reduce using rule 123 (exp -> termino checapilamas x .)
-    EQUAL           reduce using rule 123 (exp -> termino checapilamas x .)
-    OBRACKET        reduce using rule 123 (exp -> termino checapilamas x .)
-    COMMA           reduce using rule 123 (exp -> termino checapilamas x .)
-
-
-state 213
-
-    (128) meteapilamas -> MINUS .
-
-    OPARENTHESIS    reduce using rule 128 (meteapilamas -> MINUS .)
-    PLUS            reduce using rule 128 (meteapilamas -> MINUS .)
-    MINUS           reduce using rule 128 (meteapilamas -> MINUS .)
-    CTEI            reduce using rule 128 (meteapilamas -> MINUS .)
-    CTEF            reduce using rule 128 (meteapilamas -> MINUS .)
-    CTES            reduce using rule 128 (meteapilamas -> MINUS .)
-    FALSE           reduce using rule 128 (meteapilamas -> MINUS .)
-    TRUE            reduce using rule 128 (meteapilamas -> MINUS .)
-    ID              reduce using rule 128 (meteapilamas -> MINUS .)
-
-
-state 214
-
-    (136) z -> OPARENTHESIS expresion CPARENTHESIS .
-
-    MULT            reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    DIVIDE          reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    PLUS            reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    MINUS           reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    OBRACKET        reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    COMMA           reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    CPARENTHESIS    reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    MORETHAN        reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    LESSTHAN        reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    NOT             reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    EQUAL           reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    OR              reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    AND             reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-    SEMICOLON       reduce using rule 136 (z -> OPARENTHESIS expresion CPARENTHESIS .)
-
-
-state 215
-
-    (134) meteapilapor -> DIVIDE .
-
-    OPARENTHESIS    reduce using rule 134 (meteapilapor -> DIVIDE .)
-    PLUS            reduce using rule 134 (meteapilapor -> DIVIDE .)
-    MINUS           reduce using rule 134 (meteapilapor -> DIVIDE .)
-    CTEI            reduce using rule 134 (meteapilapor -> DIVIDE .)
-    CTEF            reduce using rule 134 (meteapilapor -> DIVIDE .)
-    CTES            reduce using rule 134 (meteapilapor -> DIVIDE .)
-    FALSE           reduce using rule 134 (meteapilapor -> DIVIDE .)
-    TRUE            reduce using rule 134 (meteapilapor -> DIVIDE .)
-    ID              reduce using rule 134 (meteapilapor -> DIVIDE .)
-
-
-state 216
-
-    (131) y -> meteapilapor . termino
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (132) y -> meteapilapor . termino
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3808,42 +3653,42 @@ state 216
     zz                             shift and go to state 131
     factor                         shift and go to state 137
     z                              shift and go to state 146
-    termino                        shift and go to state 243
+    termino                        shift and go to state 238
 
-state 217
+state 213
 
-    (129) termino -> factor checapilapor y .
+    (130) termino -> factor checapilapor y .
 
-    PLUS            reduce using rule 129 (termino -> factor checapilapor y .)
-    MINUS           reduce using rule 129 (termino -> factor checapilapor y .)
-    MORETHAN        reduce using rule 129 (termino -> factor checapilapor y .)
-    LESSTHAN        reduce using rule 129 (termino -> factor checapilapor y .)
-    NOT             reduce using rule 129 (termino -> factor checapilapor y .)
-    EQUAL           reduce using rule 129 (termino -> factor checapilapor y .)
-    OR              reduce using rule 129 (termino -> factor checapilapor y .)
-    AND             reduce using rule 129 (termino -> factor checapilapor y .)
-    CPARENTHESIS    reduce using rule 129 (termino -> factor checapilapor y .)
-    SEMICOLON       reduce using rule 129 (termino -> factor checapilapor y .)
-    OBRACKET        reduce using rule 129 (termino -> factor checapilapor y .)
-    COMMA           reduce using rule 129 (termino -> factor checapilapor y .)
-
-
-state 218
-
-    (133) meteapilapor -> MULT .
-
-    OPARENTHESIS    reduce using rule 133 (meteapilapor -> MULT .)
-    PLUS            reduce using rule 133 (meteapilapor -> MULT .)
-    MINUS           reduce using rule 133 (meteapilapor -> MULT .)
-    CTEI            reduce using rule 133 (meteapilapor -> MULT .)
-    CTEF            reduce using rule 133 (meteapilapor -> MULT .)
-    CTES            reduce using rule 133 (meteapilapor -> MULT .)
-    FALSE           reduce using rule 133 (meteapilapor -> MULT .)
-    TRUE            reduce using rule 133 (meteapilapor -> MULT .)
-    ID              reduce using rule 133 (meteapilapor -> MULT .)
+    PLUS            reduce using rule 130 (termino -> factor checapilapor y .)
+    MINUS           reduce using rule 130 (termino -> factor checapilapor y .)
+    OR              reduce using rule 130 (termino -> factor checapilapor y .)
+    AND             reduce using rule 130 (termino -> factor checapilapor y .)
+    CPARENTHESIS    reduce using rule 130 (termino -> factor checapilapor y .)
+    SEMICOLON       reduce using rule 130 (termino -> factor checapilapor y .)
+    MORETHAN        reduce using rule 130 (termino -> factor checapilapor y .)
+    LESSTHAN        reduce using rule 130 (termino -> factor checapilapor y .)
+    NOTEQUAL        reduce using rule 130 (termino -> factor checapilapor y .)
+    EQUALEQUAL      reduce using rule 130 (termino -> factor checapilapor y .)
+    OBRACKET        reduce using rule 130 (termino -> factor checapilapor y .)
+    COMMA           reduce using rule 130 (termino -> factor checapilapor y .)
 
 
-state 219
+state 214
+
+    (134) meteapilapor -> MULT .
+
+    OPARENTHESIS    reduce using rule 134 (meteapilapor -> MULT .)
+    PLUS            reduce using rule 134 (meteapilapor -> MULT .)
+    MINUS           reduce using rule 134 (meteapilapor -> MULT .)
+    CTEI            reduce using rule 134 (meteapilapor -> MULT .)
+    CTEF            reduce using rule 134 (meteapilapor -> MULT .)
+    CTES            reduce using rule 134 (meteapilapor -> MULT .)
+    FALSE           reduce using rule 134 (meteapilapor -> MULT .)
+    TRUE            reduce using rule 134 (meteapilapor -> MULT .)
+    ID              reduce using rule 134 (meteapilapor -> MULT .)
+
+
+state 215
 
     (89) ciclowhile -> OPARENTHESIS ssexp CPARENTHESIS bloque .
 
@@ -3862,11 +3707,11 @@ state 219
     CCURLY          reduce using rule 89 (ciclowhile -> OPARENTHESIS ssexp CPARENTHESIS bloque .)
 
 
-state 220
+state 216
 
-    (141) bloque -> OCURLY . a_a CCURLY
-    (142) a_a -> . estatuto a_a
-    (143) a_a -> .
+    (142) bloque -> OCURLY . a_a CCURLY
+    (143) a_a -> . estatuto a_a
+    (144) a_a -> .
     (70) estatuto -> . asignacion
     (71) estatuto -> . IF condicion
     (72) estatuto -> . FOR ciclofor
@@ -3879,7 +3724,7 @@ state 220
     (79) asignacion -> . ID asig_a SEMICOLON
     (106) variable -> . ID t
 
-    CCURLY          reduce using rule 143 (a_a -> .)
+    CCURLY          reduce using rule 144 (a_a -> .)
     IF              shift and go to state 98
     FOR             shift and go to state 95
     WHILE           shift and go to state 92
@@ -3888,11 +3733,11 @@ state 220
     PRINT           shift and go to state 93
 
     asignacion                     shift and go to state 99
-    estatuto                       shift and go to state 244
+    estatuto                       shift and go to state 239
     variable                       shift and go to state 96
-    a_a                            shift and go to state 245
+    a_a                            shift and go to state 240
 
-state 221
+state 217
 
     (113) u -> AND ssexp .
 
@@ -3900,7 +3745,7 @@ state 221
     SEMICOLON       reduce using rule 113 (u -> AND ssexp .)
 
 
-state 222
+state 218
 
     (112) u -> OR ssexp .
 
@@ -3908,17 +3753,146 @@ state 222
     SEMICOLON       reduce using rule 112 (u -> OR ssexp .)
 
 
+state 219
+
+    (119) v -> NOTEQUAL . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
+    (39) varcte -> . CTEI varcte_int
+    (40) varcte -> . CTEF varcte_float
+    (41) varcte -> . CTES varcte_string
+    (42) varcte -> . FALSE varcte_bool
+    (43) varcte -> . TRUE varcte_bool
+    (44) varcte -> . varcte_id
+    (49) varcte_id -> . ID
+
+    OPARENTHESIS    shift and go to state 135
+    PLUS            shift and go to state 136
+    MINUS           shift and go to state 132
+    CTEI            shift and go to state 143
+    CTEF            shift and go to state 138
+    CTES            shift and go to state 142
+    FALSE           shift and go to state 144
+    TRUE            shift and go to state 134
+    ID              shift and go to state 141
+
+    varcte                         shift and go to state 133
+    z                              shift and go to state 146
+    zz                             shift and go to state 131
+    varcte_id                      shift and go to state 129
+    exp                            shift and go to state 241
+    factor                         shift and go to state 137
+    termino                        shift and go to state 130
+
+state 220
+
+    (118) v -> LESSTHAN . w
+    (122) w -> . EQUAL exp
+    (123) w -> . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
+    (39) varcte -> . CTEI varcte_int
+    (40) varcte -> . CTEF varcte_float
+    (41) varcte -> . CTES varcte_string
+    (42) varcte -> . FALSE varcte_bool
+    (43) varcte -> . TRUE varcte_bool
+    (44) varcte -> . varcte_id
+    (49) varcte_id -> . ID
+
+    EQUAL           shift and go to state 242
+    OPARENTHESIS    shift and go to state 135
+    PLUS            shift and go to state 136
+    MINUS           shift and go to state 132
+    CTEI            shift and go to state 143
+    CTEF            shift and go to state 138
+    CTES            shift and go to state 142
+    FALSE           shift and go to state 144
+    TRUE            shift and go to state 134
+    ID              shift and go to state 141
+
+    varcte                         shift and go to state 133
+    z                              shift and go to state 146
+    w                              shift and go to state 244
+    varcte_id                      shift and go to state 129
+    termino                        shift and go to state 130
+    exp                            shift and go to state 243
+    factor                         shift and go to state 137
+    zz                             shift and go to state 131
+
+state 221
+
+    (115) sexp -> exp checapilacondicional v .
+
+    OR              reduce using rule 115 (sexp -> exp checapilacondicional v .)
+    AND             reduce using rule 115 (sexp -> exp checapilacondicional v .)
+    CPARENTHESIS    reduce using rule 115 (sexp -> exp checapilacondicional v .)
+    SEMICOLON       reduce using rule 115 (sexp -> exp checapilacondicional v .)
+
+
+state 222
+
+    (117) v -> MORETHAN . w
+    (122) w -> . EQUAL exp
+    (123) w -> . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
+    (39) varcte -> . CTEI varcte_int
+    (40) varcte -> . CTEF varcte_float
+    (41) varcte -> . CTES varcte_string
+    (42) varcte -> . FALSE varcte_bool
+    (43) varcte -> . TRUE varcte_bool
+    (44) varcte -> . varcte_id
+    (49) varcte_id -> . ID
+
+    EQUAL           shift and go to state 242
+    OPARENTHESIS    shift and go to state 135
+    PLUS            shift and go to state 136
+    MINUS           shift and go to state 132
+    CTEI            shift and go to state 143
+    CTEF            shift and go to state 138
+    CTES            shift and go to state 142
+    FALSE           shift and go to state 144
+    TRUE            shift and go to state 134
+    ID              shift and go to state 141
+
+    varcte                         shift and go to state 133
+    z                              shift and go to state 146
+    w                              shift and go to state 245
+    varcte_id                      shift and go to state 129
+    termino                        shift and go to state 130
+    exp                            shift and go to state 243
+    factor                         shift and go to state 137
+    zz                             shift and go to state 131
+
 state 223
 
-    (121) w -> EQUAL . exp
-    (123) exp -> . termino checapilamas x
-    (129) termino -> . factor checapilapor y
-    (135) factor -> . z
-    (136) z -> . OPARENTHESIS expresion CPARENTHESIS
-    (137) z -> . PLUS zz
-    (138) z -> . MINUS zz
-    (139) z -> . zz
-    (140) zz -> . varcte
+    (120) v -> EQUALEQUAL . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
     (39) varcte -> . CTEI varcte_int
     (40) varcte -> . CTEF varcte_float
     (41) varcte -> . CTES varcte_string
@@ -3947,56 +3921,6 @@ state 223
 
 state 224
 
-    (122) w -> exp .
-
-    OR              reduce using rule 122 (w -> exp .)
-    AND             reduce using rule 122 (w -> exp .)
-    CPARENTHESIS    reduce using rule 122 (w -> exp .)
-    SEMICOLON       reduce using rule 122 (w -> exp .)
-
-
-state 225
-
-    (119) v -> EQUAL w .
-
-    OR              reduce using rule 119 (v -> EQUAL w .)
-    AND             reduce using rule 119 (v -> EQUAL w .)
-    CPARENTHESIS    reduce using rule 119 (v -> EQUAL w .)
-    SEMICOLON       reduce using rule 119 (v -> EQUAL w .)
-
-
-state 226
-
-    (117) v -> LESSTHAN w .
-
-    OR              reduce using rule 117 (v -> LESSTHAN w .)
-    AND             reduce using rule 117 (v -> LESSTHAN w .)
-    CPARENTHESIS    reduce using rule 117 (v -> LESSTHAN w .)
-    SEMICOLON       reduce using rule 117 (v -> LESSTHAN w .)
-
-
-state 227
-
-    (118) v -> NOT w .
-
-    OR              reduce using rule 118 (v -> NOT w .)
-    AND             reduce using rule 118 (v -> NOT w .)
-    CPARENTHESIS    reduce using rule 118 (v -> NOT w .)
-    SEMICOLON       reduce using rule 118 (v -> NOT w .)
-
-
-state 228
-
-    (116) v -> MORETHAN w .
-
-    OR              reduce using rule 116 (v -> MORETHAN w .)
-    AND             reduce using rule 116 (v -> MORETHAN w .)
-    CPARENTHESIS    reduce using rule 116 (v -> MORETHAN w .)
-    SEMICOLON       reduce using rule 116 (v -> MORETHAN w .)
-
-
-state 229
-
     (99) print -> OPARENTHESIS exp CPARENTHESIS SEMICOLON .
 
     RETURN          reduce using rule 99 (print -> OPARENTHESIS exp CPARENTHESIS SEMICOLON .)
@@ -4014,14 +3938,14 @@ state 229
     CCURLY          reduce using rule 99 (print -> OPARENTHESIS exp CPARENTHESIS SEMICOLON .)
 
 
-state 230
+state 225
 
-    (144) parfor -> asignacion ssexp SEMICOLON . ID b_b
+    (145) parfor -> asignacion ssexp SEMICOLON . ID b_b
 
     ID              shift and go to state 247
 
 
-state 231
+state 226
 
     (88) ciclofor -> OPARENTHESIS parfor CPARENTHESIS bloque .
 
@@ -4040,14 +3964,14 @@ state 231
     CCURLY          reduce using rule 88 (ciclofor -> OPARENTHESIS parfor CPARENTHESIS bloque .)
 
 
-state 232
+state 227
 
     (108) t -> PERIOD ID .
 
     EQUAL           reduce using rule 108 (t -> PERIOD ID .)
 
 
-state 233
+state 228
 
     (78) asignacion -> variable EQUAL meteequal expresion SEMICOLON .
 
@@ -4074,21 +3998,21 @@ state 233
     STRING          reduce using rule 78 (asignacion -> variable EQUAL meteequal expresion SEMICOLON .)
 
 
-state 234
+state 229
 
     (103) ss -> OPARENTHESIS sss . CPARENTHESIS SEMICOLON
 
     CPARENTHESIS    shift and go to state 248
 
 
-state 235
+state 230
 
     (104) sss -> exp .
 
     CPARENTHESIS    reduce using rule 104 (sss -> exp .)
 
 
-state 236
+state 231
 
     (93) r -> OBRACKET CBRACKET .
 
@@ -4107,7 +4031,7 @@ state 236
     CCURLY          reduce using rule 93 (r -> OBRACKET CBRACKET .)
 
 
-state 237
+state 232
 
     (95) rr -> COMMA q .
 
@@ -4126,7 +4050,7 @@ state 237
     CCURLY          reduce using rule 95 (rr -> COMMA q .)
 
 
-state 238
+state 233
 
     (83) condicion -> OPARENTHESIS ssexp CPARENTHESIS bloque . p
     (84) p -> . ELSE pp
@@ -4149,66 +4073,66 @@ state 238
 
     p                              shift and go to state 249
 
+state 234
+
+    (151) ccc -> vars ccc .
+
+    CCURLY          reduce using rule 151 (ccc -> vars ccc .)
+
+
+state 235
+
+    (154) d_d -> estatuto d_dd .
+
+    CCURLY          reduce using rule 154 (d_d -> estatuto d_dd .)
+
+
+state 236
+
+    (155) d_dd -> d_d .
+
+    CCURLY          reduce using rule 155 (d_dd -> d_d .)
+
+
+state 237
+
+    (126) x -> meteapilamas exp .
+
+    MORETHAN        reduce using rule 126 (x -> meteapilamas exp .)
+    LESSTHAN        reduce using rule 126 (x -> meteapilamas exp .)
+    NOTEQUAL        reduce using rule 126 (x -> meteapilamas exp .)
+    EQUALEQUAL      reduce using rule 126 (x -> meteapilamas exp .)
+    OR              reduce using rule 126 (x -> meteapilamas exp .)
+    AND             reduce using rule 126 (x -> meteapilamas exp .)
+    CPARENTHESIS    reduce using rule 126 (x -> meteapilamas exp .)
+    SEMICOLON       reduce using rule 126 (x -> meteapilamas exp .)
+    OBRACKET        reduce using rule 126 (x -> meteapilamas exp .)
+    COMMA           reduce using rule 126 (x -> meteapilamas exp .)
+
+
+state 238
+
+    (132) y -> meteapilapor termino .
+
+    PLUS            reduce using rule 132 (y -> meteapilapor termino .)
+    MINUS           reduce using rule 132 (y -> meteapilapor termino .)
+    MORETHAN        reduce using rule 132 (y -> meteapilapor termino .)
+    LESSTHAN        reduce using rule 132 (y -> meteapilapor termino .)
+    NOTEQUAL        reduce using rule 132 (y -> meteapilapor termino .)
+    EQUALEQUAL      reduce using rule 132 (y -> meteapilapor termino .)
+    OR              reduce using rule 132 (y -> meteapilapor termino .)
+    AND             reduce using rule 132 (y -> meteapilapor termino .)
+    CPARENTHESIS    reduce using rule 132 (y -> meteapilapor termino .)
+    SEMICOLON       reduce using rule 132 (y -> meteapilapor termino .)
+    OBRACKET        reduce using rule 132 (y -> meteapilapor termino .)
+    COMMA           reduce using rule 132 (y -> meteapilapor termino .)
+
+
 state 239
 
-    (150) ccc -> vars ccc .
-
-    CCURLY          reduce using rule 150 (ccc -> vars ccc .)
-
-
-state 240
-
-    (153) d_d -> estatuto d_dd .
-
-    CCURLY          reduce using rule 153 (d_d -> estatuto d_dd .)
-
-
-state 241
-
-    (154) d_dd -> d_d .
-
-    CCURLY          reduce using rule 154 (d_dd -> d_d .)
-
-
-state 242
-
-    (125) x -> meteapilamas exp .
-
-    MORETHAN        reduce using rule 125 (x -> meteapilamas exp .)
-    LESSTHAN        reduce using rule 125 (x -> meteapilamas exp .)
-    NOT             reduce using rule 125 (x -> meteapilamas exp .)
-    EQUAL           reduce using rule 125 (x -> meteapilamas exp .)
-    OR              reduce using rule 125 (x -> meteapilamas exp .)
-    AND             reduce using rule 125 (x -> meteapilamas exp .)
-    CPARENTHESIS    reduce using rule 125 (x -> meteapilamas exp .)
-    SEMICOLON       reduce using rule 125 (x -> meteapilamas exp .)
-    OBRACKET        reduce using rule 125 (x -> meteapilamas exp .)
-    COMMA           reduce using rule 125 (x -> meteapilamas exp .)
-
-
-state 243
-
-    (131) y -> meteapilapor termino .
-
-    PLUS            reduce using rule 131 (y -> meteapilapor termino .)
-    MINUS           reduce using rule 131 (y -> meteapilapor termino .)
-    MORETHAN        reduce using rule 131 (y -> meteapilapor termino .)
-    LESSTHAN        reduce using rule 131 (y -> meteapilapor termino .)
-    NOT             reduce using rule 131 (y -> meteapilapor termino .)
-    EQUAL           reduce using rule 131 (y -> meteapilapor termino .)
-    OR              reduce using rule 131 (y -> meteapilapor termino .)
-    AND             reduce using rule 131 (y -> meteapilapor termino .)
-    CPARENTHESIS    reduce using rule 131 (y -> meteapilapor termino .)
-    SEMICOLON       reduce using rule 131 (y -> meteapilapor termino .)
-    OBRACKET        reduce using rule 131 (y -> meteapilapor termino .)
-    COMMA           reduce using rule 131 (y -> meteapilapor termino .)
-
-
-state 244
-
-    (142) a_a -> estatuto . a_a
-    (142) a_a -> . estatuto a_a
-    (143) a_a -> .
+    (143) a_a -> estatuto . a_a
+    (143) a_a -> . estatuto a_a
+    (144) a_a -> .
     (70) estatuto -> . asignacion
     (71) estatuto -> . IF condicion
     (72) estatuto -> . FOR ciclofor
@@ -4221,7 +4145,7 @@ state 244
     (79) asignacion -> . ID asig_a SEMICOLON
     (106) variable -> . ID t
 
-    CCURLY          reduce using rule 143 (a_a -> .)
+    CCURLY          reduce using rule 144 (a_a -> .)
     IF              shift and go to state 98
     FOR             shift and go to state 95
     WHILE           shift and go to state 92
@@ -4230,43 +4154,120 @@ state 244
     PRINT           shift and go to state 93
 
     asignacion                     shift and go to state 99
-    estatuto                       shift and go to state 244
+    estatuto                       shift and go to state 239
     variable                       shift and go to state 96
     a_a                            shift and go to state 251
 
-state 245
+state 240
 
-    (141) bloque -> OCURLY a_a . CCURLY
+    (142) bloque -> OCURLY a_a . CCURLY
 
     CCURLY          shift and go to state 252
 
 
+state 241
+
+    (119) v -> NOTEQUAL exp .
+
+    OR              reduce using rule 119 (v -> NOTEQUAL exp .)
+    AND             reduce using rule 119 (v -> NOTEQUAL exp .)
+    CPARENTHESIS    reduce using rule 119 (v -> NOTEQUAL exp .)
+    SEMICOLON       reduce using rule 119 (v -> NOTEQUAL exp .)
+
+
+state 242
+
+    (122) w -> EQUAL . exp
+    (124) exp -> . termino checapilamas x
+    (130) termino -> . factor checapilapor y
+    (136) factor -> . z
+    (137) z -> . OPARENTHESIS expresion CPARENTHESIS
+    (138) z -> . PLUS zz
+    (139) z -> . MINUS zz
+    (140) z -> . zz
+    (141) zz -> . varcte
+    (39) varcte -> . CTEI varcte_int
+    (40) varcte -> . CTEF varcte_float
+    (41) varcte -> . CTES varcte_string
+    (42) varcte -> . FALSE varcte_bool
+    (43) varcte -> . TRUE varcte_bool
+    (44) varcte -> . varcte_id
+    (49) varcte_id -> . ID
+
+    OPARENTHESIS    shift and go to state 135
+    PLUS            shift and go to state 136
+    MINUS           shift and go to state 132
+    CTEI            shift and go to state 143
+    CTEF            shift and go to state 138
+    CTES            shift and go to state 142
+    FALSE           shift and go to state 144
+    TRUE            shift and go to state 134
+    ID              shift and go to state 141
+
+    varcte                         shift and go to state 133
+    z                              shift and go to state 146
+    zz                             shift and go to state 131
+    varcte_id                      shift and go to state 129
+    exp                            shift and go to state 253
+    factor                         shift and go to state 137
+    termino                        shift and go to state 130
+
+state 243
+
+    (123) w -> exp .
+
+    OR              reduce using rule 123 (w -> exp .)
+    AND             reduce using rule 123 (w -> exp .)
+    CPARENTHESIS    reduce using rule 123 (w -> exp .)
+    SEMICOLON       reduce using rule 123 (w -> exp .)
+
+
+state 244
+
+    (118) v -> LESSTHAN w .
+
+    OR              reduce using rule 118 (v -> LESSTHAN w .)
+    AND             reduce using rule 118 (v -> LESSTHAN w .)
+    CPARENTHESIS    reduce using rule 118 (v -> LESSTHAN w .)
+    SEMICOLON       reduce using rule 118 (v -> LESSTHAN w .)
+
+
+state 245
+
+    (117) v -> MORETHAN w .
+
+    OR              reduce using rule 117 (v -> MORETHAN w .)
+    AND             reduce using rule 117 (v -> MORETHAN w .)
+    CPARENTHESIS    reduce using rule 117 (v -> MORETHAN w .)
+    SEMICOLON       reduce using rule 117 (v -> MORETHAN w .)
+
+
 state 246
 
-    (121) w -> EQUAL exp .
+    (120) v -> EQUALEQUAL exp .
 
-    OR              reduce using rule 121 (w -> EQUAL exp .)
-    AND             reduce using rule 121 (w -> EQUAL exp .)
-    CPARENTHESIS    reduce using rule 121 (w -> EQUAL exp .)
-    SEMICOLON       reduce using rule 121 (w -> EQUAL exp .)
+    OR              reduce using rule 120 (v -> EQUALEQUAL exp .)
+    AND             reduce using rule 120 (v -> EQUALEQUAL exp .)
+    CPARENTHESIS    reduce using rule 120 (v -> EQUALEQUAL exp .)
+    SEMICOLON       reduce using rule 120 (v -> EQUALEQUAL exp .)
 
 
 state 247
 
-    (144) parfor -> asignacion ssexp SEMICOLON ID . b_b
-    (145) b_b -> . PLUSPLUS
-    (146) b_b -> . MINUSMINUS
+    (145) parfor -> asignacion ssexp SEMICOLON ID . b_b
+    (146) b_b -> . PLUSPLUS
+    (147) b_b -> . MINUSMINUS
 
-    PLUSPLUS        shift and go to state 253
-    MINUSMINUS      shift and go to state 255
+    PLUSPLUS        shift and go to state 254
+    MINUSMINUS      shift and go to state 256
 
-    b_b                            shift and go to state 254
+    b_b                            shift and go to state 255
 
 state 248
 
     (103) ss -> OPARENTHESIS sss CPARENTHESIS . SEMICOLON
 
-    SEMICOLON       shift and go to state 256
+    SEMICOLON       shift and go to state 257
 
 
 state 249
@@ -4293,63 +4294,73 @@ state 250
     (84) p -> ELSE . pp
     (86) pp -> . IF condicion
     (87) pp -> . bloque
-    (141) bloque -> . OCURLY a_a CCURLY
+    (142) bloque -> . OCURLY a_a CCURLY
 
-    IF              shift and go to state 259
-    OCURLY          shift and go to state 220
+    IF              shift and go to state 260
+    OCURLY          shift and go to state 216
 
-    pp                             shift and go to state 257
-    bloque                         shift and go to state 258
+    pp                             shift and go to state 258
+    bloque                         shift and go to state 259
 
 state 251
 
-    (142) a_a -> estatuto a_a .
+    (143) a_a -> estatuto a_a .
 
-    CCURLY          reduce using rule 142 (a_a -> estatuto a_a .)
+    CCURLY          reduce using rule 143 (a_a -> estatuto a_a .)
 
 
 state 252
 
-    (141) bloque -> OCURLY a_a CCURLY .
+    (142) bloque -> OCURLY a_a CCURLY .
 
-    RETURN          reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    IF              reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    FOR             reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    WHILE           reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    ID              reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    READ            reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    PRINT           reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    PUBLIC          reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    INT             reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    FLOAT           reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    BOOL            reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    STRING          reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    CCURLY          reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
-    ELSE            reduce using rule 141 (bloque -> OCURLY a_a CCURLY .)
+    ELSE            reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    RETURN          reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    IF              reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    FOR             reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    WHILE           reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    ID              reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    READ            reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    PRINT           reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    PUBLIC          reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    INT             reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    FLOAT           reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    BOOL            reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    STRING          reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
+    CCURLY          reduce using rule 142 (bloque -> OCURLY a_a CCURLY .)
 
 
 state 253
 
-    (145) b_b -> PLUSPLUS .
+    (122) w -> EQUAL exp .
 
-    CPARENTHESIS    reduce using rule 145 (b_b -> PLUSPLUS .)
+    OR              reduce using rule 122 (w -> EQUAL exp .)
+    AND             reduce using rule 122 (w -> EQUAL exp .)
+    CPARENTHESIS    reduce using rule 122 (w -> EQUAL exp .)
+    SEMICOLON       reduce using rule 122 (w -> EQUAL exp .)
 
 
 state 254
 
-    (144) parfor -> asignacion ssexp SEMICOLON ID b_b .
+    (146) b_b -> PLUSPLUS .
 
-    CPARENTHESIS    reduce using rule 144 (parfor -> asignacion ssexp SEMICOLON ID b_b .)
+    CPARENTHESIS    reduce using rule 146 (b_b -> PLUSPLUS .)
 
 
 state 255
 
-    (146) b_b -> MINUSMINUS .
+    (145) parfor -> asignacion ssexp SEMICOLON ID b_b .
 
-    CPARENTHESIS    reduce using rule 146 (b_b -> MINUSMINUS .)
+    CPARENTHESIS    reduce using rule 145 (parfor -> asignacion ssexp SEMICOLON ID b_b .)
 
 
 state 256
+
+    (147) b_b -> MINUSMINUS .
+
+    CPARENTHESIS    reduce using rule 147 (b_b -> MINUSMINUS .)
+
+
+state 257
 
     (103) ss -> OPARENTHESIS sss CPARENTHESIS SEMICOLON .
 
@@ -4368,7 +4379,7 @@ state 256
     CCURLY          reduce using rule 103 (ss -> OPARENTHESIS sss CPARENTHESIS SEMICOLON .)
 
 
-state 257
+state 258
 
     (84) p -> ELSE pp .
 
@@ -4387,7 +4398,7 @@ state 257
     CCURLY          reduce using rule 84 (p -> ELSE pp .)
 
 
-state 258
+state 259
 
     (87) pp -> bloque .
 
@@ -4406,16 +4417,16 @@ state 258
     CCURLY          reduce using rule 87 (pp -> bloque .)
 
 
-state 259
+state 260
 
     (86) pp -> IF . condicion
     (83) condicion -> . OPARENTHESIS ssexp CPARENTHESIS bloque p
 
     OPARENTHESIS    shift and go to state 125
 
-    condicion                      shift and go to state 260
+    condicion                      shift and go to state 261
 
-state 260
+state 261
 
     (86) pp -> IF condicion .
 
