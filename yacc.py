@@ -182,7 +182,7 @@ def p_clase(p):
 	'clase : CLASS clase_a a'
 	global printnum
 	if printnum == 0:
-		print programa[0]
+		print(programa[0])
 		printnum = printnum +1
 
 
