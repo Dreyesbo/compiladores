@@ -424,16 +424,24 @@ def p_estatuto(p):
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
 			| ID asig_a SEMICOLON'''
-	try:
-		if(p[1] is not None and p[4][0]):
-			print("La pila actualmente es %s" % PilaO)
-			a = PilaO.pop()
-			print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
-			PilaO.append(a)
-			listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
-			print("=", PilaO.pop(), "", p[1][0])
-	except IndexError:
-		b = 'sss'
+	global contCuadruplos
+	if len(p) == 6:
+		try:
+			if(p[1] is not None and p[4][0]):
+				print("La pila actualmente es %s" % PilaO)
+				a = PilaO.pop()
+				print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
+				PilaO.append(a)
+				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
+				print("=", PilaO.pop(), "", p[1][0])
+		except IndexError:
+			b = 'sss'
+	elif len(p) == 4: 
+		if p[2] == '++':
+			listaCuadruplos.append(["+", p[1], "1", "temp" + str(contCuadruplos)] )
+		if p[2] == '--':
+			listaCuadruplos.append(["-", p[1], "1", "temp" + str(contCuadruplos)] )
+		contCuadruplos+=1
 
 def p_meteequal(p):
 	'meteequal : '
@@ -442,6 +450,8 @@ def p_meteequal(p):
 def p_asig_a(p):
 	'''asig_a : PLUSPLUS
 			| MINUSMINUS '''
+	p[0] = p[1]
+
 
 def p_condicion(p):
 	'condicion : OPARENTHESIS ssexp CPARENTHESIS bloque p'
@@ -527,13 +537,45 @@ def p_ssexp(p):
 	p[0] = p[1]
 
 def p_u(p):
-	'''u : OR ssexp
-		| AND ssexp
+	'''u : meteapilaandor ssexp checapilaorand
 		| '''
 
+def p_meteapilaandor(p):
+	'''meteapilaandor : AND
+					| OR '''
+	POper.append(p[1]) 
+
+def p_checapilaorand(p):
+	'checapilaorand : '
+	print (POper)
+	print (PilaO)
+	global contCuadruplos
+	if POper:
+		a = POper.pop()
+		if a == '&&' or a == '||':
+			op = a
+			#print(PilaO)
+			opdo2 = PilaO.pop()
+			opdo1 = PilaO.pop()
+			if(opdo1 is not None and opdo2 is not None):
+				if (opdo1[1] == opdo2[1]):
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
+					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
+					contCuadruplos += 1
+				else:
+					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
+		else:
+			POper.append(a)
+
 def p_sexp(p):
-	'sexp : exp checapilacondicional v'
+	'sexp : exp v_v'
 	p[0] = p[1]
+
+def p_v_v(p):
+	'''v_v : v sexp checapilacondicional 
+		| '''
+
 
 def p_checapilacondicional(p):
 	'checapilacondicional : '
@@ -561,19 +603,21 @@ def p_checapilacondicional(p):
 def p_v(p):
 	'''v : MORETHAN w
 		| LESSTHAN w
-		| NOTEQUAL exp
-		| EQUALEQUAL exp
+		| NOTEQUAL
+		| EQUALEQUAL
 		| '''
 	if len(p) == 3:
 		if p[2] is None:
 			POper.append(str(p[1]))
 		else:
 			POper.append((str(p[1] + str(p[2]))))
+	if len(p) == 2:
+		POper.append(str(p[1]))
 
 def p_w(p):
-	'''w : EQUAL exp
-		| exp'''
-	if len(p) == 3:
+	'''w : EQUAL
+		| '''
+	if len(p) == 2:
 		p[0] = p[1]
 
 def p_exp(p):

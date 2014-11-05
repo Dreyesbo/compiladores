@@ -20,7 +20,7 @@ class PRUEBA {
 		tempii = 34.1 + 40.54;
 		d = true;
 		b ="Hola!";
-		if ( pruebamaintemp > 10){
+		if ( pruebamaintempii > 10){
 			print("hola pruebainttemp");
 		}
 	}
@@ -34,6 +34,12 @@ class PRUEBA {
 		string b; 
 		temp = a + b;
 		print(temp);
+		if ( a > 10&&a >= temp && a<pruebasumatemp){
+			print("hola a");
+		}
+		else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}
 		d = true;b ="Hola!";
 		cuenta();
 		perro.blanco("si es blanco");
@@ -47,7 +53,7 @@ class PRUEBA {
 		for(i=a; a==b; i++){
 			print(i);
 		}
-		while(a > 3 || b !=5){
+		while(a > 3 || b > 5){
 			a++;
 		}
 	}
