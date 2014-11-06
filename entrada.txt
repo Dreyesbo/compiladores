@@ -25,19 +25,25 @@ class PRUEBA {
 		}
 	}
 
-	void SUMA (int x, string b){
+	void SUMA (int x, int b){
 		int pruebasumatemp;
 		int temp;
 		float c;
 		bool d;
 		int a;
-		string b; 
+		int b; 
 		temp = a + b;
 		print(temp);
 		if ( a > 10&&a >= temp && a<pruebasumatemp){
 			print("hola a");
 		}
 		else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( temp > 10 && pruebasumatemp >= temp){
 			print("hola temp");
 		}
 		d = true;b ="Hola!";

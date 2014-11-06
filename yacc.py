@@ -14,9 +14,10 @@ varsrandom = 0
 contadorMetodos = 0
 contadorVariables = 0
 tipoRepetida = ""
-contCuadruplos = 0
+contTemps = 0
 listaCuadruplos = []
 pilaSaltos = []
+contCuadruplos = 0
 
 class Expr: pass
 
@@ -172,6 +173,9 @@ def cuboSemantico(exp1,exp2):
 	else:
 		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error de tipo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
+def rellenar(acambiar,aponer):
+	listaCuadruplos[acambiar].append(str(aponer))
+
 programa = Programa()
 clase = 0
 metodo = 0
@@ -187,7 +191,7 @@ def p_clase(p):
 		print(programa[0])
 		printnum = printnum +1
 		for x in range(len(listaCuadruplos)):
-			print(str(listaCuadruplos[x]) + "\n")
+			print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
 
 
 def p_clase_a(p):
@@ -421,27 +425,33 @@ def p_estatuto(p):
 		| PRINT print
 		| ID PERIOD llamaobj '''
 
+
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
 			| ID asig_a SEMICOLON'''
+	global contTemps
 	global contCuadruplos
 	if len(p) == 6:
 		try:
 			if(p[1] is not None and p[4][0]):
-				print("La pila actualmente es %s" % PilaO)
+				#print("La pila actualmente es %s" % PilaO)
 				a = PilaO.pop()
-				print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
+				#print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
 				PilaO.append(a)
 				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
-				print("=", PilaO.pop(), "", p[1][0])
+				#print("=", PilaO.pop(), "", p[1][0])
+				contCuadruplos += 1
+				print contCuadruplos
 		except IndexError:
 			b = 'sss'
 	elif len(p) == 4: 
 		if p[2] == '++':
-			listaCuadruplos.append(["+", p[1], "1", "temp" + str(contCuadruplos)] )
+			listaCuadruplos.append(["+", p[1], "1", "temp" + str(contTemps)] )
 		if p[2] == '--':
-			listaCuadruplos.append(["-", p[1], "1", "temp" + str(contCuadruplos)] )
-		contCuadruplos+=1
+			listaCuadruplos.append(["-", p[1], "1", "temp" + str(contTemps)] )
+		contTemps+=1
+		contCuadruplos +=1
+		print contCuadruplos
 
 def p_meteequal(p):
 	'meteequal : '
@@ -454,12 +464,33 @@ def p_asig_a(p):
 
 
 def p_condicion(p):
-	'condicion : OPARENTHESIS ssexp CPARENTHESIS bloque p'
+	'condicion : OPARENTHESIS ssexp CPARENTHESIS ponergotoif bloque p'
+	global contCuadruplos
+	rellenar(pilaSaltos.pop(), contCuadruplos)
 
+def p_ponergotoif(p):
+	'ponergotoif : '
+	global contCuadruplos
+	aux = PilaO.pop()
+	listaCuadruplos.append(["gotof", aux[0], ""])
+	contCuadruplos += 1
+	pilaSaltos.append(contCuadruplos-1)
+	print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+	print pilaSaltos
 
 def p_p(p):
-	'''p : ELSE pp
+	'''p : ELSE gotoelse pp
 		| '''
+
+def p_gotoelse(p):
+	'gotoelse : '
+	global contCuadruplos
+	listaCuadruplos.append(["goto", "", ""])
+	contCuadruplos += 1
+	rellenar(pilaSaltos.pop(), contCuadruplos)
+	pilaSaltos.append(contCuadruplos-1)
+	print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+	print pilaSaltos
 
 def p_pp(p):
 	'''pp : IF condicion
@@ -494,8 +525,10 @@ def p_read(p):
 
 def p_print(p):
 	'print : OPARENTHESIS exp CPARENTHESIS SEMICOLON'
+	global contCuadruplos
 	listaCuadruplos.append(["print", p[2][0],"", ""])
 	print("print", p[2][0],", , ")
+	contCuadruplos+=1
 
 def p_llamaobj(p):
 	'llamaobj :  ID s'
@@ -547,8 +580,9 @@ def p_meteapilaandor(p):
 
 def p_checapilaorand(p):
 	'checapilaorand : '
-	print (POper)
-	print (PilaO)
+	#print (POper)
+	#print (PilaO)
+	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
@@ -559,10 +593,12 @@ def p_checapilaorand(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
-					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					contTemps += 1
 					contCuadruplos += 1
+					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -579,8 +615,9 @@ def p_v_v(p):
 
 def p_checapilacondicional(p):
 	'checapilacondicional : '
-	print (POper)
-	print (PilaO)
+	#print (POper)
+	#print (PilaO)
+	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
@@ -591,10 +628,12 @@ def p_checapilacondicional(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
-					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
-					contCuadruplos += 1
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					contTemps += 1
+					contCuadruplos +=1
+					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -626,6 +665,7 @@ def p_exp(p):
 
 def p_checapilamas(p):
 	'checapilamas : '
+	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
@@ -636,10 +676,12 @@ def p_checapilamas(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
-					PilaO.append(["temp"+ str(contCuadruplos), opdo1[1]])
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					contTemps += 1
 					contCuadruplos += 1
+					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -660,7 +702,7 @@ def p_termino(p):
 
 def p_checapilapor(p):
 	'checapilapor : '
-	global contCuadruplos
+	global contTemps
 	if POper:
 		a = POper.pop()
 		if a == '*' or a == '/':
@@ -669,10 +711,12 @@ def p_checapilapor(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos))
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contCuadruplos)])
-					PilaO.append("temp"+ str(contCuadruplos))
+					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					PilaO.append("temp"+ str(contTemps))
+					contTemps += 1
 					contCuadruplos += 1
+					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS")
 		else:
