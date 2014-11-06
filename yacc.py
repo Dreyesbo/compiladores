@@ -441,7 +441,6 @@ def p_asignacion(p):
 				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
 				#print("=", PilaO.pop(), "", p[1][0])
 				contCuadruplos += 1
-				print contCuadruplos
 		except IndexError:
 			b = 'sss'
 	elif len(p) == 4: 
@@ -451,7 +450,6 @@ def p_asignacion(p):
 			listaCuadruplos.append(["-", p[1], "1", "temp" + str(contTemps)] )
 		contTemps+=1
 		contCuadruplos +=1
-		print contCuadruplos
 
 def p_meteequal(p):
 	'meteequal : '
