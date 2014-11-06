@@ -18,6 +18,8 @@ contTemps = 0
 listaCuadruplos = []
 pilaSaltos = []
 contCuadruplos = 0
+parametros = 0
+variablesLocales = 0
 
 class Expr: pass
 
@@ -74,6 +76,9 @@ class Metodo(Expr):
 			self.name = name
 			self.variables = []
 			self.numClase= numClase
+			self.numParametros = 0
+			self.numVariables = 0
+			self.numCuadruplos = 0
 		else:
 			for x in range(len(programa.classes[numClase].methods)):
 				if programa.classes[numClase].methods[x].name == name :
@@ -84,12 +89,24 @@ class Metodo(Expr):
 				self.name = name
 				self.variables = []
 				self.numClase= numClase
+				self.numParametros = 0
+				self.numVariables = 0
+				self.numCuadruplos = 0
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+repr(self.type)+"\n"
+		ret = "\t"*level+repr(self.name)+repr(self.type)+repr(self.numParametros)+" "+repr(self.numVariables)+" "+repr(self.numCuadruplos)+"\n"
 		for variable in self.variables:
 			ret += variable.__repr__(level+1)
 		return ret
+
+	def setParametersNumber(self, num):
+		self.numParametros = num
+
+	def setVariablesNumber(self, num):
+		self.numVariables = num
+
+	def setInicioCuadruplosNumber(self, num):
+		self.numCuadruplos = num
 
 	def addVariable(self, variableType, name, numMetodo, numClase):
 		global contadorVariables
@@ -130,6 +147,8 @@ class Metodo(Expr):
 
 					if variableType == "bool":
 						self.variables.append(Cteb(name))
+					global variablesLocales
+					variablesLocales += 1
 
 class Ctei(Expr):
 	def __init__(self, name):
@@ -362,6 +381,8 @@ def p_varcte_id(p):
 
 def p_metodos(p):
 	'''metodos : k'''
+	global variablesLocales
+	variablesLocales = 0
 
 def p_k(p):
 	'k : k_k OPARENTHESIS l'
@@ -372,29 +393,48 @@ def p_k_k(p):
 			| VOID ID'''
 	global clase
 	global metodo
+	global parametros
 	tipo = p[1]
 	print("Agrego el metodo", p[2])
 	programa.classes[clase].addMethod(p[1], p[2], clase)
 	print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
 	metodo = metodo + 1
 	contadorVariables = 0
+	parametros = 0
 
 def p_l(p):
-	'''l : pars ll
+	'''l : pars actualizaparametros ll
 		| ll'''
 
+def p_actualizaparametros(p):
+	'actualizaparametros : '
+	global parametros
+	global clase
+	global metodo
+	programa.classes[clase].methods[metodo].setParametersNumber(parametros)
+
 def p_ll(p):
-	'll : CPARENTHESIS OCURLY m'
+	'll : CPARENTHESIS OCURLY poncuadruplometodo m'
 
 def p_m(p):
 	'm : vars terminavarsmetodo mm'
 
 def p_terminavarsmetodo(p):
 	'terminavarsmetodo : '
+	global variablesLocales
+	global clase
+	global metodo
+	programa.classes[clase].methods[metodo].setVariablesNumber(variablesLocales)
+	variables = 0
 
 def p_mm(p):
 	'''mm : estatuto n
 		| m'''
+
+def p_poncuadruplometodo(p):
+	'poncuadruplometodo : '
+	global contCuadruplos
+	programa.classes[clase].methods[metodo].setInicioCuadruplosNumber(contCuadruplos)
 
 def p_n(p):
 	'''n : return CCURLY 
@@ -406,6 +446,13 @@ def p_return(p):
 
 def p_pars(p):
 	'pars : tipo ID o'
+	global clase
+	global metodo
+	global parametros
+	#print (p[2]," ", clase, " ", metodo )
+	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase)
+	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
+	parametros += 1
 
 def p_o(p):
 	'''o : OBRACKET CBRACKET oo
@@ -814,6 +861,8 @@ def p_b_b(p):
 
 def p_main(p):
 	'main : VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY'
+	global variablesLocales
+	variablesLocales = 0
 
 def p_entroamain(p):
 	'entroamain : '

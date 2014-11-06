@@ -86,11 +86,11 @@ class TEST extends PRUEBA{
 		b ="Hola!";
 	}
 
-	void SUMA (int x, string b){
+	void SUMA (int x, int b, int y, int z){
 		int testsumatemp;
 		int temp;
 		int a;
-		string b;
+		int b;
 		int d;
 		float c;
 		bool d;
