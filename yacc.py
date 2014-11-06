@@ -594,7 +594,6 @@ def p_checapilaorand(p):
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos += 1
-					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -629,7 +628,6 @@ def p_checapilacondicional(p):
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos +=1
-					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -677,7 +675,6 @@ def p_checapilamas(p):
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos += 1
-					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
 		else:
@@ -712,7 +709,6 @@ def p_checapilapor(p):
 					PilaO.append("temp"+ str(contTemps))
 					contTemps += 1
 					contCuadruplos += 1
-					print contCuadruplos
 				else:
 					print("ERROR DE TIPOS")
 		else:
