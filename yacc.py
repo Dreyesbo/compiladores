@@ -475,8 +475,6 @@ def p_ponergotoif(p):
 	listaCuadruplos.append(["gotof", aux[0], ""])
 	contCuadruplos += 1
 	pilaSaltos.append(contCuadruplos-1)
-	print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-	print pilaSaltos
 
 def p_p(p):
 	'''p : ELSE gotoelse pp
@@ -489,8 +487,6 @@ def p_gotoelse(p):
 	contCuadruplos += 1
 	rellenar(pilaSaltos.pop(), contCuadruplos)
 	pilaSaltos.append(contCuadruplos-1)
-	print "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-	print pilaSaltos
 
 def p_pp(p):
 	'''pp : IF condicion
