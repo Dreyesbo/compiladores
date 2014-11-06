@@ -86,7 +86,7 @@ class Metodo(Expr):
 				self.numClase= numClase
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+"\n"
+		ret = "\t"*level+repr(self.name)+repr(self.type)+"\n"
 		for variable in self.variables:
 			ret += variable.__repr__(level+1)
 		return ret
@@ -491,10 +491,49 @@ def p_pp(p):
 		| bloque'''
 
 def p_ciclofor(p):
-	'ciclofor : OPARENTHESIS parfor CPARENTHESIS bloque'
+	'ciclofor : iniciafor OPARENTHESIS parfor CPARENTHESIS gotoffor bloque'
+	global contCuadruplos
+	falso  = pilaSaltos.pop()
+	retorno = pilaSaltos.pop()
+	listaCuadruplos.append(["goto", "", "", retorno + 1])
+	contCuadruplos += 1
+	rellenar(falso, contCuadruplos)
+
+def p_iniciafor(p):
+	'iniciafor : '
+	global contCuadruplos
+	pilaSaltos.append(contCuadruplos)
+
+def p_gotoffor(p):
+	'gotoffor : '
+	global contCuadruplos
+	aux = PilaO.pop()
+	listaCuadruplos.append(["gotof", aux[0], ""])
+	contCuadruplos += 1
+	pilaSaltos.append(contCuadruplos-1)
 
 def p_ciclowhile(p):
-	'ciclowhile : OPARENTHESIS ssexp CPARENTHESIS bloque'
+	'ciclowhile : iniciawhile OPARENTHESIS ssexp CPARENTHESIS gotofwhile bloque'
+	global contCuadruplos
+	falso  = pilaSaltos.pop()
+	retorno = pilaSaltos.pop()
+	listaCuadruplos.append(["goto", "", "", retorno])
+	contCuadruplos += 1
+	rellenar(falso, contCuadruplos)
+
+def p_iniciawhile(p):
+	'iniciawhile : '
+	global contCuadruplos
+	pilaSaltos.append(contCuadruplos)
+
+def p_gotofwhile(p):
+	'gotofwhile : '
+	global contCuadruplos
+	aux = PilaO.pop()
+	listaCuadruplos.append(["gotof", aux[0], ""])
+	contCuadruplos += 1
+	pilaSaltos.append(contCuadruplos-1)
+
 
 def p_prefunc(p):
 	'''prefunc : q
@@ -758,10 +797,20 @@ def p_a_a(p):
 
 def p_parfor(p):
 	'parfor : asignacion ssexp SEMICOLON ID b_b'
+	global contTemps
+	global contCuadruplos
+	if p[5] == '++':
+		listaCuadruplos.append(["+", p[4], "1", "temp" + str(contTemps)] )
+	if p[5] == '--':
+		listaCuadruplos.append(["-", p[4], "1", "temp" + str(contTemps)] )
+	contTemps+=1
+	contCuadruplos +=1
+
 
 def p_b_b(p):
 	'''b_b : PLUSPLUS
 		| MINUSMINUS'''
+	p[0] = p[1]
 
 def p_main(p):
 	'main : VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY'

@@ -109,12 +109,16 @@ class TEST extends PRUEBA{
 		int i;
 		int a;
 		int b;
-		for(i=a; a==b; i++){
+		for(i=a; a==b; i--){
 			print(i);
-		}
+		
 		while(a > 3 || b !=5){
 			a++;
+			if ( 20 > 10){
+			print("hola pruebainttemp");
 		}
+		}
+}		
 		
 		temporal = testcuentai + testcuentaii;
 		temporalfloat = testcuentai + testcuentaiii;
