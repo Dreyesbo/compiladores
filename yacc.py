@@ -26,7 +26,7 @@ variable = 0
 printnum = 0
 POper = []
 PilaO = []
-ListaTiposParams = []
+contParametros = 0
 nombreMetodoLlamada = ""
 
 
@@ -256,6 +256,7 @@ def p_clase(p):
 		printnum = printnum +1
 		for x in range(len(listaCuadruplos)):
 			print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
+		print(PilaO)
 
 
 def p_clase_a(p):
@@ -488,7 +489,9 @@ def p_n(p):
 def p_return(p):
 	'''return : RETURN ssexp SEMICOLON
 		| '''
+	global contCuadruplos
 	listaCuadruplos.append(["retorno","" , "",""])
+	contCuadruplos += 1
 
 def p_pars(p):
 	'pars : tipo ID o'
@@ -520,8 +523,11 @@ def p_estatuto(p):
 
 def p_iniciacontadormetodos(p):
 	'iniciacontadormetodos : ID OPARENTHESIS'
+	global nombreMetodoLlamada
+	global contCuadruplos
 	parametros = 1
 	listaCuadruplos.append(["ERA", p[1],"",""])
+	contCuadruplos += 1
 	nombreMetodoLlamada = p[1]
 
 def p_asignacion(p):
@@ -636,10 +642,39 @@ def p_gotofwhile(p):
 def p_prefunc(p):
 	'''prefunc : q
 			| rrr'''
+	global contParametros
+	global contCuadruplos
+	cont = 1
+	for x in range(len(programa.classes[clase].methods)):
+		if programa.classes[clase].methods[x].name == nombreMetodoLlamada:
+			print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
+			if programa.classes[clase].methods[x].numParametros == contParametros:
+				for y in range(programa.classes[clase].methods[x].numParametros):
+					aux1 = PilaO.pop()
+					print aux1
+					aux2 = programa.classes[clase].methods[x].variables[y].type
+					if aux1[1] == aux2:
+						print ("Los tipos", aux1[1], "y", aux2, "son iguales")
+						listaCuadruplos.append(["param", aux1[0], "", "param"+str(cont)])
+						contCuadruplos += 1
+						cont += 1
+					else:
+						print("ERROR DE TIPOS EN EL PARAMETRO", aux1, "", aux2)
+						break;
+				else:
+					listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, "", ""])
+					contCuadruplos += 1
+			else:
+				print ("No concuerda el numero de parametros", programa.classes[clase].methods[x].numParametros, " no es igual a ", contParametros)
+			break;
+	else:
+		print ("El metodo llamado no existe")
+	contParametros = 0
 
 def p_q(p):
 	'q : exp r'
-	ListaTiposParams.append(p[1][1])
+	global contParametros
+	contParametros += 1
 
 def p_r(p):
 	'''r : OBRACKET CBRACKET
@@ -686,7 +721,6 @@ def p_variable(p):
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
 			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
-	
 
 def p_t(p):
 	'''t : OBRACKET CTEF CBRACKET

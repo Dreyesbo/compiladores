@@ -25,6 +25,17 @@ class PRUEBA {
 		}
 	}
 
+	int CUENTA(float a,int b, int c){
+		int pruebacuentai,j;
+		int i;
+		for(i=a; a==b; i++){
+			print(i);
+		}
+		while(a > 3 || b > 5){
+			a++;
+		}
+	}
+
 	void SUMA (int x, int b){
 		int pruebasumatemp;
 		int temp;
@@ -47,20 +58,10 @@ class PRUEBA {
 			print("hola temp");
 		}
 		d = true;b ="Hola!";
-		cuenta( c, pruebasumatemp + 1);
+		CUENTA( c, pruebasumatemp + 1, temp);
 		perro.blanco("si es blanco");
 	}
 
-	int CUENTA(int a,int b){
-		int pruebacuentai,j;
-		int i;
-		for(i=a; a==b; i++){
-			print(i);
-		}
-		while(a > 3 || b > 5){
-			a++;
-		}
-	}
 }/* Cierra */
 
 class TEST extends PRUEBA{
@@ -113,10 +114,11 @@ class TEST extends PRUEBA{
 		while(a > 3 || b !=5){
 			a++;
 			if ( 20 > 10){
-			print("hola pruebainttemp");
+				print("hola pruebainttemp");
+			}
 		}
-		}
-}		
+		SUMA (a, b, j, k);
+		}		
 		
 		temporal = testcuentai + testcuentaii;
 		temporalfloat = testcuentai + testcuentaiii;
