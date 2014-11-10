@@ -20,15 +20,34 @@ pilaSaltos = []
 contCuadruplos = 0
 parametros = 0
 variablesLocales = 0
+clase = 0
+metodo = 0
+variable = 0
+printnum = 0
+POper = []
+PilaO = []
+ListaTiposParams = []
+nombreMetodoLlamada = ""
+
+
+# 
+# Contadores de Variables para Memoria
+#
+
+globalInt = 10000
+globalFloat = 12501
+globalBool = 15001
+globalString = 17501
+tempInt = 20001
+tempFloat = 25001
+tempBool = 30001
+tempString = 35001
+cteInt = 40001
+cteFloat = 45001
+cteBool = 50001
+cteString = 55001
 
 class Expr: pass
-
-class BinOp(Expr):
-	def __init__(self,left,op,right):
-		self.type = "binop"
-		self.left = left
-		self.right = right
-		self.op = op
 
 class Programa(Expr):
 	def __init__(self):
@@ -152,38 +171,70 @@ class Metodo(Expr):
 
 class Ctei(Expr):
 	def __init__(self, name):
+		global globalInt
+		global tempInt
 		self.type = "int"
 		self.name = name
+		if metodo is 0:
+			self.numDir = globalInt
+			globalInt += 1
+		else:
+			self.numDir = tempInt
+			tempInt += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		ret = "\t"*level+repr(self.name)+ repr(self.type) + repr(self.numDir) +"\n"
 		return ret
 
 class Ctef(Expr):
 	def __init__(self,name):
+		global globalFloat
+		global tempFloat
 		self.type = "float"
 		self.name = name
+		if metodo is 0:
+			self.numDir = globalFloat
+			globalFloat += 1
+		else:
+			self.numDir = tempFloat
+			tempFloat += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
 		return ret
 
 class Ctes(Expr):
 	def __init__(self,name):
+		global globalString
+		global tempString
 		self.type = "string"
 		self.name = name
+		if metodo is 0:
+			self.numDir = globalString
+			globalString += 1
+		else:
+			self.numDir = tempString
+			tempString += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
 		return ret
 
 class Cteb(Expr):
 	def __init__(self,name):
+		global globalBool
+		global tempBool
 		self.type = "bool"
 		self.name = name
+		if metodo is 0:
+			self.numDir = globalBool
+			globalBool += 1
+		else:
+			self.numDir = tempBool
+			tempBool += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +"\n"
+		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
 		return ret
 
 def cuboSemantico(exp1,exp2):
@@ -196,12 +247,6 @@ def rellenar(acambiar,aponer):
 	listaCuadruplos[acambiar].append(str(aponer))
 
 programa = Programa()
-clase = 0
-metodo = 0
-variable = 0
-printnum = 0
-POper = []
-PilaO = []
 
 def p_clase(p):
 	'clase : CLASS clase_a a'
@@ -443,6 +488,7 @@ def p_n(p):
 def p_return(p):
 	'''return : RETURN ssexp SEMICOLON
 		| '''
+	listaCuadruplos.append(["retorno","" , "",""])
 
 def p_pars(p):
 	'pars : tipo ID o'
@@ -467,11 +513,16 @@ def p_estatuto(p):
 		| IF condicion
 		| FOR ciclofor
 		| WHILE ciclowhile
-		| ID OPARENTHESIS prefunc
+		| iniciacontadormetodos prefunc 
 		| READ read
 		| PRINT print
 		| ID PERIOD llamaobj '''
 
+def p_iniciacontadormetodos(p):
+	'iniciacontadormetodos : ID OPARENTHESIS'
+	parametros = 1
+	listaCuadruplos.append(["ERA", p[1],"",""])
+	nombreMetodoLlamada = p[1]
 
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
@@ -588,6 +639,7 @@ def p_prefunc(p):
 
 def p_q(p):
 	'q : exp r'
+	ListaTiposParams.append(p[1][1])
 
 def p_r(p):
 	'''r : OBRACKET CBRACKET

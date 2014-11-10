@@ -47,15 +47,13 @@ class PRUEBA {
 			print("hola temp");
 		}
 		d = true;b ="Hola!";
-		cuenta();
+		cuenta( c, pruebasumatemp + 1);
 		perro.blanco("si es blanco");
 	}
 
 	int CUENTA(int a,int b){
 		int pruebacuentai,j;
 		int i;
-		int a;
-		int b;
 		for(i=a; a==b; i++){
 			print(i);
 		}
