@@ -651,7 +651,6 @@ def p_prefunc(p):
 			if programa.classes[clase].methods[x].numParametros == contParametros:
 				for y in range(programa.classes[clase].methods[x].numParametros):
 					aux1 = PilaO.pop()
-					print aux1
 					aux2 = programa.classes[clase].methods[x].variables[y].type
 					if aux1[1] == aux2:
 						print ("Los tipos", aux1[1], "y", aux2, "son iguales")
