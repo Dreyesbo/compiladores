@@ -28,6 +28,7 @@ POper = []
 PilaO = []
 contParametros = 0
 nombreMetodoLlamada = ""
+tablaConstantes=[[1, "int",40001]]
 
 
 # 
@@ -42,7 +43,7 @@ tempInt = 20001
 tempFloat = 25001
 tempBool = 30001
 tempString = 35001
-cteInt = 40001
+cteInt = 40002
 cteFloat = 45001
 cteBool = 50001
 cteString = 55001
@@ -380,6 +381,17 @@ def p_tipo(p):
 	global tipoRepetida
 	tipoRepetida = p[1]
 
+def checaSiExiste(elemento):
+	if len(tablaConstantes) < 1:
+		return False
+	else:
+		for a in range(len(tablaConstantes)):
+			if elemento == tablaConstantes[a][0]:
+				return True
+				break;
+		else:
+			return False
+
 
 def p_varcte(p):
 	'''varcte : CTEI varcte_int
@@ -388,8 +400,36 @@ def p_varcte(p):
 		| FALSE varcte_bool
 		| TRUE varcte_bool
 		| varcte_id'''
+	global cteInt
+	global cteFloat
+	global cteBool
+	global cteString
 	if len(p) == 3:
 		p[0] = [p[1], p[2]]
+	#
+	# Esto se comento porque ya asignan direcciones a constantes
+	#
+	# 	if p[2] == "int":
+	# 		if checaSiExiste(p[1]) == False:
+	# 			aux = cteInt
+	# 			p[0] = [aux, p[2], p[1]]
+	# 			cteInt +=1
+	# 	if p[2] == "float":
+	# 		if checaSiExiste(p[1]) == False:
+	# 			aux = cteFloat
+	# 			p[0] = [aux, p[2], p[1]]
+	# 			cteFloat +=1
+	# 	if p[2] == "bool":
+	# 		if checaSiExiste(p[1]) == False:
+	# 			aux = cteBool
+	# 			p[0] = [aux, p[2], p[1]]
+	# 			cteBool +=1
+	# 	if p[2] == "string":
+	# 		if checaSiExiste(p[1]) == False:
+	# 			aux = cteString
+	# 			p[0] = [aux, p[2], p[1]]
+	# 			cteString +=1
+
 	if len(p) == 2:
 		p[0] = p[1]
 
@@ -548,12 +588,19 @@ def p_asignacion(p):
 		except IndexError:
 			b = 'sss'
 	elif len(p) == 4: 
-		if p[2] == '++':
-			listaCuadruplos.append(["+", p[1], "1", "temp" + str(contTemps)] )
-		if p[2] == '--':
-			listaCuadruplos.append(["-", p[1], "1", "temp" + str(contTemps)] )
-		contTemps+=1
-		contCuadruplos +=1
+		# REVISAR QUE LA ID SEA INT
+		if p[1] == "int":
+			global tempInt
+			if p[2] == '++':
+				listaCuadruplos.append(["+", p[1], "40001", tempInt])
+				tempInt+=1
+			if p[2] == '--':
+				listaCuadruplos.append(["-", p[1], "40001", tempInt])
+				tempInt +=1
+			contTemps+=1
+			contCuadruplos +=1
+		else: 
+			print("INTENTASTE UN MASMAS O MENOSMENOS Y NO ERA INT")
 
 def p_meteequal(p):
 	'meteequal : '
@@ -716,6 +763,7 @@ def p_variable(p):
 	global metodo
 	for x in range(len(programa.classes[clase].methods[metodo].variables)):
 		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
+			#p[0] = [programa.classes[clase].methods[metodo].variables[x].numDir, programa.classes[clase].methods[metodo].variables[x].type]
 			p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
@@ -759,6 +807,24 @@ def p_checapilaorand(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					# global tempInt
+					# global tempFloat
+					# global tempBool
+					# global tempString
+					# if opdo1[1] == "int":
+					# 	aux = tempInt
+					# 	tempInt += 1
+					# elif opdo1[1] == "float":
+					# 	aux = tempFloat
+					# 	tempFloat += 1
+					# elif opdo1[1] == "bool":
+					# 	aux = tempBool
+					# 	tempBool += 1
+					# elif opdo1[1] == "string":
+					# 	aux = tempString
+					# 	tempString += 1
+					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					# PilaO.append([aux, opdo1[1]])
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
@@ -793,6 +859,24 @@ def p_checapilacondicional(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					# global tempInt
+					# global tempFloat
+					# global tempBool
+					# global tempString
+					# if opdo1[1] == "int":
+					# 	aux = tempInt
+					# 	tempInt += 1
+					# elif opdo1[1] == "float":
+					# 	aux = tempFloat
+					# 	tempFloat += 1
+					# elif opdo1[1] == "bool":
+					# 	aux = tempBool
+					# 	tempBool += 1
+					# elif opdo1[1] == "string":
+					# 	aux = tempString
+					# 	tempString += 1
+					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					# PilaO.append([aux, opdo1[1]])
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
@@ -840,6 +924,24 @@ def p_checapilamas(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					# global tempInt
+					# global tempFloat
+					# global tempBool
+					# global tempString
+					# if opdo1[1] == "int":
+					# 	aux = tempInt
+					# 	tempInt += 1
+					# elif opdo1[1] == "float":
+					# 	aux = tempFloat
+					# 	tempFloat += 1
+					# elif opdo1[1] == "bool":
+					# 	aux = tempBool
+					# 	tempBool += 1
+					# elif opdo1[1] == "string":
+					# 	aux = tempString
+					# 	tempString += 1
+					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					# PilaO.append([aux, opdo1[1]])
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
 					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
@@ -874,6 +976,24 @@ def p_checapilapor(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
+					# global tempInt
+					# global tempFloat
+					# global tempBool
+					# global tempString
+					# if opdo1[1] == "int":
+					# 	aux = tempInt
+					# 	tempInt += 1
+					# elif opdo1[1] == "float":
+					# 	aux = tempFloat
+					# 	tempFloat += 1
+					# elif opdo1[1] == "bool":
+					# 	aux = tempBool
+					# 	tempBool += 1
+					# elif opdo1[1] == "string":
+					# 	aux = tempString
+					# 	tempString += 1
+					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					# PilaO.append([aux, opdo1[1]])
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
 					PilaO.append("temp"+ str(contTemps))
 					contTemps += 1
