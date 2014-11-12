@@ -56,15 +56,19 @@ class Programa(Expr):
 		self.classes = []
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+"\n"
+		# ret = "\t"*level+repr(self.name)+"\n"
+		# for classInstance in self.classes:
+		# 	ret += classInstance.__repr__(level+1)
+		# return ret
+		ret = [repr(self.name)]
 		for classInstance in self.classes:
-			ret += classInstance.__repr__(level+1)
+			ret.append(classInstance.__repr__(level+1))
 		return ret
 
 	def __getitem__(self, level=0):
-		ret = "\t"*level+repr(self.name)+"\n"
+		ret = [repr(self.name)]
 		for classInstance in self.classes:
-			ret += classInstance.__repr__(level+1)
+			ret.append(classInstance.__repr__(level+1))
 		return ret
 
 class Clase(Expr):
@@ -80,9 +84,9 @@ class Clase(Expr):
 			contadorMetodos += 2
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ "\n"
+		ret = [repr(self.name)]
 		for method in self.methods:
-			ret += method.__repr__(level+1)
+			ret.append(method.__repr__(level+1))
 		return ret
 
 	def addMethod(self, methodType, methodName, numClase):
@@ -114,9 +118,9 @@ class Metodo(Expr):
 				self.numCuadruplos = 0
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+repr(self.type)+repr(self.numParametros)+" "+repr(self.numVariables)+" "+repr(self.numCuadruplos)+"\n"
+		ret = [repr(self.name), repr(self.type), repr(self.numParametros), repr(self.numVariables),repr(self.numCuadruplos)]
 		for variable in self.variables:
-			ret += variable.__repr__(level+1)
+			ret.append(variable.__repr__(level+1))
 		return ret
 
 	def setParametersNumber(self, num):
@@ -184,7 +188,7 @@ class Ctei(Expr):
 			tempInt += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) + repr(self.numDir) +"\n"
+		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
 		return ret
 
 class Ctef(Expr):
@@ -201,7 +205,7 @@ class Ctef(Expr):
 			tempFloat += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
+		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
 		return ret
 
 class Ctes(Expr):
@@ -218,7 +222,7 @@ class Ctes(Expr):
 			tempString += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
+		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
 		return ret
 
 class Cteb(Expr):
@@ -235,7 +239,7 @@ class Cteb(Expr):
 			tempBool += 1
 
 	def __repr__(self, level=0):
-		ret = "\t"*level+repr(self.name)+ repr(self.type) +repr(self.numDir) +"\n"
+		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
 		return ret
 
 def cuboSemantico(exp1,exp2):
@@ -246,6 +250,17 @@ def cuboSemantico(exp1,exp2):
 
 def rellenar(acambiar,aponer):
 	listaCuadruplos[acambiar].append(str(aponer))
+
+def convierteTablaaLista(programa):
+	listaFinal = []
+	numeroClase = 0
+	numeroMetodo = 0
+	# for x in range(len(programa.classes)):
+	# 	listaFinal.append([programa.classes[x].name])
+	# 	for y in range(len(programa.classes[x].methods)):
+	# 		listaFinal[x].append([programa.classes[x].methods[y].name, programa.classes[x].methods[y].type])
+	# 		for z in range(len(programa.classes[x].methods[y].variables)):
+	# 			listaFinal[x][y].append([programa.classes[x].methods[y].variables[z]])
 
 programa = Programa()
 
@@ -258,7 +273,9 @@ def p_clase(p):
 		for x in range(len(listaCuadruplos)):
 			print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
 		print(PilaO)
-
+		file = open("codigo.txt", "w")
+		file.write(str(programa[0]) + "\n" + str(tablaConstantes) + "\n" + str(listaCuadruplos))
+		file.close()
 
 def p_clase_a(p):
 	'clase_a : ID'
@@ -405,6 +422,7 @@ def p_varcte(p):
 	global cteBool
 	global cteString
 	if len(p) == 3:
+		tablaConstantes.append([p[1], p[2]])
 		p[0] = [p[1], p[2]]
 	#
 	# Esto se comento porque ya asignan direcciones a constantes
@@ -588,17 +606,19 @@ def p_asignacion(p):
 		except IndexError:
 			b = 'sss'
 	elif len(p) == 4: 
-		# REVISAR QUE LA ID SEA INT
-		if p[1] == "int":
-			global tempInt
-			if p[2] == '++':
-				listaCuadruplos.append(["+", p[1], "40001", tempInt])
-				tempInt+=1
-			if p[2] == '--':
-				listaCuadruplos.append(["-", p[1], "40001", tempInt])
-				tempInt +=1
-			contTemps+=1
-			contCuadruplos +=1
+		global clase
+		global metodo
+		for x in range(len(programa.classes[clase].methods[metodo].variables)):
+			if programa.classes[clase].methods[metodo].variables[x].name == p[1] and programa.classes[clase].methods[metodo].variables[x].type == "int":
+				global tempInt
+				if p[2] == '++':
+					listaCuadruplos.append(["+", p[1], "40001", tempInt])
+					tempInt+=1
+				if p[2] == '--':
+					listaCuadruplos.append(["-", p[1], "40001", tempInt])
+					tempInt +=1
+				contTemps+=1
+				contCuadruplos +=1
 		else: 
 			print("INTENTASTE UN MASMAS O MENOSMENOS Y NO ERA INT")
 
