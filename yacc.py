@@ -1,4 +1,5 @@
 import ply.yacc as yacc
+import pickle
 
 # Get the token map from the lexer.  This is required.
 from lex import tokens
@@ -28,7 +29,7 @@ POper = []
 PilaO = []
 contParametros = 0
 nombreMetodoLlamada = ""
-tablaConstantes=[[1, "int",40001]]
+tablaConstantes=[[40001, "int",'1']]
 
 
 # 
@@ -273,9 +274,10 @@ def p_clase(p):
 		for x in range(len(listaCuadruplos)):
 			print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
 		print(PilaO)
-		file = open("codigo.txt", "w")
-		file.write(str(programa[0]) + "\n" + str(tablaConstantes) + "\n" + str(listaCuadruplos))
-		file.close()
+		output = open('codigo.txt', "wb")
+		# file.write(str(programa[0]) + "\n" + str(tablaConstantes) + "\n" + str(listaCuadruplos))
+		pickle.dump([programa[0], tablaConstantes, listaCuadruplos],output)
+		output.close()
 
 def p_clase_a(p):
 	'clase_a : ID'
@@ -408,6 +410,20 @@ def checaSiExiste(elemento):
 				break;
 		else:
 			return False
+def checaSiExisteVariables(elemento):
+	global clase
+	global metodo
+
+	if len(programa.classes[clase].methods[metodo].variables) < 1:
+		return False
+	else:
+		for a in range(len(programa.classes[clase].methods[metodo].variables)):
+			if elemento == programa.classes[clase].methods[metodo].variables[a].name:
+				return [programa.classes[clase].methods[metodo].variables[a].numDir, programa.classes[clase].methods[metodo].variables[a].type, programa.classes[clase].methods[metodo].variables[a].name]
+				break;
+		else:
+			return False
+
 
 
 def p_varcte(p):
@@ -422,34 +438,48 @@ def p_varcte(p):
 	global cteBool
 	global cteString
 	if len(p) == 3:
-		tablaConstantes.append([p[1], p[2]])
-		p[0] = [p[1], p[2]]
+		#tablaConstantes.append([p[1], p[2]])
+		#p[0] = [p[1], p[2]]
 	#
 	# Esto se comento porque ya asignan direcciones a constantes
 	#
-	# 	if p[2] == "int":
-	# 		if checaSiExiste(p[1]) == False:
-	# 			aux = cteInt
-	# 			p[0] = [aux, p[2], p[1]]
-	# 			cteInt +=1
-	# 	if p[2] == "float":
-	# 		if checaSiExiste(p[1]) == False:
-	# 			aux = cteFloat
-	# 			p[0] = [aux, p[2], p[1]]
-	# 			cteFloat +=1
-	# 	if p[2] == "bool":
-	# 		if checaSiExiste(p[1]) == False:
-	# 			aux = cteBool
-	# 			p[0] = [aux, p[2], p[1]]
-	# 			cteBool +=1
-	# 	if p[2] == "string":
-	# 		if checaSiExiste(p[1]) == False:
-	# 			aux = cteString
-	# 			p[0] = [aux, p[2], p[1]]
-	# 			cteString +=1
+		if p[2] == "int":
+			if checaSiExiste(p[1]) == False:
+				aux = cteInt
+				p[0] = [aux, p[2], p[1]]
+				cteInt +=1
+		if p[2] == "float":
+			if checaSiExiste(p[1]) == False:
+				aux = cteFloat
+				p[0] = [aux, p[2], p[1]]
+				cteFloat +=1
+		if p[2] == "bool":
+			if checaSiExiste(p[1]) == False:
+				aux = cteBool
+				p[0] = [aux, p[2], p[1]]
+				cteBool +=1
+		if p[2] == "string":
+			if checaSiExiste(p[1]) == False:
+				aux = cteString
+				p[0] = [aux, p[2], p[1]]
+				cteString +=1
+		tablaConstantes.append([aux, p[2], p[1]])
 
 	if len(p) == 2:
-		p[0] = p[1]
+		listatemp = checaSiExisteVariables(p[1][0])
+		if listatemp is not False:
+			if listatemp[1] == "int":
+				aux = listatemp[0]
+				p[0] = [aux, "int", p[1][0]]
+			if listatemp[1] == "float":
+				aux = listatemp[0]
+				p[0] = [aux, "float", p[1][0]]
+			if listatemp[1] == "bool":
+				aux = listatemp[0]
+				p[0] = [aux, "bool", p[1][0]]
+			if listatemp[1] == "string":
+				aux = listatemp[0]
+				p[0] = [aux, "string", p[1][0]]
 
 def p_varcte_int(p):
 	'''varcte_int : '''
@@ -783,8 +813,8 @@ def p_variable(p):
 	global metodo
 	for x in range(len(programa.classes[clase].methods[metodo].variables)):
 		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
-			#p[0] = [programa.classes[clase].methods[metodo].variables[x].numDir, programa.classes[clase].methods[metodo].variables[x].type]
-			p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
+			p[0] = [programa.classes[clase].methods[metodo].variables[x].numDir, programa.classes[clase].methods[metodo].variables[x].type]
+			#p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
 			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
@@ -827,26 +857,26 @@ def p_checapilaorand(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
-					# global tempInt
-					# global tempFloat
-					# global tempBool
-					# global tempString
-					# if opdo1[1] == "int":
-					# 	aux = tempInt
-					# 	tempInt += 1
-					# elif opdo1[1] == "float":
-					# 	aux = tempFloat
-					# 	tempFloat += 1
-					# elif opdo1[1] == "bool":
-					# 	aux = tempBool
-					# 	tempBool += 1
-					# elif opdo1[1] == "string":
-					# 	aux = tempString
-					# 	tempString += 1
-					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
-					# PilaO.append([aux, opdo1[1]])
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					global tempInt
+					global tempFloat
+					global tempBool
+					global tempString
+					if opdo1[1] == "int":
+						aux = tempInt
+						tempInt += 1
+					elif opdo1[1] == "float":
+						aux = tempFloat
+						tempFloat += 1
+					elif opdo1[1] == "bool":
+						aux = tempBool
+						tempBool += 1
+					elif opdo1[1] == "string":
+						aux = tempString
+						tempString += 1
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					PilaO.append([aux, opdo1[1]])
+					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos += 1
 				else:
@@ -879,26 +909,26 @@ def p_checapilacondicional(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
-					# global tempInt
-					# global tempFloat
-					# global tempBool
-					# global tempString
-					# if opdo1[1] == "int":
-					# 	aux = tempInt
-					# 	tempInt += 1
-					# elif opdo1[1] == "float":
-					# 	aux = tempFloat
-					# 	tempFloat += 1
-					# elif opdo1[1] == "bool":
-					# 	aux = tempBool
-					# 	tempBool += 1
-					# elif opdo1[1] == "string":
-					# 	aux = tempString
-					# 	tempString += 1
-					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
-					# PilaO.append([aux, opdo1[1]])
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					global tempInt
+					global tempFloat
+					global tempBool
+					global tempString
+					if opdo1[1] == "int":
+						aux = tempInt
+						tempInt += 1
+					elif opdo1[1] == "float":
+						aux = tempFloat
+						tempFloat += 1
+					elif opdo1[1] == "bool":
+						aux = tempBool
+						tempBool += 1
+					elif opdo1[1] == "string":
+						aux = tempString
+						tempString += 1
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					PilaO.append([aux, opdo1[1]])
+					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos +=1
 				else:
@@ -944,26 +974,26 @@ def p_checapilamas(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
-					# global tempInt
-					# global tempFloat
-					# global tempBool
-					# global tempString
-					# if opdo1[1] == "int":
-					# 	aux = tempInt
-					# 	tempInt += 1
-					# elif opdo1[1] == "float":
-					# 	aux = tempFloat
-					# 	tempFloat += 1
-					# elif opdo1[1] == "bool":
-					# 	aux = tempBool
-					# 	tempBool += 1
-					# elif opdo1[1] == "string":
-					# 	aux = tempString
-					# 	tempString += 1
-					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
-					# PilaO.append([aux, opdo1[1]])
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					PilaO.append(["temp"+ str(contTemps), opdo1[1]])
+					global tempInt
+					global tempFloat
+					global tempBool
+					global tempString
+					if opdo1[1] == "int":
+						aux = tempInt
+						tempInt += 1
+					elif opdo1[1] == "float":
+						aux = tempFloat
+						tempFloat += 1
+					elif opdo1[1] == "bool":
+						aux = tempBool
+						tempBool += 1
+					elif opdo1[1] == "string":
+						aux = tempString
+						tempString += 1
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					PilaO.append([aux, opdo1[1]])
+					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
 					contTemps += 1
 					contCuadruplos += 1
 				else:
@@ -996,26 +1026,26 @@ def p_checapilapor(p):
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
 					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
-					# global tempInt
-					# global tempFloat
-					# global tempBool
-					# global tempString
-					# if opdo1[1] == "int":
-					# 	aux = tempInt
-					# 	tempInt += 1
-					# elif opdo1[1] == "float":
-					# 	aux = tempFloat
-					# 	tempFloat += 1
-					# elif opdo1[1] == "bool":
-					# 	aux = tempBool
-					# 	tempBool += 1
-					# elif opdo1[1] == "string":
-					# 	aux = tempString
-					# 	tempString += 1
-					# listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
-					# PilaO.append([aux, opdo1[1]])
-					listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					PilaO.append("temp"+ str(contTemps))
+					global tempInt
+					global tempFloat
+					global tempBool
+					global tempString
+					if opdo1[1] == "int":
+						aux = tempInt
+						tempInt += 1
+					elif opdo1[1] == "float":
+						aux = tempFloat
+						tempFloat += 1
+					elif opdo1[1] == "bool":
+						aux = tempBool
+						tempBool += 1
+					elif opdo1[1] == "string":
+						aux = tempString
+						tempString += 1
+					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
+					PilaO.append([aux, opdo1[1]])
+					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
+					#PilaO.append("temp"+ str(contTemps))
 					contTemps += 1
 					contCuadruplos += 1
 				else:
@@ -1054,8 +1084,8 @@ def p_zz(p):
 	global metodo
 	for a in range(len(programa.classes[clase].methods[metodo].variables)):
 		#print(programa.classes[clase].methods[metodo].variables[a].name, " ", programa.classes[clase].methods[metodo].variables[a].type)
-		if p[1] == programa.classes[clase].methods[metodo].variables[a].name:
-			p[0] = [programa.classes[clase].methods[metodo].variables[a].name, programa.classes[clase].methods[metodo].variables[a].type]
+		if p[1][0] == programa.classes[clase].methods[metodo].variables[a].numDir:
+			p[0] = [programa.classes[clase].methods[metodo].variables[a].numDir, programa.classes[clase].methods[metodo].variables[a].type]
 			break;
 	p[0] = p[1]
 	PilaO.append(p[1])
@@ -1071,12 +1101,17 @@ def p_parfor(p):
 	'parfor : asignacion ssexp SEMICOLON ID b_b'
 	global contTemps
 	global contCuadruplos
-	if p[5] == '++':
-		listaCuadruplos.append(["+", p[4], "1", "temp" + str(contTemps)] )
-	if p[5] == '--':
-		listaCuadruplos.append(["-", p[4], "1", "temp" + str(contTemps)] )
-	contTemps+=1
-	contCuadruplos +=1
+	global cteInt
+	aux = checaSiExisteVariables(p[4])
+	if aux is not False:
+		if aux[1] == "int":
+			if p[5] == '++':
+				listaCuadruplos.append(["+", aux[0], "40001", cteInt] )
+			if p[5] == '--':
+				listaCuadruplos.append(["-", aux[0], "40001", cteInt] )
+			contTemps+=1
+			cteInt +=1
+			contCuadruplos +=1
 
 
 def p_b_b(p):
