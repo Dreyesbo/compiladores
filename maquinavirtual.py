@@ -3,6 +3,7 @@ import pickle
 listaProcs = []
 listaCtes = []
 listaCuadruplos = []
+i = 0;
 
 
 obj = open('codigo.txt', 'rb')
@@ -16,3 +17,13 @@ print (listaCtes)
 print ("\n")
 print (listaCuadruplos)
 obj.close()
+
+while (i < len(listaCuadruplos)):
+	print (i)
+	print (listaCuadruplos[i][0])
+	if listaCuadruplos[i][0] == '+':
+		print ("entro suma")
+
+
+
+	i+=1;

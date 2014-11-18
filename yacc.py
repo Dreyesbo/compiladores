@@ -30,6 +30,7 @@ PilaO = []
 contParametros = 0
 nombreMetodoLlamada = ""
 tablaConstantes=[[40001, "int",'1']]
+segundaVuelta = False
 
 
 # 
@@ -271,13 +272,16 @@ def p_clase(p):
 	if printnum == 0:
 		print(programa[0])
 		printnum = printnum +1
-		for x in range(len(listaCuadruplos)):
-			print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
-		print(PilaO)
-		output = open('codigo.txt', "wb")
-		# file.write(str(programa[0]) + "\n" + str(tablaConstantes) + "\n" + str(listaCuadruplos))
-		pickle.dump([programa[0], tablaConstantes, listaCuadruplos],output)
-		output.close()
+		print ("\n")
+		print (tablaConstantes)
+		if segundaVuelta == True:
+			for x in range(len(listaCuadruplos)):
+				print( str(x) + " " + str(listaCuadruplos[x]) + "\n")
+			print(PilaO)
+			output = open('codigo.txt', "wb")
+			# file.write(str(programa[0]) + "\n" + str(tablaConstantes) + "\n" + str(listaCuadruplos))
+			pickle.dump([programa[0], tablaConstantes, listaCuadruplos],output)
+			output.close()
 
 def p_clase_a(p):
 	'clase_a : ID'
