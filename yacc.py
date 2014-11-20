@@ -662,10 +662,10 @@ def p_asignacion(p):
 			if programa.classes[clase].methods[metodo].variables[x].name == p[1] and programa.classes[clase].methods[metodo].variables[x].type == "int":
 				global tempInt
 				if p[2] == '++':
-					listaCuadruplos.append(["+", p[1], "40001", tempInt])
+					listaCuadruplos.append(["+", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, tempInt])
 					tempInt+=1
 				if p[2] == '--':
-					listaCuadruplos.append(["-", p[1], "40001", tempInt])
+					listaCuadruplos.append(["-", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, tempInt])
 					tempInt +=1
 				contTemps+=1
 				contCuadruplos +=1
@@ -767,7 +767,6 @@ def p_prefunc(p):
 			if programa2.classes[clase].methods[x].name == nombreMetodoLlamada:
 				print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
 				if programa2.classes[clase].methods[x].numParametros == contParametros:
-					listaCuadruplos.append(["ERA", nombreMetodoLlamada,"",""])
 					for y in range(programa2.classes[clase].methods[x].numParametros):
 						aux1 = PilaO.pop()
 						aux2 = programa2.classes[clase].methods[x].variables[y].type
@@ -1128,9 +1127,9 @@ def p_parfor(p):
 	if aux is not False:
 		if aux[1] == "int":
 			if p[5] == '++':
-				listaCuadruplos.append(["+", aux[0], "40001", cteInt] )
+				listaCuadruplos.append(["+", aux[0], 40001, cteInt] )
 			if p[5] == '--':
-				listaCuadruplos.append(["-", aux[0], "40001", cteInt] )
+				listaCuadruplos.append(["-", aux[0], 40001, cteInt] )
 			contTemps+=1
 			cteInt +=1
 			contCuadruplos +=1
@@ -1186,7 +1185,7 @@ metodo = 0
 variable = 0
 printnum = 0 
 listaCuadruplos	= []
-tablaConstantes = []
+tablaConstantes = [[40001, "int",'1']]
 contCuadruplos =0
 contParametros = 0
 

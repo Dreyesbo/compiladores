@@ -30,7 +30,7 @@ class PRUEBA {
 	int CUENTA(float a,int b, int c){
 		int pruebacuentai,j;
 		int i;
-		for(i=a; a==b; i++){
+		for(i=3; a==b; i++){
 			print(i);
 		}
 		while(a > 3 || b > 5){
@@ -46,8 +46,11 @@ class PRUEBA {
 		bool d;
 		int b;
 		int a;
+		a=5;
+		b=6;
 		temp = a + b;
 		print(temp);
+		pruebasumatemp = 6-1;
 		if ( a > 10&&a >= temp && a<pruebasumatemp){
 			print("hola a");
 		}
@@ -83,6 +86,7 @@ class TEST extends PRUEBA{
 		bool d;
 		string b;
 		b=2;
+		a=4;
 		temp = 20+a;
 		d = true;
 		b ="Hola!";
@@ -96,6 +100,9 @@ class TEST extends PRUEBA{
 		int d;
 		float c;
 		bool d;
+		a=6;
+		b=7;
+		d=9;
 		temp = a+b;
 		temp =a+d;
 		print(temp);
@@ -111,7 +118,9 @@ class TEST extends PRUEBA{
 		int i;
 		int a;
 		int b;
-		for(i=a; a==b; i--){
+		b=9;
+		a=5;
+		for(i=3; a==b; i--){
 			print(i);
 		
 		while(a > 3 || b !=5){
@@ -123,8 +132,6 @@ class TEST extends PRUEBA{
 		SUMA (a, b, j, k);
 		}		
 		
-		temporal = testcuentai + testcuentaii;
-		temporalfloat = testcuentai + testcuentaiii;
-		temporalfloat = testcuentai + testcuentaiii;
+		
 	}
 }/* Cierra */
