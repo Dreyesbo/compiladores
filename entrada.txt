@@ -23,6 +23,8 @@ class PRUEBA {
 		if ( pruebamaintempii > 10){
 			print("hola pruebainttemp");
 		}
+		CUENTA( c, x, temp);
+		POPO( c, x, temp);
 	}
 
 	int CUENTA(float a,int b, int c){
@@ -34,6 +36,7 @@ class PRUEBA {
 		while(a > 3 || b > 5){
 			a++;
 		}
+		
 	}
 
 	void SUMA (int x, int b){
@@ -41,8 +44,8 @@ class PRUEBA {
 		int temp;
 		float c;
 		bool d;
+		int b;
 		int a;
-		int b; 
 		temp = a + b;
 		print(temp);
 		if ( a > 10&&a >= temp && a<pruebasumatemp){

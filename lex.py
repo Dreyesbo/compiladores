@@ -114,10 +114,12 @@ def t_error(t):
 
 # Construye el lexer
 lexer = lex.lex()
+lexer2 = lex.lex()
 
 fo = open(sys.argv[1])
 str = fo.read();
 lexer.input(str)
+lexer2.input(str)
 
 #import fileinput
 #for line in fileinput.input():

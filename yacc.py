@@ -3,6 +3,8 @@ import pickle
 
 # Get the token map from the lexer.  This is required.
 from lex import tokens
+from lex import lexer
+from lex import lexer2
 
 DEBUG = True
 
@@ -409,8 +411,8 @@ def checaSiExiste(elemento):
 		return False
 	else:
 		for a in range(len(tablaConstantes)):
-			if elemento == tablaConstantes[a][0]:
-				return True
+			if elemento == tablaConstantes[a][2]:
+				return tablaConstantes[a]
 				break;
 		else:
 			return False
@@ -451,39 +453,54 @@ def p_varcte(p):
 			if checaSiExiste(p[1]) == False:
 				aux = cteInt
 				p[0] = [aux, p[2], p[1]]
+				tablaConstantes.append([aux, p[2], p[1]])
 				cteInt +=1
-		if p[2] == "float":
+			else:
+				p[0] = checaSiExiste(p[1])
+		elif p[2] == "float":
 			if checaSiExiste(p[1]) == False:
 				aux = cteFloat
 				p[0] = [aux, p[2], p[1]]
+				tablaConstantes.append([aux, p[2], p[1]])
 				cteFloat +=1
-		if p[2] == "bool":
+			else:
+				p[0] = checaSiExiste(p[1])
+		elif p[2] == "bool":
 			if checaSiExiste(p[1]) == False:
 				aux = cteBool
 				p[0] = [aux, p[2], p[1]]
+				tablaConstantes.append([aux, p[2], p[1]])
 				cteBool +=1
-		if p[2] == "string":
+			else:
+				p[0] = checaSiExiste(p[1])
+		elif p[2] == "string":
 			if checaSiExiste(p[1]) == False:
 				aux = cteString
 				p[0] = [aux, p[2], p[1]]
+				tablaConstantes.append([aux, p[2], p[1]])
 				cteString +=1
-		tablaConstantes.append([aux, p[2], p[1]])
+			else:
+				p[0] = checaSiExiste(p[1])
 
+		
 	if len(p) == 2:
 		listatemp = checaSiExisteVariables(p[1][0])
+		print("checotemps")
+		print (listatemp)
 		if listatemp is not False:
-			if listatemp[1] == "int":
-				aux = listatemp[0]
-				p[0] = [aux, "int", p[1][0]]
-			if listatemp[1] == "float":
-				aux = listatemp[0]
-				p[0] = [aux, "float", p[1][0]]
-			if listatemp[1] == "bool":
-				aux = listatemp[0]
-				p[0] = [aux, "bool", p[1][0]]
-			if listatemp[1] == "string":
-				aux = listatemp[0]
-				p[0] = [aux, "string", p[1][0]]
+			# if listatemp[1] == "int":
+			# 	aux = listatemp[0]
+			# 	p[0] = [aux, "int", p[1][0]]
+			# if listatemp[1] == "float":
+			# 	aux = listatemp[0]
+			# 	p[0] = [aux, "float", p[1][0]]
+			# if listatemp[1] == "bool":
+			# 	aux = listatemp[0]
+			# 	p[0] = [aux, "bool", p[1][0]]
+			# if listatemp[1] == "string":
+			# 	aux = listatemp[0]
+			# 	p[0] = [aux, "string", p[1][0]]
+			p[0] = listatemp
 
 def p_varcte_int(p):
 	'''varcte_int : '''
@@ -618,9 +635,8 @@ def p_iniciacontadormetodos(p):
 	global nombreMetodoLlamada
 	global contCuadruplos
 	parametros = 1
-	listaCuadruplos.append(["ERA", p[1],"",""])
-	contCuadruplos += 1
-	nombreMetodoLlamada = p[1]
+	if segundaVuelta == True:
+		nombreMetodoLlamada = p[1]
 
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
@@ -743,33 +759,35 @@ def p_gotofwhile(p):
 def p_prefunc(p):
 	'''prefunc : q
 			| rrr'''
-	global contParametros
-	global contCuadruplos
-	cont = 1
-	for x in range(len(programa.classes[clase].methods)):
-		if programa.classes[clase].methods[x].name == nombreMetodoLlamada:
-			print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
-			if programa.classes[clase].methods[x].numParametros == contParametros:
-				for y in range(programa.classes[clase].methods[x].numParametros):
-					aux1 = PilaO.pop()
-					aux2 = programa.classes[clase].methods[x].variables[y].type
-					if aux1[1] == aux2:
-						print ("Los tipos", aux1[1], "y", aux2, "son iguales")
-						listaCuadruplos.append(["param", aux1[0], "", "param"+str(cont)])
-						contCuadruplos += 1
-						cont += 1
+	if segundaVuelta is True:
+		global contParametros
+		global contCuadruplos
+		cont = 1
+		for x in range(len(programa2.classes[clase].methods)):
+			if programa2.classes[clase].methods[x].name == nombreMetodoLlamada:
+				print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
+				if programa2.classes[clase].methods[x].numParametros == contParametros:
+					listaCuadruplos.append(["ERA", nombreMetodoLlamada,"",""])
+					for y in range(programa2.classes[clase].methods[x].numParametros):
+						aux1 = PilaO.pop()
+						aux2 = programa2.classes[clase].methods[x].variables[y].type
+						if aux1[1] == aux2:
+							print ("Los tipos", aux1[1], "y", aux2, "son iguales")
+							listaCuadruplos.append(["param", aux1[0], "", "param"+str(cont)])
+							contCuadruplos += 1
+							cont += 1
+						else:
+							print("ERROR DE TIPOS EN EL PARAMETRO", aux1, "", aux2)
+							break;
 					else:
-						print("ERROR DE TIPOS EN EL PARAMETRO", aux1, "", aux2)
-						break;
+						listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, "", ""])
+						contCuadruplos += 1
 				else:
-					listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, "", ""])
-					contCuadruplos += 1
-			else:
-				print ("No concuerda el numero de parametros", programa.classes[clase].methods[x].numParametros, " no es igual a ", contParametros)
-			break;
-	else:
-		print ("El metodo llamado no existe")
-	contParametros = 0
+					print ("No concuerda el numero de parametros", programa2.classes[clase].methods[x].numParametros, " no es igual a ", contParametros)
+				break;
+		else:
+			print ("El metodo llamado no existe")
+		contParametros = 0
 
 def p_q(p):
 	'q : exp r'
@@ -1158,6 +1176,22 @@ def p_error(p):
 	else:
 		print ("Syntax error at EOF %s" % p)
 
-yacc.yacc()
+p = yacc.yacc()
 
-yacc.parse()
+p.parse(lexer=lexer)
+
+segundaVuelta = True
+clase = 0 
+metodo = 0
+variable = 0
+printnum = 0 
+listaCuadruplos	= []
+tablaConstantes = []
+contCuadruplos =0
+contParametros = 0
+
+programa2 = programa
+programa = Programa()
+q = yacc.yacc()
+
+q.parse(lexer=lexer2)
