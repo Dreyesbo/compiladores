@@ -1,0 +1,23 @@
+class PRUEBA {
+
+	void main(){
+		SUMA(5,4);
+		CUENTA(5);
+	}
+
+	int SUMA (int a, int b){
+		int c;
+		c = a + b;
+		return c;
+	}
+
+	void cUENTA (int a){
+		int i;
+		i = a;
+		print(i);
+		if (i > 0){
+			CUENTA(i-1)
+		}
+	}
+
+}/* Cierra */

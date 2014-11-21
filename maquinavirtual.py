@@ -14,6 +14,7 @@ programa = pickle.load(obj)
 listaProcs = programa[0]
 listaCtes = programa[1]
 listaCuadruplos = programa[2]
+paraTemp = []
 print (listaProcs)
 print ("\n")
 print (listaCtes)
@@ -726,13 +727,26 @@ while (i < len(listaCuadruplos)):
 				
 		print("entre ERA")
 		print(str(temp))
-		
-
-
-
-				
-
-
-					
-						
+	elif listaCuadruplos[i][0] == 'param':
+		aux1 = listaCuadruplos[i][1] # direccion
+		aux2 = listaCuadruplos[i][2] # nada
+		aux3 = listaCuadruplos[i][3] # numero de parametro
+		paraTemp.append(aux1)
+		print (paraTemp)
+	elif listaCuadruplos[i][0] == 'GOSUB':
+		aux1 = listaCuadruplos[i][1]
+		aux2 = listaCuadruplos[i][2]
+		aux3 = listaCuadruplos[i][3]
+		temp =  "\'" + aux1 + "\'"
+		for y in range(1, len(listaProcs[int(aux2)+1])):
+			print(listaProcs[int(aux2)+1][y][0])
+			if temp == str(listaProcs[int(aux2)+1][y][0]):
+				numParam = listaProcs[int(aux2)+1][y][2]
+				for z in range(5, 5+int(numParam)):
+					memoria[contMemTemp] = memoria[paraTemp.pop()]
+					print(listaProcs[int(aux2)+1][y][z][2])
+					memoria[int(listaProcs[int(aux2)+1][y][z][2])] = memoria[contMemTemp]
+					print("POSICION    :", contMemTemp, "MEMORIA        : ", memoria[contMemTemp], )
+					contMemTemp+=1
+				break;
 	i+=1

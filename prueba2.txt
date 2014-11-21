@@ -1,0 +1,15 @@
+class PRUEBA {
+	global int x;
+
+	void main(){
+		int a;
+		SUMA(5,4);
+	}
+
+	int SUMA (int a, int b){
+		int c;
+		c = a + b;
+		return c;
+	}
+
+}/* Cierra */

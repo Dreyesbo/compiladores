@@ -642,9 +642,11 @@ def p_n(p):
 def p_return(p):
 	'''return : RETURN ssexp SEMICOLON
 		| '''
-	global contCuadruplos
-	listaCuadruplos.append(["retorno","" , "",""])
-	contCuadruplos += 1
+	if(len(p)) == 4:
+		global contCuadruplos
+		listaCuadruplos.append(["retorno",int(p[2][0]) , "",""])
+		listaCuadruplos.append(["RET","","",""])
+		contCuadruplos += 2
 
 def checaSiExistePars(elemento):
 	global clase
@@ -841,7 +843,7 @@ def p_prefunc(p):
 							print("ERROR DE TIPOS EN EL PARAMETRO", aux1, "", aux2)
 							break;
 					else:
-						listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, "", ""])
+						listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, clase, ""])
 						contCuadruplos += 1
 				else:
 					print ("No concuerda el numero de parametros", programa2.classes[clase].methods[x].numParametros, " no es igual a ", contParametros)
@@ -1215,7 +1217,11 @@ def p_b_b(p):
 def p_main(p):
 	'main : VOID entroamain MAIN OPARENTHESIS CPARENTHESIS OCURLY c_c CCURLY'
 	global variablesLocales
+	global contCuadruplos
 	variablesLocales = 0
+	listaCuadruplos.append(["END","","",""])
+	contCuadruplos+=1
+
 
 def p_entroamain(p):
 	'entroamain : '
