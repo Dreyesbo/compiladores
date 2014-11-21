@@ -662,11 +662,9 @@ def p_asignacion(p):
 			if programa.classes[clase].methods[metodo].variables[x].name == p[1] and programa.classes[clase].methods[metodo].variables[x].type == "int":
 				global tempInt
 				if p[2] == '++':
-					listaCuadruplos.append(["+", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, tempInt])
-					tempInt+=1
+					listaCuadruplos.append(["++", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, programa.classes[clase].methods[metodo].variables[x].numDir])
 				if p[2] == '--':
-					listaCuadruplos.append(["-", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, tempInt])
-					tempInt +=1
+					listaCuadruplos.append(["--", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, programa.classes[clase].methods[metodo].variables[x].numDir])
 				contTemps+=1
 				contCuadruplos +=1
 		else: 
@@ -729,6 +727,9 @@ def p_gotoffor(p):
 	'gotoffor : '
 	global contCuadruplos
 	aux = PilaO.pop()
+	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") 
+	print(aux) 
+	print(int(aux[0])-1) 
 	listaCuadruplos.append(["gotof", aux[0], ""])
 	contCuadruplos += 1
 	pilaSaltos.append(contCuadruplos-1)
@@ -766,6 +767,8 @@ def p_prefunc(p):
 		for x in range(len(programa2.classes[clase].methods)):
 			if programa2.classes[clase].methods[x].name == nombreMetodoLlamada:
 				print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
+				listaCuadruplos.append(["ERA", nombreMetodoLlamada, clase,""])
+				contCuadruplos+=1
 				if programa2.classes[clase].methods[x].numParametros == contParametros:
 					for y in range(programa2.classes[clase].methods[x].numParametros):
 						aux1 = PilaO.pop()
@@ -1127,13 +1130,15 @@ def p_parfor(p):
 	if aux is not False:
 		if aux[1] == "int":
 			if p[5] == '++':
-				listaCuadruplos.append(["+", aux[0], 40001, cteInt] )
+				listaCuadruplos.append(["++", aux[0], 40001, aux[0]] )
 			if p[5] == '--':
-				listaCuadruplos.append(["-", aux[0], 40001, cteInt] )
+				listaCuadruplos.append(["--", aux[0], 40001, aux[0]] )
 			contTemps+=1
-			cteInt +=1
 			contCuadruplos +=1
-
+		temp = listaCuadruplos[len(listaCuadruplos)-2]
+		temp2 = listaCuadruplos[len(listaCuadruplos)-1]
+		listaCuadruplos[len(listaCuadruplos)-2] = temp2
+		listaCuadruplos[len(listaCuadruplos)-1] = temp
 
 def p_b_b(p):
 	'''b_b : PLUSPLUS

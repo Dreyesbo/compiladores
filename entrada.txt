@@ -16,25 +16,34 @@ class PRUEBA {
 		bool b;
 		int i;
 		int x;
+		pruebamaintempii = 11;
 		temp = 5+4;
 		tempii = 34.1 + 40.54;
 		d = true;
 		b ="Hola!";
-		if ( pruebamaintempii > 10){
+		if ( pruebamaintempii != 11){
 			print("hola pruebainttemp");
 		}
 		CUENTA( c, x, temp);
 		POPO( c, x, temp);
 	}
 
-	int CUENTA(float a,int b, int c){
+	int CUENTA(float a,int x, int c){
 		int pruebacuentai,j;
 		int i;
-		for(i=3; a==b; i++){
+		int b;
+		int c;
+		int w;
+		c = 10;
+		w = 5;
+		b = 6;
+		for(i=3; b>c; b++){
 			print(i);
+			w++;
 		}
-		while(a > 3 || b > 5){
-			a++;
+		while(w > 3 && b > 5){
+			w++;
+			b--;
 		}
 		
 	}
@@ -42,13 +51,15 @@ class PRUEBA {
 	void SUMA (int x, int b){
 		int pruebasumatemp;
 		int temp;
+		int q;
 		float c;
 		bool d;
-		int b;
+		int p;
 		int a;
 		a=5;
 		b=6;
 		temp = a + b;
+		q =5;
 		print(temp);
 		pruebasumatemp = 6-1;
 		if ( a > 10&&a >= temp && a<pruebasumatemp){
@@ -60,11 +71,11 @@ class PRUEBA {
 			print("hola temp");
 		}else 	if ( temp > 10 && pruebasumatemp >= temp){
 			print("hola temp");
-		}else 	if ( temp > 10 && pruebasumatemp >= temp){
+		}else 	if ( pruebasumatemp >= q){
 			print("hola temp");
 		}
-		d = true;b ="Hola!";
-		CUENTA( c, pruebasumatemp + 1, temp);
+		d = true;w ="Hola!";
+		SUMA( a,b);
 		perro.blanco("si es blanco");
 	}
 
@@ -109,7 +120,7 @@ class TEST extends PRUEBA{
 		d = true;b ="Hola!";
 	}
 
-	int CUENTA(int a,int b){
+	int CUENTA(int p,int s){
 		int testcuentai, j, k, l;
 		int testcuentaii;
 		float testcuentaiii;
