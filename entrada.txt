@@ -1,13 +1,13 @@
 class PRUEBA {
 	PERRO ANIMAL = new blanco();
-	global int pruebaglobala, f;
+	global int pruebaglobala[5];
 	global int pruebaglobale;
 	global string pruebaglobalb; 
 	global float pruebaglobalc; 
 	global bool pruebaglobald;
 
 	void main(){
-		int pruebamaintempii;
+		int pruebamaintempii[10];
 		float pruebamaintemp;
 		int temp;
 		int tempii;
@@ -16,7 +16,7 @@ class PRUEBA {
 		bool b;
 		int i;
 		int x;
-		pruebamaintempii = 11;
+		pruebamaintempii[2] = 11;
 		temp = 5+4;
 		tempii = 34.1 + 40.54;
 		d = true;

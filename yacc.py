@@ -136,20 +136,20 @@ class Metodo(Expr):
 	def setInicioCuadruplosNumber(self, num):
 		self.numCuadruplos = num
 
-	def addVariable(self, variableType, name, numMetodo, numClase):
+	def addVariable(self, variableType, name, numMetodo, numClase, dimension):
 		global contadorVariables
 		if contadorVariables < 1:
 			if variableType == "int":
-				self.variables.append(Ctei(name))
+				self.variables.append(Ctei(name, dimension))
 
 			if variableType == "float":
-				self.variables.append(Ctef(name))
+				self.variables.append(Ctef(name, dimension))
 
 			if variableType == "string":
-				self.variables.append(Ctes(name))
+				self.variables.append(Ctes(name, dimension))
 
 			if variableType == "bool":
-				self.variables.append(Cteb(name))
+				self.variables.append(Cteb(name, dimension))
 
 			contadorVariables +=1
 
@@ -165,85 +165,122 @@ class Metodo(Expr):
 						break
 				else:
 					if variableType == "int":
-						self.variables.append(Ctei(name))
+						self.variables.append(Ctei(name, dimension))
 
 					if variableType == "float":
-						self.variables.append(Ctef(name))
+						self.variables.append(Ctef(name, dimension))
 
 					if variableType == "string":
-						self.variables.append(Ctes(name))
+						self.variables.append(Ctes(name, dimension))
 
 					if variableType == "bool":
-						self.variables.append(Cteb(name))
+						self.variables.append(Cteb(name, dimension))
 					global variablesLocales
 					variablesLocales += 1
 
 class Ctei(Expr):
-	def __init__(self, name):
+	def __init__(self, name, dimension):
 		global globalInt
 		global tempInt
 		self.type = "int"
 		self.name = name
-		if metodo is 0:
-			self.numDir = globalInt
-			globalInt += 1
+		self.dimension = dimension
+		if dimension is False:
+			if metodo is 0:
+				self.numDir = globalInt
+				globalInt += 1
+			else:
+				self.numDir = tempInt
+				tempInt += 1
 		else:
-			self.numDir = tempInt
-			tempInt += 1
+			if metodo is 0:
+				self.numDir = globalInt
+				globalInt += dimension
+			else:
+				self.numDir = tempInt
+				tempInt += dimension
 
 	def __repr__(self, level=0):
-		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
+		ret = [repr(self.name), repr(self.type), repr(self.numDir), repr(self.dimension)]
 		return ret
 
 class Ctef(Expr):
-	def __init__(self,name):
+	def __init__(self,name, dimension):
 		global globalFloat
 		global tempFloat
 		self.type = "float"
 		self.name = name
-		if metodo is 0:
-			self.numDir = globalFloat
-			globalFloat += 1
+		self.dimension = dimension
+		if dimension is False:
+			if metodo is 0:
+				self.numDir = globalFloat
+				globalFloat += 1
+			else:
+				self.numDir = tempFloat
+				tempFloat += 1
 		else:
-			self.numDir = tempFloat
-			tempFloat += 1
+			if metodo is 0:
+				self.numDir = globalFloat
+				globalFloat += dimension
+			else:
+				self.numDir = tempFloat
+				tempFloat += dimension
 
 	def __repr__(self, level=0):
-		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
+		ret = [repr(self.name), repr(self.type), repr(self.numDir), repr(self.dimension)]
 		return ret
 
 class Ctes(Expr):
-	def __init__(self,name):
+	def __init__(self,name, dimension):
 		global globalString
 		global tempString
 		self.type = "string"
 		self.name = name
-		if metodo is 0:
-			self.numDir = globalString
-			globalString += 1
-		else:
-			self.numDir = tempString
-			tempString += 1
+		self.dimension = dimension
+		if dimension is False:
+			if metodo is 0:
+				self.numDir = globalString
+				globalString += 1
+			else:
+				self.numDir = tempString
+				tempString += 1
+		else: 
+			if metodo is 0:
+				self.numDir = globalString
+				globalString += dimension
+			else:
+				self.numDir = tempString
+				tempString += dimension
 
 	def __repr__(self, level=0):
-		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
+		ret = [repr(self.name), repr(self.type), repr(self.numDir), repr(self.dimension)]
 		return ret
 
 class Cteb(Expr):
-	def __init__(self,name):
+	def __init__(self,name, dimension):
 		global globalBool
 		global tempBool
 		self.type = "bool"
 		self.name = name
-		if metodo is 0:
-			self.numDir = globalBool
-			globalBool += 1
-		else:
-			self.numDir = tempBool
-			tempBool += 1
+		self.dimension = dimension
+		if dimension is False:
+			if metodo is 0:
+				self.numDir = globalBool
+				globalBool += 1
+			else:
+				self.numDir = tempBool
+				tempBool += 1
+		else: 
+			if metodo is 0:
+				self.numDir = globalBool
+				globalBool += dimension
+			else:
+				self.numDir = tempBool
+				tempBool += dimension
+
 
 	def __repr__(self, level=0):
-		ret = [repr(self.name), repr(self.type), repr(self.numDir)]
+		ret = [repr(self.name), repr(self.type), repr(self.numDir), repr(self.dimension)]
 		return ret
 
 def cuboSemantico(exp1,exp2):
@@ -364,22 +401,29 @@ def p_g(p):
 	global metodo
 	global tipoRepetida
 	tipoRepetida = p[1]
-	#print (p[2]," ", clase, " ", metodo )
-	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase)
-	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
+	if p[2][1] == False:
+		#print (p[2]," ", clase, " ", metodo )
+		programa.classes[clase].methods[metodo].addVariable(p[1], p[2][0], metodo, clase, False)
+		#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
+	else:
+		programa.classes[clase].methods[metodo].addVariable(p[1], p[2][0], metodo, clase, p[2][1])
 
 def p_h(p):
 	'h : ID i'
 	#print ("Salgo de vars")
-	p[0] = p[1]
+	if p[2][1] == True:
+		p[0] = [p[1], p[2][0]] 
+	else:
+		p[0] = [p[1], False]
 
 def p_i(p):
 	'''i : OBRACKET CTEI CBRACKET j
 		| j'''
 	if len(p) == 5:
-		p[0] = p[4]
+		if int(p[2]) > 0:
+			p[0] = [int(p[2]), True]
 	if len(p) == 2:
-		p[0] = p[1]
+		p[0] = [p[1], False]
 		
 
 def p_j(p):
@@ -394,7 +438,7 @@ def p_j_j(p):
 	global clase
 	global metodo
 	#print (p[1]," ", clase, " ", metodo )
-	programa.classes[clase].methods[metodo].addVariable(tipoRepetida, p[1], metodo, clase)
+	programa.classes[clase].methods[metodo].addVariable(tipoRepetida, p[1], metodo, clase,False)
 	#print("Agrego", p[1], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 
 def p_tipo(p):
@@ -602,13 +646,27 @@ def p_return(p):
 	listaCuadruplos.append(["retorno","" , "",""])
 	contCuadruplos += 1
 
+def checaSiExistePars(elemento):
+	global clase
+	global metodo
+
+	if len(programa.classes[clase].methods[metodo].variables) < 1:
+		return False
+	else:
+		for a in range(len(programa.classes[clase].methods[metodo].variables)):
+			if elemento == programa.classes[clase].methods[metodo].variables[a].name:
+				return programa.classes[clase].methods[metodo].variables[a].dimension
+				break;
+		else:
+			return False
+
 def p_pars(p):
 	'pars : tipo ID o'
 	global clase
 	global metodo
 	global parametros
 	#print (p[2]," ", clase, " ", metodo )
-	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase)
+	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase, checaSiExistePars(p[2]))
 	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 	parametros += 1
 
@@ -646,9 +704,10 @@ def p_asignacion(p):
 	if len(p) == 6:
 		try:
 			if(p[1] is not None and p[4][0]):
+				print("ESTOS SON LOS VALORES DEL ARREGLO", p[1])
 				#print("La pila actualmente es %s" % PilaO)
 				a = PilaO.pop()
-				#print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
+				print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
 				PilaO.append(a)
 				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
 				#print("=", PilaO.pop(), "", p[1][0])
@@ -837,16 +896,24 @@ def p_variable(p):
 	global metodo
 	for x in range(len(programa.classes[clase].methods[metodo].variables)):
 		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
-			p[0] = [programa.classes[clase].methods[metodo].variables[x].numDir, programa.classes[clase].methods[metodo].variables[x].type]
+			temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])
+			print("        ENTRE A LA POSICION", temp, "DEL ARREGLO        ")
+			
+			p[0] = [temp, programa.classes[clase].methods[metodo].variables[x].type]
 			#p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
 			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
 
 def p_t(p):
-	'''t : OBRACKET CTEF CBRACKET
+	'''t : OBRACKET CTEI CBRACKET
 		| PERIOD ID
 		|  '''
+	if len(p) == 4:
+		p[0] = p[2]
+	else:
+		p[0] = 0
+
 
 def p_expresion(p):
 	'expresion : ssexp'
