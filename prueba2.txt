@@ -3,13 +3,20 @@ class PRUEBA {
 
 	void main(){
 		int a;
-		SUMA(5,4);
+		int n;
+		a = 1;
+		n = 5;
+    	while (n > 1)
+    	{
+        	a = a * n;
+        	n--;
+    	}
+    	print(a);
 	}
 
-	int SUMA (int a, int b){
+	int CUENTA (int a){
 		int c;
-		c = a + b;
-		return c;
+		c = 3;
 	}
 
 }/* Cierra */

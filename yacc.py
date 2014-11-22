@@ -1,38 +1,43 @@
+#
+# yacc.py
+# Archivo con el léxico de nuestro compilador
+#
+
+#
+# Importa:
+#	- El módulo lex de PLY (Python Lex-Yacc)
+#	- Pickle, para guardar a archivo como serie de objetos
+#	- Los tokens y dos lexers del archivo lex.py
+#
+
+
 import ply.yacc as yacc
 import pickle
 
-# Get the token map from the lexer.  This is required.
 from lex import tokens
 from lex import lexer
 from lex import lexer2
 
 DEBUG = True
 
-tablaMaestra = []
-contclases = 0
-contmetodos = 0
-punt = 0
-puntvars = 0
-varsrandom = 0
-contadorMetodos = 0
-contadorVariables = 0
-tipoRepetida = ""
-contTemps = 0
-listaCuadruplos = []
-pilaSaltos = []
-contCuadruplos = 0
-parametros = 0
-variablesLocales = 0
-clase = 0
-metodo = 0
-variable = 0
-printnum = 0
-POper = []
-PilaO = []
-contParametros = 0
-nombreMetodoLlamada = ""
-tablaConstantes=[[40001, "int",'1']]
-segundaVuelta = False
+contadorMetodos = 0								# Mantiene el número de métodos en la clase actual
+contadorVariables = 0							# Mantiene el número de variables en el método actual
+tipoRepetida = ""								# Variable que guarda el tipo  para la asignación de variables separadas con comas
+listaCuadruplos = []							# La lista que contiene todos los cuádruplos
+pilaSaltos = []									# La pila de saltos, que guarda las posiciones para los saltos entre cuadruplos
+contCuadruplos = 0								# Variable que contiene el número de cuádruplo actual.
+parametros = 0									# Variable que guarda el número de parámetros para el metodo actual.
+variablesLocales = 0							# Variable que guarda el número de variables locales (incluyendo parámetros) del metodo
+clase = 0										# Variable que guarda el número de clase actual
+metodo = 0										# Variable que guarda el número de metodo actual
+variable = 0									# Variable que guarda el número de variable actual
+printnum = 0									# Variable usada como boleana para sólo una vez los resultados
+POper = []										# Pila de operaciones
+PilaO = []										# Pila de Operandoms
+contParametros = 0								# Contador de parámetros, para comparar si las cantidades son equivalentes
+nombreMetodoLlamada = ""						# Variable que guarda el nombre del método a llamar, en el cuádruplo ERA
+tablaConstantes=[[40001, "int",'1']]			# La lista de constantes, inicializada con el "1" por propósitos de ++ y --
+segundaVuelta = False 							# Variable boleana para la segunda pasada del parser
 
 
 # 
@@ -51,6 +56,40 @@ cteInt = 40002
 cteFloat = 45001
 cteBool = 50001
 cteString = 55001
+
+#
+# Las siguientes lineas establecen la estructura de nuestra tabla de procedimientos
+# - Programa
+# ---- name (atributo)
+# ---- classes (lista de nodos Clase)
+#
+# - Clase
+# ---- name (atributo)
+# ---- methods (lista de nodos Metodo)
+# ---- + addMethod(methodType, methodName, numClase) -> añade un metodo a la clase con un tipo, nombre, y el número de método que es
+#
+# - Metodo
+# ---- name (atributo)
+# ---- type (atributo)
+# ---- variables (lista de nodos Variable)
+# ---- numClase (numero de la clase padre)
+# ---- numParametros (numero de parametros que tiene)
+# ---- numVariables (numero de variables que tiene, incluyendo parametros)
+# ---- numCuadruplos (el cuádruplo donde empieza el metodo)
+# ---- + setParametersNumber(num) -> Le pone el número de parámetros al método
+# ---- + setVariablesNumber(num) -> Le pone el número de variables (incluyendo parámetros) al método
+# ---- + setInicioCuadruplosNumber(num) -> Le pone el número de cuádruplo donde empieza el metodo
+# ---- + addVariable(variableType, name, numMetodo, numClase, dimension) -> añade una variable al método con un tipo, nombre, y si es dimensionada. Si lo es, guarda su tamaño. Si no, guarda False
+# 
+# Los tipos de variables a agregar son los siguientes:
+# - Ctei
+# - Ctef
+# - Ctes
+# - Cteb
+#
+# 
+# Cada método maneja la lógica para revisar si ya se declaró o no la clase, método o variable.
+#
 
 class Expr: pass
 
@@ -283,27 +322,46 @@ class Cteb(Expr):
 		ret = [repr(self.name), repr(self.type), repr(self.numDir), repr(self.dimension)]
 		return ret
 
-def cuboSemantico(exp1,exp2):
-	if exp1 == exp2:
-		print("Los tipos son usados correctamente")
-	else:
-		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error de tipo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+#
+# rellenar
+# - acambiar (cuádruplo a cambiar)
+# - aponer (la dirección a poner)
+#
+# El método rellena el cuadrúpolo dado con la dirección dada. Usado en "goto"s, etc.
+#
 
 def rellenar(acambiar,aponer):
 	listaCuadruplos[acambiar].append(str(aponer))
 
-def convierteTablaaLista(programa):
-	listaFinal = []
-	numeroClase = 0
-	numeroMetodo = 0
-	# for x in range(len(programa.classes)):
-	# 	listaFinal.append([programa.classes[x].name])
-	# 	for y in range(len(programa.classes[x].methods)):
-	# 		listaFinal[x].append([programa.classes[x].methods[y].name, programa.classes[x].methods[y].type])
-	# 		for z in range(len(programa.classes[x].methods[y].variables)):
-	# 			listaFinal[x][y].append([programa.classes[x].methods[y].variables[z]])
+#
+# Inicializa la estructura Programa, detallada arriba, en la variable "programa"
+#
 
 programa = Programa()
+
+#
+# Inicia la Sintaxis
+# 
+# Todas los metodos siguientes, identificados por la estructura "p_NOMBRE(p)" son usados
+# por PLY para la generación del parser. Debajo de cada metodo están las instrucciones a 
+# correr cuando la sintaxis dada termine. Es decir, ese código se corre cuando se encuentre
+# y consuma correctamente el léxico en la sintaxis dada.
+#
+
+
+#
+# Clase
+#
+# Siendo el primer elemento de la sintaxis, y por ende, el último método en 
+# ser completado y ejecutado, sus instrucciones son las últimas en correrse.
+#
+# Hace lo siguiente:
+# - Imprime a consola la tabla de procedimientros
+# - Imprime la tabla de constantes
+# - Si es la segunda vuelta:
+# ---- Imprime los cuádruplos
+# ---- Imprime a archivo, que se llamará "codigo.txt"
+#
 
 def p_clase(p):
 	'clase : CLASS clase_a a'
@@ -322,12 +380,28 @@ def p_clase(p):
 			pickle.dump([programa[0], tablaConstantes, listaCuadruplos],output)
 			output.close()
 
+#
+#  clase_a
+#
+# Inicializa el contador de métodos, y agrega la clase a la tabla de procedimientos
+#
+
 def p_clase_a(p):
 	'clase_a : ID'
 	global clase
 	global contadorMetodos
 	contadorMetodos = 0
 	programa.classes.append(Clase(p[1], clase))
+
+#
+# a
+#
+# Da la opción de que la clase sea hija de otra
+# 
+# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+#
 
 def p_a(p):
 	'''a : EXTENDS ID b
@@ -339,6 +413,13 @@ def p_b(p):
 def p_bb(p):
 	'''bb : incclase clase
 		| '''
+
+#
+# incclase
+#
+# Significa una clase acabó y otra empezó. Actualiza el contador de 
+# clases y resetea el contador de metodos
+#
 
 def p_incclase(p):
 	'''incclase : '''
@@ -395,6 +476,13 @@ def p_f(p):
 	'''f : PUBLIC g
 			| g'''
 
+#
+# g
+#
+# Guarda el tipo que se usará en la variable o variables.
+# Añade la variable a la clase y método donde se encuentra.
+#
+
 def p_g(p):
 	'g : tipo h'
 	global clase
@@ -402,19 +490,28 @@ def p_g(p):
 	global tipoRepetida
 	tipoRepetida = p[1]
 	if p[2][1] == False:
-		#print (p[2]," ", clase, " ", metodo )
 		programa.classes[clase].methods[metodo].addVariable(p[1], p[2][0], metodo, clase, False)
-		#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 	else:
 		programa.classes[clase].methods[metodo].addVariable(p[1], p[2][0], metodo, clase, p[2][1])
 
+#
+# h
+#
+# Regresa a g el nombre de la variable, y el tamaño si es dimensionada
+#
+
 def p_h(p):
 	'h : ID i'
-	#print ("Salgo de vars")
 	if p[2][1] == True:
 		p[0] = [p[1], p[2][0]] 
 	else:
 		p[0] = [p[1], False]
+
+#
+# i
+#
+# Manejo de variables dimensionadas
+#
 
 def p_i(p):
 	'''i : OBRACKET CTEI CBRACKET j
@@ -426,20 +523,35 @@ def p_i(p):
 		p[0] = [p[1], False]
 		
 
+#
+# j
+#
+# Si hay más variables despues de la coma, las regresa
+#
+
 def p_j(p):
 	'''j : COMMA j_j
 		| SEMICOLON'''
 	if len(p) == 3:
-		#print ("ESTA ES LA VARIABLE DESPUESA DE LA COMAAAAAAAAAAAAAAA %s" % p[2])
 		p[0] = p[2]
+
+#
+# j_j
+#
+# Agrega la variable a la lista de procedimientos
+#
 
 def p_j_j(p):
 	'''j_j : ID j'''
 	global clase
 	global metodo
-	#print (p[1]," ", clase, " ", metodo )
 	programa.classes[clase].methods[metodo].addVariable(tipoRepetida, p[1], metodo, clase,False)
-	#print("Agrego", p[1], "en la clase [", (clase), "] y metodo [", (metodo), "]")
+
+#
+# tipo
+#
+# Regresa el tipo de la variable
+#
 
 def p_tipo(p):
 	'''tipo : INT
@@ -449,6 +561,13 @@ def p_tipo(p):
 	p[0] = p[1]
 	global tipoRepetida
 	tipoRepetida = p[1]
+
+#
+# checaSiExiste
+#
+# Metodo simple que busca un elemento dentro de la tabla de constantes
+# Si lo encuentra, lo regresa al que lo llamó. Si no, regresa False.
+#
 
 def checaSiExiste(elemento):
 	if len(tablaConstantes) < 1:
@@ -460,6 +579,14 @@ def checaSiExiste(elemento):
 				break;
 		else:
 			return False
+
+#
+# checaSiExisteVariables
+#
+# De igual forma, este metodo busca si ya existe la variable.
+# Si existe, la regresa. Si no, regresa falso.
+#
+
 def checaSiExisteVariables(elemento):
 	global clase
 	global metodo
@@ -475,6 +602,11 @@ def checaSiExisteVariables(elemento):
 			return False
 
 
+#
+# varcte
+#
+# Revisa el tipo de VARCTE. Si es una variable constante, la agrega a la lista de constantes.
+#
 
 def p_varcte(p):
 	'''varcte : CTEI varcte_int
@@ -526,24 +658,14 @@ def p_varcte(p):
 			else:
 				p[0] = checaSiExiste(p[1])
 
-		
+	# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+	# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+	# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
+
 	if len(p) == 2:
 		listatemp = checaSiExisteVariables(p[1][0])
-		print("checotemps")
 		print (listatemp)
 		if listatemp is not False:
-			# if listatemp[1] == "int":
-			# 	aux = listatemp[0]
-			# 	p[0] = [aux, "int", p[1][0]]
-			# if listatemp[1] == "float":
-			# 	aux = listatemp[0]
-			# 	p[0] = [aux, "float", p[1][0]]
-			# if listatemp[1] == "bool":
-			# 	aux = listatemp[0]
-			# 	p[0] = [aux, "bool", p[1][0]]
-			# if listatemp[1] == "string":
-			# 	aux = listatemp[0]
-			# 	p[0] = [aux, "string", p[1][0]]
 			p[0] = listatemp
 
 def p_varcte_int(p):
@@ -561,6 +683,14 @@ def p_varcte_string(p):
 def p_varcte_bool(p):
 	'''varcte_bool : '''
 	p[0] = "bool"
+
+#
+# varcte_id
+#
+# Si lo que se recibió es una variable, la busca en el metodo. Si la encuentra, la regresa.
+# Si no, la busca en las variables globales. Si la encuentra, la regresa. Si no, da el mensaje de que no se encontró.
+#
+
 
 def p_varcte_id(p):
 	'''varcte_id : ID'''
@@ -586,6 +716,11 @@ def p_metodos(p):
 def p_k(p):
 	'k : k_k OPARENTHESIS l'
 
+#
+# k_k
+#
+# Agrega el metodo a la clase, y actualiza el contador del metodo y de variables, asi como el de parametros.
+#
 
 def p_k_k(p):
 	'''k_k : tipo ID
@@ -594,9 +729,7 @@ def p_k_k(p):
 	global metodo
 	global parametros
 	tipo = p[1]
-	print("Agrego el metodo", p[2])
 	programa.classes[clase].addMethod(p[1], p[2], clase)
-	print("\n Aumento el metodo de", metodo, "a", metodo+1, "\n")
 	metodo = metodo + 1
 	contadorVariables = 0
 	parametros = 0
@@ -605,6 +738,11 @@ def p_l(p):
 	'''l : pars actualizaparametros ll
 		| ll'''
 
+#
+# actualizaparametros
+#
+# Al terminar la declaracion de parametros, actualiza el metodo con la cantidad de ellos
+#
 def p_actualizaparametros(p):
 	'actualizaparametros : '
 	global parametros
@@ -618,6 +756,12 @@ def p_ll(p):
 def p_m(p):
 	'm : vars terminavarsmetodo mm'
 
+#
+# terminavarsmetodo
+#
+# Al igual que arriba, actualiza el metodo con la cantidad de variables en el (incluyendo parametros)
+#
+
 def p_terminavarsmetodo(p):
 	'terminavarsmetodo : '
 	global variablesLocales
@@ -629,6 +773,12 @@ def p_terminavarsmetodo(p):
 def p_mm(p):
 	'''mm : estatuto n
 		| m'''
+
+#
+# poncuadruplometodo
+#
+# Otra vez, actualiza el número de inicio de cuádruplo del método
+#
 
 def p_poncuadruplometodo(p):
 	'poncuadruplometodo : '
@@ -647,6 +797,13 @@ def p_return(p):
 		listaCuadruplos.append(["retorno",int(p[2][0]) , "",""])
 		listaCuadruplos.append(["RET","","",""])
 		contCuadruplos += 2
+
+#
+# checaSiExistePars
+#
+# Regresa la dimension de la variable, si es que tiene.
+#
+#
 
 def checaSiExistePars(elemento):
 	global clase
@@ -667,9 +824,7 @@ def p_pars(p):
 	global clase
 	global metodo
 	global parametros
-	#print (p[2]," ", clase, " ", metodo )
 	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase, checaSiExistePars(p[2]))
-	#print("Agrego", p[2], "en la clase [", (clase), "] y metodo [", (metodo), "]")
 	parametros += 1
 
 def p_o(p):
@@ -698,24 +853,27 @@ def p_iniciacontadormetodos(p):
 	if segundaVuelta == True:
 		nombreMetodoLlamada = p[1]
 
+#
+# asignacion
+#
+# Genera el cuadruplo de asignacion, si es simple. Si es de ++ p --, genera directamente el cuadruplo,
+# sin sacar de la pila.
+#
+
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
 			| ID asig_a SEMICOLON'''
-	global contTemps
 	global contCuadruplos
 	if len(p) == 6:
 		try:
 			if(p[1] is not None and p[4][0]):
-				print("ESTOS SON LOS VALORES DEL ARREGLO", p[1])
-				#print("La pila actualmente es %s" % PilaO)
 				a = PilaO.pop()
 				print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
 				PilaO.append(a)
 				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
-				#print("=", PilaO.pop(), "", p[1][0])
 				contCuadruplos += 1
 		except IndexError:
-			b = 'sss'
+			b = 'IndexError'
 	elif len(p) == 4: 
 		global clase
 		global metodo
@@ -726,7 +884,6 @@ def p_asignacion(p):
 					listaCuadruplos.append(["++", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, programa.classes[clase].methods[metodo].variables[x].numDir])
 				if p[2] == '--':
 					listaCuadruplos.append(["--", programa.classes[clase].methods[metodo].variables[x].numDir, 40001, programa.classes[clase].methods[metodo].variables[x].numDir])
-				contTemps+=1
 				contCuadruplos +=1
 		else: 
 			print("INTENTASTE UN MASMAS O MENOSMENOS Y NO ERA INT")
@@ -740,11 +897,25 @@ def p_asig_a(p):
 			| MINUSMINUS '''
 	p[0] = p[1]
 
+#
+# condicion
+#
+# Al terminar la condicion, saca una direccion de cuadruplo de la pila saltos y le actualiza la direccion
+# a la que tiene que saltar.
+#
 
 def p_condicion(p):
 	'condicion : OPARENTHESIS ssexp CPARENTHESIS ponergotoif bloque p'
 	global contCuadruplos
 	rellenar(pilaSaltos.pop(), contCuadruplos)
+
+#
+# GOTO
+#
+# La mayoria de las instrucciones siguientes estan relacionadas con la actualizacion
+# correcta de los cuadruplos con lo especificado en la pila de saltos
+#
+
 
 def p_ponergotoif(p):
 	'ponergotoif : '
@@ -788,7 +959,6 @@ def p_gotoffor(p):
 	'gotoffor : '
 	global contCuadruplos
 	aux = PilaO.pop()
-	print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") 
 	print(aux) 
 	print(int(aux[0])-1) 
 	listaCuadruplos.append(["gotof", aux[0], ""])
@@ -817,6 +987,12 @@ def p_gotofwhile(p):
 	contCuadruplos += 1
 	pilaSaltos.append(contCuadruplos-1)
 
+#
+# prefunc
+#
+# Esta funcion maneja las llamadas a metodos. Solo se corre cuando es la segunda vuelta del parser, ya que
+# en la primera no se ha generado completa la tabla de procedimientos.
+#
 
 def p_prefunc(p):
 	'''prefunc : q
@@ -827,7 +1003,6 @@ def p_prefunc(p):
 		cont = 1
 		for x in range(len(programa2.classes[clase].methods)):
 			if programa2.classes[clase].methods[x].name == nombreMetodoLlamada:
-				print("Si existe el metodo a llamar : ", nombreMetodoLlamada)
 				listaCuadruplos.append(["ERA", nombreMetodoLlamada, clase,""])
 				contCuadruplos+=1
 				if programa2.classes[clase].methods[x].numParametros == contParametros:
@@ -892,17 +1067,22 @@ def p_sss(p):
 	'''sss : exp
 		| '''
 
+#
+# variable
+#
+# Este metodo busca la variable en el metodo regresa la direccion de la variable y el tipo.
+# En el caso de que sea un arreglo, regresa la posición exacta dentro de la estructura del arreglo
+# a la que se quiera accesar.
+#
+
 def p_variable(p):
 	'variable : ID t'
 	global clase
 	global metodo
 	for x in range(len(programa.classes[clase].methods[metodo].variables)):
 		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
-			temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])
-			print("        ENTRE A LA POSICION", temp, "DEL ARREGLO        ")
-			
+			temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])			
 			p[0] = [temp, programa.classes[clase].methods[metodo].variables[x].type]
-			#p[0] = [programa.classes[clase].methods[metodo].variables[x].name, programa.classes[clase].methods[metodo].variables[x].type]
 			break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
 			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
@@ -929,6 +1109,13 @@ def p_u(p):
 	'''u : meteapilaandor ssexp checapilaorand
 		| '''
 
+#
+# METE A PILA
+#
+# Los metodos siguientes tratan sobre el ingreso a la pila de 
+# operadores, con la estructura sintáctica proveyendo la prioridad y jerarquía.
+#
+
 def p_meteapilaandor(p):
 	'''meteapilaandor : AND
 					| OR '''
@@ -936,9 +1123,6 @@ def p_meteapilaandor(p):
 
 def p_checapilaorand(p):
 	'checapilaorand : '
-	#print (POper)
-	#print (PilaO)
-	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
@@ -949,7 +1133,6 @@ def p_checapilaorand(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
 					global tempInt
 					global tempFloat
 					global tempBool
@@ -968,9 +1151,6 @@ def p_checapilaorand(p):
 						tempString += 1
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
 					PilaO.append([aux, opdo1[1]])
-					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
-					contTemps += 1
 					contCuadruplos += 1
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
@@ -988,9 +1168,6 @@ def p_v_v(p):
 
 def p_checapilacondicional(p):
 	'checapilacondicional : '
-	#print (POper)
-	#print (PilaO)
-	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
@@ -1001,7 +1178,6 @@ def p_checapilacondicional(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
 					global tempInt
 					global tempFloat
 					global tempBool
@@ -1020,9 +1196,6 @@ def p_checapilacondicional(p):
 						tempString += 1
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
 					PilaO.append([aux, opdo1[1]])
-					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
-					contTemps += 1
 					contCuadruplos +=1
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
@@ -1055,18 +1228,15 @@ def p_exp(p):
 
 def p_checapilamas(p):
 	'checapilamas : '
-	global contTemps
 	global contCuadruplos
 	if POper:
 		a = POper.pop()
 		if a == '+' or a == '-':
 			op = a
-			#print(PilaO)
 			opdo2 = PilaO.pop()
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
 					global tempInt
 					global tempFloat
 					global tempBool
@@ -1085,9 +1255,6 @@ def p_checapilamas(p):
 						tempString += 1
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
 					PilaO.append([aux, opdo1[1]])
-					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					#PilaO.append(["temp"+ str(contTemps), opdo1[1]])
-					contTemps += 1
 					contCuadruplos += 1
 				else:
 					print("ERROR DE TIPOS:", opdo1[1], "y", opdo2[1], " no son iguales")
@@ -1109,7 +1276,7 @@ def p_termino(p):
 
 def p_checapilapor(p):
 	'checapilapor : '
-	global contTemps
+	global contCuadruplos
 	if POper:
 		a = POper.pop()
 		if a == '*' or a == '/':
@@ -1118,7 +1285,6 @@ def p_checapilapor(p):
 			opdo1 = PilaO.pop()
 			if(opdo1 is not None and opdo2 is not None):
 				if (opdo1[1] == opdo2[1]):
-					#print(op, opdo1[0], opdo2[0], "temp" + str(contTemps))
 					global tempInt
 					global tempFloat
 					global tempBool
@@ -1137,9 +1303,6 @@ def p_checapilapor(p):
 						tempString += 1
 					listaCuadruplos.append([op, opdo1[0], opdo2[0], aux])
 					PilaO.append([aux, opdo1[1]])
-					#listaCuadruplos.append([op, opdo1[0], opdo2[0], "temp" + str(contTemps)])
-					#PilaO.append("temp"+ str(contTemps))
-					contTemps += 1
 					contCuadruplos += 1
 				else:
 					print("ERROR DE TIPOS")
@@ -1171,12 +1334,18 @@ def p_z(p):
 	if len(p) == 2:
 		p[0] = p[1]
 
+#
+# zz
+#
+# Regresa la direccion de la variable dada asi como su tipo, ademas de meterla a la pila de operandos
+#
+
+
 def p_zz(p):
 	'zz : varcte'
 	global clase
 	global metodo
 	for a in range(len(programa.classes[clase].methods[metodo].variables)):
-		#print(programa.classes[clase].methods[metodo].variables[a].name, " ", programa.classes[clase].methods[metodo].variables[a].type)
 		if p[1][0] == programa.classes[clase].methods[metodo].variables[a].numDir:
 			p[0] = [programa.classes[clase].methods[metodo].variables[a].numDir, programa.classes[clase].methods[metodo].variables[a].type]
 			break;
@@ -1190,9 +1359,16 @@ def p_a_a(p):
 	'''a_a : estatuto a_a
 		| '''
 
+#
+# parfor
+#
+# Esta funcion trata con los parametros del ciclo for.
+#
+#
+
+
 def p_parfor(p):
 	'parfor : asignacion ssexp SEMICOLON ID b_b'
-	global contTemps
 	global contCuadruplos
 	global cteInt
 	aux = checaSiExisteVariables(p[4])
@@ -1202,7 +1378,6 @@ def p_parfor(p):
 				listaCuadruplos.append(["++", aux[0], 40001, aux[0]] )
 			if p[5] == '--':
 				listaCuadruplos.append(["--", aux[0], 40001, aux[0]] )
-			contTemps+=1
 			contCuadruplos +=1
 		temp = listaCuadruplos[len(listaCuadruplos)-2]
 		temp2 = listaCuadruplos[len(listaCuadruplos)-1]
@@ -1253,9 +1428,13 @@ def p_error(p):
 	else:
 		print ("Syntax error at EOF %s" % p)
 
+# Se crea el primer parser
+
 p = yacc.yacc()
 
 p.parse(lexer=lexer)
+
+# Se resetean las variables necesarias para la segunda vuelta
 
 segundaVuelta = True
 clase = 0 
@@ -1267,8 +1446,11 @@ tablaConstantes = [[40001, "int",'1']]
 contCuadruplos =0
 contParametros = 0
 
+#se copia el programa original en "programa2", y se resetea "programa" para la generación de nuevo de la tabla de procedimientos
 programa2 = programa
 programa = Programa()
+
+#Se crea la segunda vuelta del parser
 q = yacc.yacc()
 
 q.parse(lexer=lexer2)

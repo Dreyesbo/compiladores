@@ -749,4 +749,11 @@ while (i < len(listaCuadruplos)):
 					print("POSICION    :", contMemTemp, "MEMORIA        : ", memoria[contMemTemp], )
 					contMemTemp+=1
 				break;
+	elif listaCuadruplos[i][0] == 'print':
+		aux1 = listaCuadruplos[i][1]
+		aux2 = listaCuadruplos[i][2]
+		aux3 = listaCuadruplos[i][3]
+		print("ESTE ES UN PRINT")
+		print(memoria[aux1])
+		print("AQUI ACABA EL PRINT")
 	i+=1

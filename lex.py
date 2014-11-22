@@ -1,12 +1,24 @@
+#
+# lex.py
+# Archivo con el léxico de nuestro compilador
+#
+
 import sys
 sys.path.insert(0,"../..")
 
 if sys.version_info[0] >= 3:
     raw_input = input
 
-import ply.lex as lex
+#
+# Importa el módulo lex de PLY (Python Lex-Yacc)
+#
 
-# Lista de tokens
+import ply.lex as lex
+#
+# Lista de tokens:
+#   reserved = tokens reservados
+#   tokens = todos los otros tokens
+#
 
 reserved = {
    'class' : 'CLASS',
@@ -63,8 +75,9 @@ tokens = [
 
 variables = []
 
-# Expresiones regulares ligados a los tokens
-
+#
+# Expresiones regulares ligadas a los tokens
+#
 
 def t_COMMENTS(t):
   r'/\*.*?\*/'
@@ -98,34 +111,42 @@ t_LESSTHAN      = r'\<'
 t_NOTEQUAL         =r'!='
 t_EQUALEQUAL         =r'=='
 
+#
+# Expresión regular de los IDs. 
+# Confirma que no estén en las palabras reservadas.
+#
+
 def t_ID(t):
   r'([a-z]+|[A-Z]+)'
   if t.value in reserved:
     t.type = reserved[ t.value ]
   return t
 
+#
 # Ignorar espacios y tabs
+#
+
 t_ignore  = ' \t \n \r'
 
-# Manejo de errores
+#
+# Manejo de errores de léxico
+#
 def t_error(t):
   print ("Caracter ilegal '%s'" % t.value)
   t.lexer.skip(1)
 
-# Construye el lexer
+#
+# Construye dos lexer idénticos, para las dos pasadas del parser
+# 
+
 lexer = lex.lex()
 lexer2 = lex.lex()
+
+#
+# Maneja el archivo de entrada, que es el primer argumento del comando en terminal
+#
 
 fo = open(sys.argv[1])
 str = fo.read();
 lexer.input(str)
 lexer2.input(str)
-
-#import fileinput
-#for line in fileinput.input():
-#    lexer.input(line)
-
-#lexer.input(fileinput.input())
-
-#lexer.input(data)
-
