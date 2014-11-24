@@ -172,6 +172,9 @@ class Metodo(Expr):
 	def setVariablesNumber(self, num):
 		self.numVariables = num
 
+	def getVariablesNumber(self):
+		return self.numVariables
+
 	def setInicioCuadruplosNumber(self, num):
 		self.numCuadruplos = num
 
@@ -662,7 +665,8 @@ def p_varcte(p):
 	# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
 	# REVISAR REVISAR REVISAR REVISAR REVISAR REVISAR
 
-	if len(p) == 2:
+	if len(p) == 2:	
+		print("Este de arriba es listatemp")
 		listatemp = checaSiExisteVariables(p[1][0])
 		print (listatemp)
 		if listatemp is not False:
@@ -770,6 +774,8 @@ def p_terminavarsmetodo(p):
 	programa.classes[clase].methods[metodo].setVariablesNumber(variablesLocales)
 	variables = 0
 
+
+
 def p_mm(p):
 	'''mm : estatuto n
 		| m'''
@@ -786,17 +792,17 @@ def p_poncuadruplometodo(p):
 	programa.classes[clase].methods[metodo].setInicioCuadruplosNumber(contCuadruplos)
 
 def p_n(p):
-	'''n : return CCURLY 
+	'''n : CCURLY 
 		| mm'''
 
-def p_return(p):
-	'''return : RETURN ssexp SEMICOLON
-		| '''
-	if(len(p)) == 4:
-		global contCuadruplos
-		listaCuadruplos.append(["retorno",int(p[2][0]) , "",""])
-		listaCuadruplos.append(["RET","","",""])
-		contCuadruplos += 2
+	global variablesLocales
+	global clase
+	global metodo
+	tipo = programa.classes[clase].methods[metodo].type
+	programa.classes[clase].methods[metodo].addVariable(tipo, "return", metodo, clase, False)
+	print("REEEEEEEEEEETURN")
+
+
 
 #
 # checaSiExistePars
@@ -843,7 +849,22 @@ def p_estatuto(p):
 		| iniciacontadormetodos prefunc 
 		| READ read
 		| PRINT print
-		| ID PERIOD llamaobj '''
+		| ID PERIOD llamaobj
+		| RETURN ssexp SEMICOLON '''
+	global metodo
+	global clase
+	if len(p) == 4:
+		if metodo != 1:
+			global contCuadruplos
+			listaCuadruplos.append(["retorno",PilaO.pop()[0] , metodo, clase])
+			listaCuadruplos.append(["RET","","",""])
+			contCuadruplos += 2
+
+		else: 
+			print ("Return en main!!!!")
+
+
+
 
 def p_iniciacontadormetodos(p):
 	'iniciacontadormetodos : ID OPARENTHESIS'
@@ -862,7 +883,8 @@ def p_iniciacontadormetodos(p):
 
 def p_asignacion(p):
 	'''asignacion : variable EQUAL meteequal expresion SEMICOLON
-			| ID asig_a SEMICOLON'''
+			| ID asig_a SEMICOLON
+			| OBRACKET variable EQUAL meteequal iniciacontadormetodos prefunc CBRACKET'''
 	global contCuadruplos
 	if len(p) == 6:
 		try:
@@ -887,6 +909,17 @@ def p_asignacion(p):
 				contCuadruplos +=1
 		else: 
 			print("INTENTASTE UN MASMAS O MENOSMENOS Y NO ERA INT")
+	elif len(p) == 8:
+		if segundaVuelta == True:
+			try:
+				if(p[2] is not None and p[6][0]):
+					a = PilaO.pop()
+					print("\n \n Saco %s de la pila en la asignacion de prefunc\n\n" % a[0])
+					PilaO.append(a)
+					listaCuadruplos.append(["=", PilaO.pop()[0], "", p[2][0]])
+					contCuadruplos += 1
+			except IndexError:
+				b = 'IndexError'
 
 def p_meteequal(p):
 	'meteequal : '
@@ -961,7 +994,7 @@ def p_gotoffor(p):
 	aux = PilaO.pop()
 	print(aux) 
 	print(int(aux[0])-1) 
-	listaCuadruplos.append(["gotof", aux[0], ""])
+	listaCuadruplos.append(["gotov", aux[0], ""])
 	contCuadruplos += 1
 	pilaSaltos.append(contCuadruplos-1)
 
@@ -1020,6 +1053,9 @@ def p_prefunc(p):
 					else:
 						listaCuadruplos.append(["GOSUB", nombreMetodoLlamada, clase, ""])
 						contCuadruplos += 1
+						PilaO.append([programa2.classes[clase].methods[x].variables[len(programa2.classes[clase].methods[x].variables)-1].numDir, programa2.classes[clase].methods[x].type]) 
+						p[0] = [programa2.classes[clase].methods[x].variables[len(programa2.classes[clase].methods[x].variables)-1].numDir, programa2.classes[clase].methods[x].type]
+
 				else:
 					print ("No concuerda el numero de parametros", programa2.classes[clase].methods[x].numParametros, " no es igual a ", contParametros)
 				break;
@@ -1445,6 +1481,19 @@ listaCuadruplos	= []
 tablaConstantes = [[40001, "int",'1']]
 contCuadruplos =0
 contParametros = 0
+
+globalInt = 10000
+globalFloat = 12501
+globalBool = 15001
+globalString = 17501
+tempInt = 20001
+tempFloat = 25001
+tempBool = 30001
+tempString = 35001
+cteInt = 40002
+cteFloat = 45001
+cteBool = 50001
+cteString = 55001
 
 #se copia el programa original en "programa2", y se resetea "programa" para la generación de nuevo de la tabla de procedimientos
 programa2 = programa

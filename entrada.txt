@@ -21,18 +21,32 @@ class PRUEBA {
 		tempii = 34.1 + 40.54;
 		d = true;
 		b ="Hola!";
-		if ( pruebamaintempii != 11){
+		if ( temp != 11){
 			print("hola pruebainttemp");
 		}
-		CUENTA( c, x, temp);
-		POPO( c, x, temp);
+		[i = CUENTA( c, temp, x);]
+		b = true;
+
+
 	}
+
+	int RANGO (int a){
+	int b;
+	if(a==1){
+	return 1;
+	}
+	else{
+	b=RANGO(a-1);
+	return (a+b);
+	}
+	
+	}
+
 
 	int CUENTA(float a,int x, int c){
 		int pruebacuentai,j;
 		int i;
 		int b;
-		int c;
 		int w;
 		c = 10;
 		w = 5;
@@ -45,6 +59,7 @@ class PRUEBA {
 			w++;
 			b--;
 		}
+		return c;
 		
 	}
 
@@ -76,7 +91,6 @@ class PRUEBA {
 		}
 		d = true;w ="Hola!";
 		SUMA( a,b);
-		perro.blanco("si es blanco");
 	}
 
 }/* Cierra */
@@ -131,7 +145,7 @@ class TEST extends PRUEBA{
 		int b;
 		b=9;
 		a=5;
-		for(i=3; a==b; i--){
+		for(i=3; a==i; a--){
 			print(i);
 		
 		while(a > 3 || b !=5){

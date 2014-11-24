@@ -3,6 +3,7 @@ import pickle
 listaProcs = []
 listaCtes = []
 listaCuadruplos = []
+pilaRecursiva = []
 memoria = [None]*100000
 tempmem = 0
 i = 0;
@@ -708,7 +709,20 @@ while (i < len(listaCuadruplos)):
 			i=aux3-1
 		print(aux3)
 		print(aux1)
-	
+
+	elif listaCuadruplos[i][0] == 'gotov':
+		print("entre gotov")
+		aux3 = int(listaCuadruplos[i][3])
+		aux1 = int(listaCuadruplos[i][1])
+		print(int(listaCuadruplos[i][1]))
+		print(memoria[(listaCuadruplos[i][1])])
+		print(aux1)
+		if memoria[int(aux1)] == True:
+			print("sali gotov")
+			i=aux3-1
+		print(aux3)
+		print(aux1)
+
 	elif listaCuadruplos[i][0] == 'ERA':
 		aux1 = listaCuadruplos[i][1]
 		aux2 = listaCuadruplos[i][2]
@@ -727,6 +741,7 @@ while (i < len(listaCuadruplos)):
 				
 		print("entre ERA")
 		print(str(temp))
+
 	elif listaCuadruplos[i][0] == 'param':
 		aux1 = listaCuadruplos[i][1] # direccion
 		aux2 = listaCuadruplos[i][2] # nada
@@ -741,6 +756,8 @@ while (i < len(listaCuadruplos)):
 		for y in range(1, len(listaProcs[int(aux2)+1])):
 			print(listaProcs[int(aux2)+1][y][0])
 			if temp == str(listaProcs[int(aux2)+1][y][0]):
+				pilaRecursiva.append(i)
+				i = int(listaProcs[int(aux2)+1][y][4])-1
 				numParam = listaProcs[int(aux2)+1][y][2]
 				for z in range(5, 5+int(numParam)):
 					memoria[contMemTemp] = memoria[paraTemp.pop()]
@@ -749,6 +766,28 @@ while (i < len(listaCuadruplos)):
 					print("POSICION    :", contMemTemp, "MEMORIA        : ", memoria[contMemTemp], )
 					contMemTemp+=1
 				break;
+		print(pilaRecursiva)
+
+	elif listaCuadruplos[i][0] == 'retorno':
+		aux1 = listaCuadruplos[i][1]
+		aux2 = listaCuadruplos[i][2]
+		aux3 = listaCuadruplos[i][3]
+		print (aux1, aux2, aux3)
+		print(memoria[aux1])
+		memoria[int(listaProcs[aux3+1][aux2+1][len(listaProcs[aux3+1][aux2+1])-1][2])] = memoria[aux1]
+		print(memoria[int(listaProcs[aux3+1][aux2+1][len(listaProcs[aux3+1][aux2+1])-1][2])] )
+
+	elif listaCuadruplos[i][0] == 'RET':
+		i = pilaRecursiva.pop()
+		print(i)
+
+	elif listaCuadruplos[i][0] == 'END':
+		i = len(listaCuadruplos)
+		print("Saliiiiiiiiii", i)
+
+
+
+
 	elif listaCuadruplos[i][0] == 'print':
 		aux1 = listaCuadruplos[i][1]
 		aux2 = listaCuadruplos[i][2]

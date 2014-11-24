@@ -1,0 +1,161 @@
+class PRUEBA {
+	PERRO ANIMAL = new blanco();
+	global int pruebaglobala[5];
+	global int pruebaglobale;
+	global string pruebaglobalb; 
+	global float pruebaglobalc; 
+	global bool pruebaglobald;
+
+	void main(){
+		int pruebamaintempii[10];
+		float pruebamaintemp;
+		int temp;
+		int tempii;
+		float c;
+		string d;
+		bool b;
+		int i;
+		int x;
+		pruebamaintempii[2] = 11;
+		temp = 5+4;
+		tempii = 34.1 + 40.54;
+		d = true;
+		b ="Hola!";
+		if ( temp != 11){
+			print("hola pruebainttemp");
+		}
+		[i=CUENTA(c,temp,x);]
+		[i=RANGO(5);]
+		return c;
+	}
+	
+	int RANGO(int a){
+		int b;
+		if (a==1){
+			return 1;
+		}
+		else{
+			[b=RANGO(a-1);]
+			return (a+b);
+		}
+	
+	}
+
+
+	int CUENTA(float a,int x, int c){
+		int pruebacuentai,j;
+		int i;
+		int b;
+		int w;
+		c = 10;
+		w = 5;
+		b = 6;
+		for(i=3; b>c; b++){
+			print(i);
+			w++;
+		}
+		while(w > 3 && b > 5){
+			w++;
+			b--;
+		}
+		return c;
+		
+	}
+
+	void SUMA (int x, int b){
+		int pruebasumatemp;
+		int temp;
+		int q;
+		float c;
+		bool d;
+		int p;
+		int a;
+		a=5;
+		b=6;
+		temp = a + b;
+		q =5;
+		print(temp);
+		pruebasumatemp = 6-1;
+		if ( a > 10&&a >= temp && a<pruebasumatemp){
+			print("hola a");
+		}
+		else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( temp > 10 && pruebasumatemp >= temp){
+			print("hola temp");
+		}else 	if ( pruebasumatemp >= q){
+			print("hola temp");
+		}
+		d = true;w ="Hola!";
+		SUMA( a,b);
+	}
+
+}/* Cierra */
+
+class TEST extends PRUEBA{
+	global int testglobala; 
+	global int testglobale;
+	global string testglobalb; 
+	global float testglobalc; 
+	global bool testglobald;
+
+	void main(){
+		int testmaina;
+		int a;
+		int b;
+		int temp;
+		float c;
+		bool d;
+		string b;
+		b=2;
+		a=4;
+		temp = 20+a;
+		d = true;
+		b ="Hola!";
+	}
+
+	void SUMA (int x, int b, int y, int z){
+		int testsumatemp;
+		int temp;
+		int a;
+		int b;
+		int d;
+		float c;
+		bool d;
+		a=6;
+		b=7;
+		d=9;
+		temp = a+b;
+		temp =a+d;
+		print(temp);
+		d = true;b ="Hola!";
+	}
+
+	int CUENTA(int p,int s){
+		int testcuentai, j, k, l;
+		int testcuentaii;
+		float testcuentaiii;
+		int temporal;
+		float temporalfloat;
+		int i;
+		int a;
+		int b;
+		b=9;
+		a=5;
+		for(i=3; a==i; a--){
+			print(i);
+		
+		while(a > 3 || b !=5){
+			a++;
+			if ( 20 > 10){
+				print("hola pruebainttemp");
+			}
+		}
+		SUMA (a, b, j, k);
+		}		
+		
+		
+	}
+}/* Cierra */
