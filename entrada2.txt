@@ -45,6 +45,7 @@ class PRUEBA {
 	
 	int RANGO(int a){
 		int b;
+		b = a/2;
 		if (a==1){
 			return 1;
 		}
