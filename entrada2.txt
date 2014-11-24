@@ -16,6 +16,8 @@ class PRUEBA {
 		bool b;
 		int i;
 		int x;
+		c = 10.2;
+		x=5;
 		pruebamaintempii[2] = 11;
 		temp = 5+4;
 		tempii = 34.1 + 40.54;
@@ -24,8 +26,20 @@ class PRUEBA {
 		if ( temp != 11){
 			print("hola pruebainttemp");
 		}
-		[i=CUENTA(c,temp,x);]
+		[x=CUENTA(c,temp,x);]
+		print(x);
 		[i=RANGO(5);]
+
+		print(i);
+		return c;
+	}
+
+	int CUENTAADIEZ(int a){
+		int c;
+		
+		for (c = 0; c > a; c++){
+			print(c);
+		}
 		return c;
 	}
 	
@@ -58,7 +72,9 @@ class PRUEBA {
 			w++;
 			b--;
 		}
-		return c;
+		[i = CUENTAADIEZ(20);]
+		print(i);
+		return i;
 		
 	}
 

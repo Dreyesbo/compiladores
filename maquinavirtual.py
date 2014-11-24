@@ -746,8 +746,10 @@ while (i < len(listaCuadruplos)):
 		aux1 = listaCuadruplos[i][1] # direccion
 		aux2 = listaCuadruplos[i][2] # nada
 		aux3 = listaCuadruplos[i][3] # numero de parametro
+		print("paraaaaaaaam")
 		paraTemp.append(aux1)
 		print (paraTemp)
+
 	elif listaCuadruplos[i][0] == 'GOSUB':
 		aux1 = listaCuadruplos[i][1]
 		aux2 = listaCuadruplos[i][2]
@@ -757,16 +759,22 @@ while (i < len(listaCuadruplos)):
 			print(listaProcs[int(aux2)+1][y][0])
 			if temp == str(listaProcs[int(aux2)+1][y][0]):
 				pilaRecursiva.append(i)
+				constanteVars = int(listaProcs[int(aux2)+1][y][3])
 				i = int(listaProcs[int(aux2)+1][y][4])-1
 				numParam = listaProcs[int(aux2)+1][y][2]
 				for z in range(5, 5+int(numParam)):
 					memoria[contMemTemp] = memoria[paraTemp.pop()]
 					print(listaProcs[int(aux2)+1][y][z][2])
+					print(memoria[contMemTemp])
 					memoria[int(listaProcs[int(aux2)+1][y][z][2])] = memoria[contMemTemp]
 					print("POSICION    :", contMemTemp, "MEMORIA        : ", memoria[contMemTemp], )
+					print(memoria[int(listaProcs[int(aux2)+1][y][z][2])])
 					contMemTemp+=1
 				break;
+		print("LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+		print(constanteVars)
 		print(pilaRecursiva)
+		print(paraTemp)
 
 	elif listaCuadruplos[i][0] == 'retorno':
 		aux1 = listaCuadruplos[i][1]
