@@ -1,11 +1,12 @@
 class FUNCIONES{
 	void main(){
 		int factorial, a, b, recur, recuriter;
-		int fibx, fiby, fibz, topefib, i, fibrecu;
+		int fibx, fiby, fibz, topefib, i, fibrecu, fibiter;
+		float x[15];
 		fibx = 0;
 		fiby= 1;
 		fibz = 1;
-		topefib = 10;
+		topefib = 15;
 		factorial = 1;
 		b = 7;
 		for(a = 1; a <= b; a++){
@@ -13,25 +14,44 @@ class FUNCIONES{
 		}
 		[recur=FACTREC(b);]
 		[recuriter=FACTRECITER(b);]
-		print("Factorial en main");
-		print(factorial); 
-		print("Recursiva");
-		print(recur);
-		print("Iterativa en metodo");
-		print(recuriter);
 
-		for(i = 0; i <= topefib; i++){
+		for(i = 0; i < topefib-1; i++){
 			fibx = fiby;
 			fiby = fibz;
 			fibz = fibx+fiby;
 		}
 		[fibrecu=FIBOREC(topefib, 0,1 );]
+		[fibiter=FIBOITER(topefib);]
+
+		for (i = 0; i < a; i++){
+			x[i] = i*i;
+			print("Arreglo posicion");
+			print(i);
+			printarr(x[i]);		
+		}
+
+		for (i = 0; i < a; i++){
+			if(x[i]==4){
+				print("Dato pencontrado en pos");
+				print(i);
+			}
+				
+		}
+
+		print("Factorial en main");
+		print(factorial); 
+		print("Recursiva fact");
+		print(recur);
+		print("Iterativa en metodo");
+		print(recuriter);
 		print("FIBO en main");
-		print(fibx);
+		print(fibz);
 		print("FIBORECURSIVO");
 		print(fibrecu);
-		
+		print("FIBOITER");
+		print(fibiter);
 	}
+
 	int FACTREC(int tope) {
 		int b;
 		if (tope == 1){
@@ -52,10 +72,9 @@ class FUNCIONES{
 		return b;
 	}
 
-
-
 	int FIBOREC(int tope, int prev, int curr) {
 		int b;
+		b=1;
 		if (tope < 2){
 			return curr;
 		}
@@ -64,4 +83,18 @@ class FUNCIONES{
 			return b;
 		}	
 	} 
+
+	int FIBOITER(int tope) {
+		int i, fibx, fiby, fibz;
+		fibx = 0;
+		fiby= 1;
+		fibz = 1;
+		for(i = 0; i < tope-1; i++){
+			fibx = fiby;
+			fiby = fibz;
+			fibz = fibx+fiby;
+		}
+		return fibz;
+	}	
+	
 }
