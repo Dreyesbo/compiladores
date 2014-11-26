@@ -1,7 +1,7 @@
 class FUNCIONES{
 	void main(){
 		int factorial, a, b, recur, recuriter;
-		int fibx, fiby, fibz, topefib, i, fibrecu, fibiter;
+		int fibx, fiby, fibz, topefib, i, fibrecu, fibiter,j, aux, test, prue,b;
 		float x[15];
 		fibx = 0;
 		fiby= 1;
@@ -31,12 +31,32 @@ class FUNCIONES{
 		}
 
 		for (i = 0; i < a; i++){
-			if(x[i]==4){
+			for (j = 0; j < a -1; j++){
+				aux = x[j];
+				test = x[j+1];
+				if (test > aux ){
+					prue = test;
+					test = aux;
+					aux = prue;
+				}	
+			}
+		}
+
+		for (i = 0; i < a; i++){
+			b = x[i];
+			if(b==16){
 				print("Dato pencontrado en pos");
 				print(i);
-			}
-				
+			}	
 		}
+
+		for (i = 0; i < a; i++){
+			print("Arreglo posicion");
+			print(i);
+			printarr(x[i]);		
+		}
+
+
 
 		print("Factorial en main");
 		print(factorial); 
