@@ -16,9 +16,11 @@ class PRUEBA {
 		bool b;
 		int i;
 		int x;
-		c = 10;
+		int a;
+		c = 2;
+		a=10;
 		x=5;
-		pruebamaintempii[2] = 11;
+		pruebamaintempii[c] = 11;
 		temp = 5+4;
 		tempii = 34.1 + 40.54;
 		d = true;
@@ -28,10 +30,18 @@ class PRUEBA {
 		}
 		print(x);
 		[i=RANGO(10);]
-		[c=RANGO(20);]
+		for (temp = 0; temp > a; temp++){
+			pruebamaintempii[temp] = temp;
+			print("maintemp");
+			printarr(pruebamaintempii[temp]);
+			i = pruebamaintempii[temp];
+			if (i == 5){
+				print("encontrado");
+			}
+			
+		}
 
-		print(i);
-		print(c);
+
 		return c;
 	}
 
@@ -65,7 +75,7 @@ class PRUEBA {
 		c = 10;
 		w = 5;
 		b = 6;
-		for(i=3; b>c; b++){
+		for(i=3; b > c; b++){
 			print(i);
 			w++;
 		}

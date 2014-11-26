@@ -35,6 +35,7 @@ reserved = {
    'while' : 'WHILE',
    'read' : 'READ',
    'print' : 'PRINT',
+   'printarr' : 'PRINTARR',
    'int' : 'INT',
    'public' : 'PUBLIC',
    'true' : 'TRUE',

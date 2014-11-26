@@ -29,7 +29,7 @@ for x in range(len(listaCtes)):
 	#print(listaCtes[x][0])
 	memoria[int(listaCtes[x][0])] = listaCtes[x][2]
 	# print(listaCtes[x][2])
-print ("\n")
+
 while (i < len(listaCuadruplos)):
 	print ("Cuadruplo")
 	print (i)

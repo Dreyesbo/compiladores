@@ -13,6 +13,7 @@ pilaNumPars = []
 funcion = False
 temNumVars = 0
 pilaRetornos = []
+cuentaEras = 0
 
 
 obj = open('codigo.txt', 'rb')
@@ -39,7 +40,12 @@ while (i < len(listaCuadruplos)):
 	print ("Cuadruplo: ", i , "  ", listaCuadruplos[i])
 
 	if listaCuadruplos[i][0] == '+':
-		if funcion is True:
+		if isinstance(listaCuadruplos[i][1], list):
+			aux1 = listaCuadruplos[i][1][0]
+			aux2 = memoria[listaCuadruplos[i][2]]
+			aux3 = int(listaCuadruplos[i][3])
+
+		elif funcion is True:
 			if int(memoria[listaCuadruplos[i][1]]) >= 70000:
 				aux1 = memoria[int(memoria[listaCuadruplos[i][1]])]
 			else: 
@@ -59,6 +65,7 @@ while (i < len(listaCuadruplos)):
 			aux1 = memoria[listaCuadruplos[i][1]]
 			aux2 = memoria[listaCuadruplos[i][2]]
 			aux3 = int(listaCuadruplos[i][3])
+
 
 		if ( aux3 >= 10000  and aux3 <= 12500 ) or (aux3 >= 20001  and aux3 <= 25000) or (aux3 >= 40000 and aux3 <= 45000) :
 			memoria[int(aux3)] = int(aux1) + int(aux2)	
@@ -107,9 +114,6 @@ while (i < len(listaCuadruplos)):
 				aux2 = memoria[listaCuadruplos[i][2]]
 
 			aux3 = memoria[int(listaCuadruplos[i][3])]
-			print(aux1)
-			print(aux2)
-			print(aux3)
 		else:
 			aux1 = memoria[listaCuadruplos[i][1]]
 			aux2 = memoria[listaCuadruplos[i][2]]
@@ -153,13 +157,17 @@ while (i < len(listaCuadruplos)):
 			if int(memoria[listaCuadruplos[i][2]]) >= 70000:
 				aux2 = memoria[int(memoria[listaCuadruplos[i][2]])]
 			else:
-				aux2 = memoria[listaCuadruplos[i][2]]
-				
-			aux3 = memoria[int(listaCuadruplos[i][3])]
+				aux2 = int(listaCuadruplos[i][2])
+
+			if int(listaCuadruplos[i][3]) >= 70000:
+				aux3 = int(memoria[listaCuadruplos[i][3]])
+			else: 
+				aux3 = int(listaCuadruplos[i][3])
+		
 		else:
 			aux1 = memoria[listaCuadruplos[i][1]]
 			aux2 = memoria[listaCuadruplos[i][2]]
-			aux3 = listaCuadruplos[i][3]
+			aux3 = int(listaCuadruplos[i][3])
 
 		if ( aux3 >= 10000  and aux3 <= 12500 ) or (aux3 >= 20001  and aux3 <= 25000) or (aux3 >= 40000 and aux3 <= 45000) :
 			memoria[int(aux3)] = int(aux1) * int(aux2)	
@@ -181,9 +189,13 @@ while (i < len(listaCuadruplos)):
 			if int(memoria[listaCuadruplos[i][2]]) >= 70000:
 				aux2 = memoria[int(memoria[listaCuadruplos[i][2]])]
 			else:
-				aux2 = memoria[listaCuadruplos[i][2]]
-				
-			aux3 = int(listaCuadruplos[i][3])
+				aux2 = int(listaCuadruplos[i][2])
+
+			if int(listaCuadruplos[i][3]) >= 70000:
+				aux3 = int(memoria[listaCuadruplos[i][3]])
+			else: 
+				aux3 = int(listaCuadruplos[i][3])
+		
 		else:
 			aux1 = memoria[listaCuadruplos[i][1]]
 			aux2 = memoria[listaCuadruplos[i][2]]
@@ -199,11 +211,25 @@ while (i < len(listaCuadruplos)):
 	
 
 	elif listaCuadruplos[i][0] == '=':
-		if funcion is True:
+		if isinstance(listaCuadruplos[i][3], list):
+			aux1 = memoria[listaCuadruplos[i][1]]
+			aux3 = memoria[listaCuadruplos[i][3][0]]
+			memoria[int(aux3)] = aux1
+
+		elif isinstance(listaCuadruplos[i][1], list):
+			aux1 = memoria[listaCuadruplos[i][1][0]]
+			aux3 = listaCuadruplos[i][3]
+			memoria[int(aux3)] = memoria[int(aux1)]
+
+		elif funcion is True:
 			aux1 = memoria[listaCuadruplos[i][1]]
 			aux3 = memoria[listaCuadruplos[i][3]]
+			print(aux1)
 			if int(aux1) >= 70000:
+				print("yessssssssssssssssssssssssssss")
+				print(pilaRetornos)
 				aux1 = memoria[pilaRetornos.pop()]
+				print(aux1)
 			memoria[int(aux3)] = aux1
 		else:
 			aux1 = listaCuadruplos[i][1]
@@ -297,15 +323,16 @@ while (i < len(listaCuadruplos)):
 
 	elif listaCuadruplos[i][0] == '<':
 		if funcion is True:
+			print("siiiiiiiiiii")
 			if int(memoria[listaCuadruplos[i][1]]) >= 70000:
 				aux1 = memoria[int(memoria[listaCuadruplos[i][1]])]
-				tempaux1 = int(memoria[int(listaCuadruplos[i][1])])
+				tempaux1 = int(listaCuadruplos[i][1])
 			else: 
 				aux1 = memoria[listaCuadruplos[i][1]]
 
 			if int(memoria[listaCuadruplos[i][2]]) >= 70000:
 				aux2 = memoria[int(memoria[listaCuadruplos[i][2]])]
-				tempaux2 = int(memoria[int(listaCuadruplos[i][2])])
+				tempaux2 = int(listaCuadruplos[i][2])
 			else:
 				aux2 = memoria[listaCuadruplos[i][2]]
 			aux3 = int(listaCuadruplos[i][3])
@@ -316,6 +343,8 @@ while (i < len(listaCuadruplos)):
 			tempaux2 = int(listaCuadruplos[i][2])
 			aux3 = listaCuadruplos[i][3]
 
+		print(tempaux1)
+		print(tempaux2)
 	
 		if (tempaux1 >= 10000  and tempaux1 <= 12500 ) or (tempaux1 >= 20001  and tempaux1 <= 25000) or (tempaux1 >= 40000 and tempaux1 <= 45000) :
 			aux1 = int(aux1)
@@ -577,8 +606,6 @@ while (i < len(listaCuadruplos)):
 			aux1 = int(listaCuadruplos[i][1])
 			aux3 = int(listaCuadruplos[i][3])
 
-		print(aux1)
-		print(aux3)
 		if memoria[int(aux1)] == True:
 			i=aux3-1
 			print("Checo GOTOV: ", memoria[int(aux1)],  "DIR", aux1)
@@ -600,6 +627,7 @@ while (i < len(listaCuadruplos)):
 					numvars += 1
 				print("Numero de variables:",numvars,"\n")	
 				break;
+		cuentaEras +=1
 		pilaNumPars.append(numvars)
 
 				
@@ -608,7 +636,10 @@ while (i < len(listaCuadruplos)):
 		aux1 = listaCuadruplos[i][1] # direccion
 		aux2 = listaCuadruplos[i][2] # nada
 		aux3 = listaCuadruplos[i][3] # numero de parametro
-		memoria[contMemTemp] = memoria[aux1]
+		if int(memoria[aux1])>=70000:
+			memoria[contMemTemp] = memoria[int(memoria[aux1])]
+		else:
+			memoria[contMemTemp] = memoria[aux1]
 		contMemTemp+=1
 		print ("Lista params: Dir: ", contMemTemp," Valor: ", memoria[aux1],"\n")
 
@@ -640,6 +671,7 @@ while (i < len(listaCuadruplos)):
 					contMemTemp+=1
 					if w == numvars-1:
 						pilaRetornos.append(memoria[int(listaProcs[int(aux2)+1][y][w+5][2])])
+						print(pilaRetornos)
 				print("Numero de variables:",numvars,"\n")	
 				break;
 
@@ -649,11 +681,17 @@ while (i < len(listaCuadruplos)):
 		aux1 = listaCuadruplos[i][1]
 		aux2 = listaCuadruplos[i][2]
 		aux3 = listaCuadruplos[i][3]
+		print(aux1)
 		if funcion is True:
 			if int(aux1) < 70000:
+				print("niiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 				temp = memoria[int(listaProcs[aux3+1][aux2+1][len(listaProcs[aux3+1][aux2+1])-1][2])]
-				memoria[int(temp)] = int(memoria[aux1])
-				print("Retorno: ",int(memoria[aux1]), "en DIR ", temp, " Metodo: ", aux2, " Clase: ", aux3,"\n")
+				if int(memoria[aux1]) < 70000:
+					memoria[int(temp)] = int(memoria[aux1])
+				else:
+					memoria[int(temp)] = memoria[int(memoria[aux1])]
+				print(temp)
+				print("Retorno: ",memoria[int(memoria[aux1])], "en DIR ", temp, " Metodo: ", aux2, " Clase: ", aux3,"\n")
 			else:
 				temp = memoria[int(memoria[int(listaProcs[aux3+1][aux2+1][len(listaProcs[aux3+1][aux2+1])-1][2])])]
 				memoria[int(temp)] = int(memoria[aux1])
@@ -685,11 +723,21 @@ while (i < len(listaCuadruplos)):
 				memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] = contMemTemp - pars -1		
 				contMemTemp-=1
 		else:
-			tempRet = pilaMetodo.pop()
-			for x in range (tempRet[3]-1,tempRet[2]-2,-1):
-				print("Cambia var:", listaProcs[tempRet[0]][tempRet[1]][5+x][0], "de valor DIR ", memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] , " a ", memoria[int(contMemTemp-1)]) 
-				memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] = memoria[int(contMemTemp-1)]		
-				contMemTemp-=1
+			if cuentaEras is not 1:
+				tempRet = pilaMetodo.pop()
+				for x in range (tempRet[3]-1,tempRet[2]-2,-1):
+					print("Cambia var:", listaProcs[tempRet[0]][tempRet[1]][5+x][0], "de valor DIR ", memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] , " a ", memoria[int(contMemTemp-1)]) 
+					memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] = memoria[int(contMemTemp-1)]		
+					contMemTemp-=1
+			else:
+				tempRet = pilaMetodo.pop()
+				for x in range (tempRet[3]-1,tempRet[2]-2,-1):
+					print("Cambia var:", listaProcs[tempRet[0]][tempRet[1]][5+x][0], "de valor DIR ", memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] , " a ", memoria[int(memoria[int(contMemTemp-1)])]) 
+					memoria[int(listaProcs[tempRet[0]][tempRet[1]][5+x][2])] = memoria[int(memoria[int(contMemTemp-1)])]		
+					contMemTemp-=1
+			cuentaEras = 0
+
+
 		print("\n")
 		
 
@@ -704,9 +752,14 @@ while (i < len(listaCuadruplos)):
 
 
 	elif listaCuadruplos[i][0] == 'print':
-		aux1 = listaCuadruplos[i][1]
-		aux2 = listaCuadruplos[i][2]
-		aux3 = listaCuadruplos[i][3]
-		print("PRINT: ", memoria[aux1], "\n" )
+		if isinstance(listaCuadruplos[i][1], list):
+			aux1 = memoria[int(listaCuadruplos[i][1][0])]
+			aux2 = listaCuadruplos[i][2]
+			aux3 = listaCuadruplos[i][3]
+		else:
+			aux1 = listaCuadruplos[i][1]
+			aux2 = listaCuadruplos[i][2]
+			aux3 = listaCuadruplos[i][3]
+		print("PRINT: ", memoria[int(aux1)], "\n" )
 		
 	i+=1

@@ -38,7 +38,8 @@ contParametros = 0								# Contador de parámetros, para comparar si las cantid
 nombreMetodoLlamada = ""						# Variable que guarda el nombre del método a llamar, en el cuádruplo ERA
 tablaConstantes=[[40001, "int",'1']]			# La lista de constantes, inicializada con el "1" por propósitos de ++ y --
 segundaVuelta = False 							# Variable boleana para la segunda pasada del parser
-
+arreglo = False
+arregloInver = False
 
 # 
 # Contadores de Variables para Memoria
@@ -437,21 +438,12 @@ def p_programa(p):
 
 def p_c(p):
 	'''c : ID ID EQUAL NEW creaobj c
-		| ddd
+		| d
 		| e'''
 
 def p_d(p):
-	'd : ddddd vars dd'
-
-def p_ddd(p):
-	'ddd : dddd d'
-
-def p_dddd(p):
-	'dddd : '
-
-def p_ddddd(p):
-	'ddddd : GLOBAL'
-
+	'''d : GLOBAL vars dd
+		| dd'''
 
 def p_dd(p):
 	'''dd : d
@@ -604,6 +596,20 @@ def checaSiExisteVariables(elemento):
 		else:
 			return False
 
+def checaSiExisteDir(elemento2):
+	global clase
+	global metodo
+
+	if len(programa.classes[clase].methods[metodo].variables) < 1:
+		return False
+	else:
+		for a in range(len(programa.classes[clase].methods[metodo].variables)):
+			if elemento2 == programa.classes[clase].methods[metodo].variables[a].numDir:
+				return [programa.classes[clase].methods[metodo].variables[a].numDir, programa.classes[clase].methods[metodo].variables[a].type, programa.classes[clase].methods[metodo].variables[a].name]
+				break;
+		else:
+			return False
+
 
 #
 # varcte
@@ -617,7 +623,7 @@ def p_varcte(p):
 		| CTES varcte_string
 		| FALSE varcte_bool
 		| TRUE varcte_bool
-		| varcte_id'''
+		| variable2'''
 	global cteInt
 	global cteFloat
 	global cteBool
@@ -667,10 +673,14 @@ def p_varcte(p):
 
 	if len(p) == 2:	
 		print("Este de arriba es listatemp")
-		listatemp = checaSiExisteVariables(p[1][0])
+		listatemp = checaSiExisteDir(p[1][0])
 		print (listatemp)
+		print(p[1][0])
 		if listatemp is not False:
 			p[0] = listatemp
+		else:
+			p[0] = p[1]
+		
 
 def p_varcte_int(p):
 	'''varcte_int : '''
@@ -694,6 +704,8 @@ def p_varcte_bool(p):
 # Si lo que se recibió es una variable, la busca en el metodo. Si la encuentra, la regresa.
 # Si no, la busca en las variables globales. Si la encuentra, la regresa. Si no, da el mensaje de que no se encontró.
 #
+
+
 
 
 def p_varcte_id(p):
@@ -828,7 +840,7 @@ def checaSiExistePars(elemento):
 def p_pars(p):
 	'pars : tipo ID o'
 	global clase
-	global metodo
+	global metodova
 	global parametros
 	programa.classes[clase].methods[metodo].addVariable(p[1], p[2], metodo, clase, checaSiExistePars(p[2]))
 	parametros += 1
@@ -849,6 +861,7 @@ def p_estatuto(p):
 		| iniciacontadormetodos prefunc 
 		| READ read
 		| PRINT print
+		| PRINTARR printarr
 		| ID PERIOD llamaobj
 		| RETURN ssexp SEMICOLON '''
 	global metodo
@@ -886,13 +899,23 @@ def p_asignacion(p):
 			| ID asig_a SEMICOLON
 			| OBRACKET variable EQUAL meteequal iniciacontadormetodos prefunc CBRACKET'''
 	global contCuadruplos
+	global arreglo
+	global arregloInver
 	if len(p) == 6:
 		try:
 			if(p[1] is not None and p[4][0]):
 				a = PilaO.pop()
 				print("\n \n Saco %s de la pila en la asignacion \n\n" % a[0])
 				PilaO.append(a)
-				listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
+				if arreglo is True:
+					arreglo = False
+					listaCuadruplos.append(["=", PilaO.pop()[0], "", [p[1][0]]])
+				elif arregloInver is True:
+					arregloInver = False
+					listaCuadruplos.append(["=", [PilaO.pop()[0]], "", p[1][0]])
+
+				else:
+					listaCuadruplos.append(["=", PilaO.pop()[0], "", p[1][0]])
 				contCuadruplos += 1
 		except IndexError:
 			b = 'IndexError'
@@ -994,7 +1017,7 @@ def p_gotoffor(p):
 	aux = PilaO.pop()
 	print(aux) 
 	print(int(aux[0])-1) 
-	listaCuadruplos.append(["gotov", aux[0], ""])
+	listaCuadruplos.append(["gotof", aux[0], ""])
 	contCuadruplos += 1
 	pilaSaltos.append(contCuadruplos-1)
 
@@ -1082,12 +1105,35 @@ def p_rrr(p):
 def p_read(p):
 	'read : OPARENTHESIS CPARENTHESIS SEMICOLON'
 
-def p_print(p):
-	'print : OPARENTHESIS exp CPARENTHESIS SEMICOLON'
+def p_printarr(p):
+	'printarr : OPARENTHESIS print_v CPARENTHESIS SEMICOLON'
 	global contCuadruplos
+	global arreglo
+	global arregloInver
+
+	listaCuadruplos.append(["print", [p[2][0]],"", ""])
+	print("print", [p[2][0]],", , ")
+	arregloInver = False
+	arreglo = False
+	contCuadruplos+=1
+
+def p_print(p):
+	'print : OPARENTHESIS print_v CPARENTHESIS SEMICOLON'
+	global contCuadruplos
+	global arreglo
+	global arregloInver
+
 	listaCuadruplos.append(["print", p[2][0],"", ""])
 	print("print", p[2][0],", , ")
+	arregloInver = False
+	arreglo = False
 	contCuadruplos+=1
+
+def p_print_v(p):
+	'''print_v : variable
+		| exp'''
+	p[0] = p[1]
+	
 
 def p_llamaobj(p):
 	'llamaobj :  ID s'
@@ -1111,27 +1157,71 @@ def p_sss(p):
 # a la que se quiera accesar.
 #
 
+def p_variable2(p):
+	'variable2 : ID t'
+	global clase
+	global metodo
+	global tempInt
+	global arregloInver
+	global contCuadruplos
+	for x in range(len(programa.classes[clase].methods[metodo].variables)):
+		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
+			if p[2] is not 0:
+				print("yessss")
+				aux = tempInt
+				tempInt += 1
+				print(["+", [programa.classes[clase].methods[metodo].variables[x].numDir],p[2][0], aux])
+				listaCuadruplos.append(["+", [programa.classes[clase].methods[metodo].variables[x].numDir],p[2][0],aux])
+				arregloInver = True
+				contCuadruplos+=1
+				p[0] = [aux,"int"]
+				break;
+			else:
+				temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])			
+				p[0] = [temp, programa.classes[clase].methods[metodo].variables[x].type]
+				break;
+		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
+			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
+
+
 def p_variable(p):
 	'variable : ID t'
 	global clase
 	global metodo
+	global tempInt
+	global arreglo
+	global contCuadruplos
 	for x in range(len(programa.classes[clase].methods[metodo].variables)):
 		if programa.classes[clase].methods[metodo].variables[x].name == p[1]:
-			temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])			
-			p[0] = [temp, programa.classes[clase].methods[metodo].variables[x].type]
-			break;
+			if p[2] is not 0:
+				print("yessss")
+				aux = tempInt
+				tempInt += 1
+				print(["+", [programa.classes[clase].methods[metodo].variables[x].numDir],p[2][0], aux])
+				listaCuadruplos.append(["+", [programa.classes[clase].methods[metodo].variables[x].numDir],p[2][0],aux])
+				arreglo = True
+				contCuadruplos+=1
+				p[0] = [aux,"int"]
+				break;
+			else:
+				temp = programa.classes[clase].methods[metodo].variables[x].numDir + int(p[2])			
+				p[0] = [temp, programa.classes[clase].methods[metodo].variables[x].type]
+				break;
 		elif x == len(programa.classes[clase].methods[metodo].variables)-1:
 			print("No se encontro la variable", p[1], " ", clase, " ", metodo)
 
 def p_t(p):
-	'''t : OBRACKET CTEI CBRACKET
+	'''t : OBRACKET ssexp CBRACKET
 		| PERIOD ID
 		|  '''
 	if len(p) == 4:
-		p[0] = p[2]
+		if p[2][1] == 'int':
+			print(p[2])
+			p[0] = p[2]
+		else:
+			p[0] = 0
 	else:
 		p[0] = 0
-
 
 def p_expresion(p):
 	'expresion : ssexp'

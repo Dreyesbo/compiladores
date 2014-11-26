@@ -1,0 +1,67 @@
+class FUNCIONES{
+	void main(){
+		int factorial, a, b, recur, recuriter;
+		int fibx, fiby, fibz, topefib, i, fibrecu;
+		fibx = 0;
+		fiby= 1;
+		fibz = 1;
+		topefib = 10;
+		factorial = 1;
+		b = 7;
+		for(a = 1; a <= b; a++){
+			factorial = factorial * a;
+		}
+		[recur=FACTREC(b);]
+		[recuriter=FACTRECITER(b);]
+		print("Factorial en main");
+		print(factorial); 
+		print("Recursiva");
+		print(recur);
+		print("Iterativa en metodo");
+		print(recuriter);
+
+		for(i = 0; i <= topefib; i++){
+			fibx = fiby;
+			fiby = fibz;
+			fibz = fibx+fiby;
+		}
+		[fibrecu=FIBOREC(topefib, 0,1 );]
+		print("FIBO en main");
+		print(fibx);
+		print("FIBORECURSIVO");
+		print(fibrecu);
+		
+	}
+	int FACTREC(int tope) {
+		int b;
+		if (tope == 1){
+			return 1;
+		}
+		else{
+			[b=FACTREC(tope-1);]
+			return (tope*b);
+		} 
+	}
+
+	int FACTRECITER (int tope){
+		int a, b;
+		b = 1;
+		for(a=1; a <= tope; a++){
+			b = b*a;
+		}
+		return b;
+	}
+
+
+
+	int FIBOREC(int tope, int prev, int curr) {
+		int b;
+		if (tope < 2){
+			return curr;
+		}
+		else{
+			[b=FIBOREC(tope-1, curr, curr+prev);]
+			return b;
+		}	
+	} 
+}
