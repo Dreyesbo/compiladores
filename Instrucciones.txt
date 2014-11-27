@@ -1,0 +1,18 @@
+Pasos para correr:
+
+Escribir las siguientes lineas de codigo en la terminal teniendo ya instalado python.
+
+	python lexx.py "nombre.txt"
+
+Para correr el lexx
+
+	python yaccfinal.py "nombre.txt"
+
+Para correr el yacc
+
+	python maquinafinal.py
+
+Para ejecutar el codigo intermedio generado por el el yacc
+
+En nuestro caso el archivo funciones.txt cuenta con las funciones de busqueda, asignacion y orden de arreglos.
+Asi como fibonacci y factorial tanto en main, iterativo y recursivo. 
